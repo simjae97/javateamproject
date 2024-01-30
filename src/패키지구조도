@@ -1,0 +1,12 @@
+
+프로젝트
+    src- Application(클래스)
+        - model(패키지)
+            -dao(패키지)
+                ~ 클래스
+            -dto(패키지)
+                ~클래스
+        - view(패키지)
+            ~클래스
+        - controller(패키지)
+            ~클래스
