@@ -11,13 +11,21 @@ public class ReportView {
     ReportController reportController = new ReportController();
     public void allReport() {
         while (true) {
-            System.out.println("리포트 전체보기 실행");
+            System.out.println("결재한서류");
             ArrayList<ReportDTO> reportDTOS = reportController.allReport();
             if(reportDTOS != null) {
                 for (ReportDTO i : reportDTOS) {
-                    System.out.println(i.getReportcontent());
+                    System.out.println("번호: "+i.getReportno()+"제목: "+i.getReporttitle());
                 }
             }
+            ArrayList<ReportDTO> reportDTOS2 = reportController.allReport2();
+            System.out.println("미 결재한 서류");
+            if(reportDTOS != null) {
+                for (ReportDTO i : reportDTOS2) {
+                    System.out.println("번호: "+i.getReportno()+"제목: "+i.getReporttitle());
+                }
+            }
+
             System.out.println("0.뒤로가기 1.보고서 작성 2.개별보고서 보기");
             int ch = application.scanner.nextInt();
             if(ch==0){

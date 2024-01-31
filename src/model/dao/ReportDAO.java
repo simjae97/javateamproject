@@ -9,9 +9,8 @@ import java.util.ArrayList;
 
 public class ReportDAO extends SuperDao {
     public ArrayList<ReportDTO> allReport(){
-        System.out.println("리포트 전체보기다오 실행");
         try {
-            String sql = "SELECT report.* FROM report JOIN reportlog ON report.reportno = reportlog.reportno WHERE reportlog.eno = ?;";
+            String sql = "SELECT report.* FROM report JOIN reportlog ON report.reportno = reportlog.reportno WHERE reportlog.eno = ? and reportlog.confirm = false;";
             int loginnum = ReportController.loginemployee.getEno();
             ps = conn.prepareStatement(sql);
             ps.setInt(1, loginnum);
@@ -20,7 +19,28 @@ public class ReportDAO extends SuperDao {
             while(rs.next()){
                 ReportDTO reportDTO = new ReportDTO();
                 reportDTO.setReporttitle(rs.getString("reporttitle"));
-                reportDTO.setReportcontent(rs.getString("reportcontent"));
+                reportDTO.setReportno(rs.getInt("reportno"));
+                reportDTOS.add(reportDTO);
+            }
+            return reportDTOS;
+        }
+        catch (Exception e){
+
+        }
+        return null;
+    }
+    public ArrayList<ReportDTO> allReport2(){
+        try {
+            String sql = "SELECT report.* FROM report JOIN reportlog ON report.reportno = reportlog.reportno WHERE reportlog.eno = ? and reportlog.confirm = true;";
+            int loginnum = ReportController.loginemployee.getEno();
+            ps = conn.prepareStatement(sql);
+            ps.setInt(1, loginnum);
+            rs = ps.executeQuery();
+            ArrayList<ReportDTO> reportDTOS = new ArrayList<>();
+            while(rs.next()){
+                ReportDTO reportDTO = new ReportDTO();
+                reportDTO.setReporttitle(rs.getString("reporttitle"));
+                reportDTO.setReportno(rs.getInt("reportno"));
                 reportDTOS.add(reportDTO);
             }
             return reportDTOS;
@@ -31,7 +51,6 @@ public class ReportDAO extends SuperDao {
         return null;
     }
     public boolean reportWrite(ReportDTO dto, ArrayList<Integer> array){
-        System.out.println("리포트 작성 다오 실행");
             try {
                 String sql = " insert into Report(eno,reporttitle, reportcontent) values (?, ?,?);";
                 int loginnum = ReportController.loginemployee.getEno();
