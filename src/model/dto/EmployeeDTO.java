@@ -3,15 +3,7 @@ package model.dto;
 import java.util.ArrayList;
 
 public class EmployeeDTO {
-//    eno int auto_increment,
-//    gradeno int not null default 0,
-//    ename varchar(30) not null,
-//    ephone varchar(15) not null unique,
-//    eemail varchar(50) not null unique,
-//    eid varchar(30) not null unique,
-//    epw varchar(30) not null,
-//    edate datetime default now(),
-//    partno int not null,
+
     private int eno;
     private int gradeno;
     private String ename;
