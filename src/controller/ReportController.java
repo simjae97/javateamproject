@@ -12,15 +12,12 @@ public class ReportController {
 
     ReportDAO reportDAO = new ReportDAO();
     public ArrayList<ReportDTO> allReport(){
-        System.out.println("리포트 전체보기 컨트롤러 실행");
         return reportDAO.allReport();
     }
     public ArrayList<ReportDTO> allReport2(){
-        System.out.println("리포트 전체보기 컨트롤러 실행");
         return reportDAO.allReport2();
     }
     public boolean reportWrite(ReportDTO dto, ArrayList<Integer> array){
-        System.out.println("리포트 작성 컨트롤러 실행");
         return reportDAO.reportWrite(dto,array);
     }
 }
