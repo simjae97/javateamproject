@@ -1,7 +1,5 @@
 package model.dto;
 
-import java.util.ArrayList;
-
 public class EmployeeDTO {
 //    eno int auto_increment,
 //    gradeno int not null default 0,
