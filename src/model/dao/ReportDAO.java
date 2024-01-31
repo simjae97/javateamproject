@@ -10,7 +10,7 @@ import java.util.ArrayList;
 public class ReportDAO extends SuperDao {
     public ArrayList<ReportDTO> allReport(){
         try {
-            String sql = "SELECT report.* FROM report JOIN reportlog ON report.reportno = reportlog.reportno WHERE reportlog.eno = ? and reportlog.confirm = false;";
+            String sql = "SELECT report.* FROM report JOIN reportlog ON report.reportno = reportlog.reportno WHERE reportlog.eno = ? and reportlog.confirm = true;";
             int loginnum = ReportController.loginemployee.getEno();
             ps = conn.prepareStatement(sql);
             ps.setInt(1, loginnum);
@@ -29,9 +29,11 @@ public class ReportDAO extends SuperDao {
         }
         return null;
     }
+    //SELECT  report.reportno ,COUNT(*)FROM report JOIN reportlog ON report.reportno = reportlog.reportno where reportlog.confirm = false GROUP BY report.reportno;
+    //보낸사람 확인함 만들때 쓸거 = 아직 결재가 끝나지 않은 보고서
     public ArrayList<ReportDTO> allReport2(){
         try {
-            String sql = "SELECT report.* FROM report JOIN reportlog ON report.reportno = reportlog.reportno WHERE reportlog.eno = ? and reportlog.confirm = true;";
+            String sql = "SELECT report.* FROM report JOIN reportlog ON report.reportno = reportlog.reportno WHERE reportlog.eno = ? and reportlog.confirm = false;";
             int loginnum = ReportController.loginemployee.getEno();
             ps = conn.prepareStatement(sql);
             ps.setInt(1, loginnum);
