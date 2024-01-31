@@ -10,13 +10,31 @@ import java.util.ArrayList;
 public class ReportDAO extends SuperDao {
     public ArrayList<ReportDTO> allReport(){
         System.out.println("리포트 전체보기다오 실행");
+        try {
+            String sql = "SELECT report.* FROM report JOIN reportlog ON report.reportno = reportlog.reportno WHERE reportlog.eno = ?;";
+            int loginnum = ReportController.loginemployee.getEno();
+            ps = conn.prepareStatement(sql);
+            ps.setInt(1, loginnum);
+            rs = ps.executeQuery();
+            ArrayList<ReportDTO> reportDTOS = new ArrayList<>();
+            while(rs.next()){
+                ReportDTO reportDTO = new ReportDTO();
+                reportDTO.setReporttitle(rs.getString("reporttitle"));
+                reportDTO.setReportcontent(rs.getString("reportcontent"));
+                reportDTOS.add(reportDTO);
+            }
+            return reportDTOS;
+        }
+        catch (Exception e){
+
+        }
         return null;
     }
     public boolean reportWrite(ReportDTO dto, ArrayList<Integer> array){
         System.out.println("리포트 작성 다오 실행");
             try {
                 String sql = " insert into Report(eno,reporttitle, reportcontent) values (?, ?,?);";
-                int loginnum = ReportController.loginnum;
+                int loginnum = ReportController.loginemployee.getEno();
                 // 2. SQL 기재
                 ps = conn.prepareStatement(sql , Statement.RETURN_GENERATED_KEYS );
                 // ? 매개변수 대입
@@ -28,7 +46,6 @@ public class ReportDAO extends SuperDao {
 
                 // 3. SQL 실행 // 4. SQL 결과
                 int count = ps.executeUpdate();//executeUpdate() 기재된 sql 실행하고 insert된 레코드 개수 반환.
-                System.out.println(count+"ㅇㅇ");
                 rs = ps.getGeneratedKeys();
                 rs.next();
                 int pk =  rs.getInt(1) ;

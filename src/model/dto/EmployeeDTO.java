@@ -14,15 +14,21 @@ public class EmployeeDTO {
 //    partno int not null,
     private int eno;
     private int gradeno;
+    private int partno;
     private String ename;
     private String ephone;
     private String eemail;
     private String eid;
     private String epw;
     private String edate;
-    private int partno;
 
     public EmployeeDTO() {
+    }
+
+    public EmployeeDTO(int eno, int gradeno, int partno) {
+        this.eno = eno;
+        this.gradeno = gradeno;
+        this.partno = partno;
     }
 
     public EmployeeDTO(int eno, int gradeno, String ename, String ephone, String eemail, String eid, String epw, String edate, int partno) {
