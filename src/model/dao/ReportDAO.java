@@ -8,8 +8,9 @@ import java.sql.Statement;
 import java.util.ArrayList;
 
 public class ReportDAO extends SuperDao {
-    public void allReport(){
+    public ArrayList<ReportDTO> allReport(){
         System.out.println("리포트 전체보기다오 실행");
+        return null;
     }
     public boolean reportWrite(ReportDTO dto, ArrayList<Integer> array){
         System.out.println("리포트 작성 다오 실행");
