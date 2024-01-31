@@ -25,6 +25,13 @@ public class EmployeeDTO {
     public EmployeeDTO() {
     }
 
+    // 로그인 상태 생성자(테스트용)
+    public EmployeeDTO(int eno, int gradeno, int partno) {
+        this.eno = eno;
+        this.gradeno = gradeno;
+        this.partno = partno;
+    }
+
     public EmployeeDTO(int eno, int gradeno, String ename, String ephone, String eemail, String eid, String epw, String edate, int partno) {
         this.eno = eno;
         this.gradeno = gradeno;
