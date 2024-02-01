@@ -10,7 +10,7 @@ public class ReportView {
     ReportController reportController = new ReportController();
     public void allReport() {
         while (true) {
-
+            System.out.println("안녕하세요");
 //            System.out.println("결재한서류");
 //            ArrayList<ReportDTO> reportDTOS = reportController.allReport();
 //            if(reportDTOS != null) {
