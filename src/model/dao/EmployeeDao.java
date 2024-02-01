@@ -1,6 +1,8 @@
 package model.dao;
 
+import controller.EmployController;
 import model.dto.EmployeeDTO;
+import view.EmployeeView;
 
 import java.util.ArrayList;
 
@@ -139,8 +141,19 @@ public class EmployeeDao extends SuperDao{
 
             String sql = "select * from employee";
             ps=conn.prepareStatement(sql);
-            ps.executeQuery();
-
+            rs = ps.executeQuery();
+            while(rs.next()){
+                employeeDTO = new EmployeeDTO();
+                employeeDTO.setEno(rs.getInt("eno"));
+                employeeDTO.setGradeno(rs.getInt("gradeno"));
+                employeeDTO.setEid(rs.getString("eid"));
+                employeeDTO.setEpw(rs.getString("epw"));
+                employeeDTO.setEname(rs.getString("ename"));
+                employeeDTO.setPartno(rs.getInt("partno"));
+                employeeDTO.setEphone(rs.getString("ephone"));
+                employeeDTO.setEemail(rs.getString("eemail"));
+                result.add(employeeDTO);
+            }
 
 
             return result;
@@ -150,5 +163,20 @@ public class EmployeeDao extends SuperDao{
         }
 
         return result;
+    }
+
+    public boolean changegradeno(EmployeeDTO employeeDTO){
+        try{
+            String sql = "update employee set gradeno = ? where ename = ?";
+            ps = conn.prepareStatement(sql);
+            ps.setInt(1, employeeDTO.getGradeno());
+            ps.setString(2,employeeDTO.getEname());
+
+            ps.executeUpdate();
+            return true;
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return false;
     }
 }

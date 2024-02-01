@@ -6,6 +6,7 @@ import model.dto.EmployeeDTO;
 import java.util.Scanner;
 
 public class MainView {
+
     public static Scanner scanner = new Scanner(System.in);
     public void run(){
         while (true) {
@@ -44,6 +45,12 @@ public class MainView {
                         new EmployeeView().exit();
                     }else if (ch2==5 && EmployController.loginEno.getGradeno()==5){
                         new EmployeeView().employeeInfo();
+                        System.out.println("1.직책변환");
+                        int manageemployee = scanner.nextInt(); scanner.nextLine();
+                        if(manageemployee == 1){
+                            new EmployeeView().changegradeno();
+                        }
+
                     }
                 }
             } else if (ch == 3) {

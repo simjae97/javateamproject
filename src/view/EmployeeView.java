@@ -89,7 +89,27 @@ public class EmployeeView {
 
 
         //결과 출력
+        System.out.println(result);
+    }
 
+    public void changegradeno(){
+        System.out.print("대상자 : ");
+        String changename = scanner.nextLine();
+        System.out.println("바뀔 직책 : ");
+        int changegrade = scanner.nextInt();
+        scanner.nextLine();
+
+        EmployeeDTO employeeDTO = new EmployeeDTO();
+        employeeDTO.setEname(changename);
+        employeeDTO.setGradeno(changegrade);
+
+        boolean result = EmployController.getInstance().changegradeno(employeeDTO);
+
+        if(result){
+            System.out.println("직책이 변경되었습니다.");
+        }else{
+            System.out.println("직책 변경에 실패했습니다.");
+        }
     }
 
 }

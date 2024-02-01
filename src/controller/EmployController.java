@@ -59,4 +59,11 @@ public class EmployController {
 
         return result;
     }
+
+    public boolean changegradeno(EmployeeDTO employeeDTO){
+        boolean result = false;
+
+        result = EmployeeDao.getInstance().changegradeno(employeeDTO);
+        return result;
+    }
 }
