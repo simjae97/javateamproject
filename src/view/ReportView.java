@@ -6,7 +6,7 @@ import model.dto.ReportDTO;
 import java.util.*;
 
 public class ReportView {
-    Application application = new Application();
+    MainView application = new MainView();
     ReportController reportController = new ReportController();
     public void allReport() {
         while (true) {

@@ -10,7 +10,7 @@ import java.util.Scanner;
 public class BoardAllView {
 
     // Application에서 스케너 받아오기
-    Scanner scanner = new Application().scanner;
+    Scanner scanner = new MainView().scanner;
 
     public void boardAllView(){
         while (true){
@@ -25,6 +25,10 @@ public class BoardAllView {
                     for(int i=0; i<boardDTOArrayList.size(); i++){
 
                     }
+
+                    System.out.println("보고싶은 게시물을 선택하시오.");
+                    int ch5 = scanner.nextInt();
+                    new Board1View().board1(ch5);
                 }
             } catch (Exception e){ // 입력 유효성 검사
                 scanner.nextLine();
