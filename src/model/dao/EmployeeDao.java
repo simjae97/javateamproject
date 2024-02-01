@@ -130,4 +130,19 @@ public class EmployeeDao extends SuperDao{
 
         return false;
     }
+
+    public int employeeInfo(EmployeeDTO employeeDTO){
+        try{
+            String sql = "select * from employee";
+            ps=conn.prepareStatement(sql);
+            ps.executeQuery();
+
+            return 0;
+
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+
+        return 1;
+    }
 }

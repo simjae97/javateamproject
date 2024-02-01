@@ -3,12 +3,14 @@ package view;
 import controller.EmployController;
 import model.dto.EmployeeDTO;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 
 public class EmployeeView {
     Scanner scanner = new MainView().scanner;
-
+    List<String> employeeList = new ArrayList<>();
 
     //회원가입
     public void signUp(){
@@ -31,6 +33,7 @@ public class EmployeeView {
 
         if(result ==0){
             System.out.println("<안내> 회원가입에 성공하였습니다.");
+
         }else if (result == 1){
             System.out.println("<안내> 회원가입에 실패했습니다.");
         }else if (result == 2){
@@ -73,6 +76,28 @@ public class EmployeeView {
             System.out.println("<안내>회원 탈퇴에 실패했습니다.");
         }
 
+    }
+
+    public void employeeInfo(){
+
+
+
+
+        System.out.println("직원 정보를 출력합니다.");
+
+        //객체화
+        EmployeeDTO employeeDTO = new EmployeeDTO();
+
+        int result = EmployController.getInstance().employeeInfo(employeeDTO);
+
+
+        //결과 출력
+        if(result==0){
+
+            System.out.println(result);
+        }else if (result== 1){
+            System.out.println("직원 정보를 출력 할 수 없습니다.");
+        }
     }
 
 }
