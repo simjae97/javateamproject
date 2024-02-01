@@ -38,4 +38,24 @@ public class EmployeeView {
         }
     }
 
+    public void logIn(){
+        //입력
+        System.out.println("아이디 : ");       String id = scanner.nextLine();
+        System.out.println("비밀번호 : ");      String pw = scanner.nextLine();
+
+        //객체화
+        EmployeeDTO employeeDTO = new EmployeeDTO();
+        employeeDTO.setEid(id); employeeDTO.setEpw(pw);
+
+        boolean result = EmployController.getInstance().logIn(employeeDTO);
+
+        if(result){
+            System.out.println("<안내> 로그인 성공");
+        }else{
+            System.out.println("<안내> 로그인 실패");
+        }
+
+
+    }
+
 }

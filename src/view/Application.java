@@ -3,9 +3,17 @@ package view;
 import java.util.Scanner;
 
 public class Application {
-    Scanner scanner = new Scanner(System.in);
+    static Scanner scanner = new Scanner(System.in);
 
     public static void main(String[] args) {
-        new EmployeeView().signUp();
+        System.out.println("1.회원가입  2.로그인 ");
+        int ch = scanner.nextInt();
+        scanner.nextLine();
+        if(ch==1) {
+            new EmployeeView().signUp();
+        }else if(ch==2){
+            new EmployeeView().logIn();
+        }
+
     }
 }

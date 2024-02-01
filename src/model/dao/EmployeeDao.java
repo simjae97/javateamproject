@@ -47,4 +47,59 @@ public class EmployeeDao extends SuperDao{
 
         return false;
     }
+
+
+    public boolean logIn(EmployeeDTO employeeDTO){
+        try{
+            String sql = "select eno from employee where eid = ? and epw = ?";
+            ps=conn.prepareStatement(sql);
+            ps.setString(1,employeeDTO.getEid());
+            ps.setString(2,employeeDTO.getEpw());
+            rs= ps.executeQuery();
+            if(rs.next()){
+                return true;
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+
+        return false;
+    }
+
+//    public int findEno(String eid){
+//        try {
+//            String sql = "select eno from employee where eid = ?";
+//            ps = conn.prepareStatement(sql);
+//            ps.setString(1,eid);
+//            rs = ps.executeQuery();
+//            if(rs.next()){
+//                return rs.getInt("eno");
+//            }
+//        }catch (Exception e){
+//            System.out.println(e);
+//        }
+//
+//        return 0;
+//    }
+
+    public int[] findEPGno(EmployeeDTO employeeDTO){
+        try {
+            String sql = "select eno,partno,gradeno from employee where eid = ?";
+            ps = conn.prepareStatement(sql);
+            ps.setString(1,employeeDTO.getEid());
+            rs= ps.executeQuery();
+            if(rs.next()){
+                return new int[]{rs.getInt("eno"),rs.getInt("partno"),rs.getInt("gradeno")};
+
+            }
+            int[] result = new int[3];
+            result[0] = rs.getInt("eno");
+            result[1] = rs.getInt("partno");
+            result[2] = rs.getInt("gradeno");
+            return result;
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return null;
+    }
 }
