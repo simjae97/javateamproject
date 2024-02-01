@@ -22,6 +22,9 @@ public class BoardAllView {
                     System.out.println("숫자를 다시 입력해주세요.");
                 } else {    // [3] 입력받은 숫자를 매개 변수로 BoadAllViewController View 메소드 실행
                     boardDTOArrayList = BoadAllViewController.getInstance().boardAllView(ch);
+                    for(int i=0; i<boardDTOArrayList.size(); i++){
+
+                    }
                 }
             } catch (Exception e){ // 입력 유효성 검사
                 scanner.nextLine();
