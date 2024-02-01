@@ -3,6 +3,8 @@ package controller;
 import model.dao.EmployeeDao;
 import model.dto.EmployeeDTO;
 
+import java.util.ArrayList;
+
 public class EmployController {
     //싱글톤
     private EmployController(){}
@@ -50,8 +52,8 @@ public class EmployController {
         return result;
     }
 
-    public int employeeInfo(EmployeeDTO employeeDTO){
-        int result = 1;
+    public ArrayList<EmployeeDTO> employeeInfo(EmployeeDTO employeeDTO){
+        ArrayList<EmployeeDTO> result = new ArrayList<>();
 
         result = EmployeeDao.getInstance().employeeInfo(employeeDTO);
 

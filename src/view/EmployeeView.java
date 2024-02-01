@@ -80,24 +80,16 @@ public class EmployeeView {
 
     public void employeeInfo(){
 
-
-
-
         System.out.println("직원 정보를 출력합니다.");
 
         //객체화
         EmployeeDTO employeeDTO = new EmployeeDTO();
 
-        int result = EmployController.getInstance().employeeInfo(employeeDTO);
+        ArrayList<EmployeeDTO> result = EmployController.getInstance().employeeInfo(employeeDTO);
 
 
         //결과 출력
-        if(result==0){
 
-            System.out.println(result);
-        }else if (result== 1){
-            System.out.println("직원 정보를 출력 할 수 없습니다.");
-        }
     }
 
 }

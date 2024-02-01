@@ -2,6 +2,8 @@ package model.dao;
 
 import model.dto.EmployeeDTO;
 
+import java.util.ArrayList;
+
 public class EmployeeDao extends SuperDao{
     //싱글톤
     private EmployeeDao(){}
@@ -131,18 +133,22 @@ public class EmployeeDao extends SuperDao{
         return false;
     }
 
-    public int employeeInfo(EmployeeDTO employeeDTO){
+    public ArrayList<EmployeeDTO> employeeInfo(EmployeeDTO employeeDTO){
+        ArrayList<EmployeeDTO> result = new ArrayList<>();
         try{
+
             String sql = "select * from employee";
             ps=conn.prepareStatement(sql);
             ps.executeQuery();
 
-            return 0;
+
+
+            return result;
 
         }catch (Exception e){
             e.printStackTrace();
         }
 
-        return 1;
+        return result;
     }
 }
