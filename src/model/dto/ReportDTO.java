@@ -1,24 +1,30 @@
 package model.dto;
 
-public class ReportDTO {
+public class ReportDTO implements Comparable<ReportDTO> {
 
     private int eno;
     private int reportno;
     private String reporttitle;
     private String reportcontent;
-    private boolean reportstate;
-    private int reportemployee;
+
+    private String reportdate;
+
+
 
     public ReportDTO() {
     }
 
-    public ReportDTO(int eno, int reportno, String reporttitle, String reportcontent, boolean reportstate, int reportemployee) {
+    @Override
+    public int compareTo(ReportDTO o) {
+        return Integer.compare(this.reportno, o.reportno);
+    }
+
+
+    public ReportDTO(int eno, int reportno, String reporttitle, String reportcontent) {
         this.eno = eno;
         this.reportno = reportno;
         this.reporttitle = reporttitle;
         this.reportcontent = reportcontent;
-        this.reportstate = reportstate;
-        this.reportemployee = reportemployee;
     }
 
     public int getEno() {
@@ -53,20 +59,11 @@ public class ReportDTO {
         this.reportcontent = reportcontent;
     }
 
-    public boolean isReportstate() {
-        return reportstate;
+    public String getReportdate() {
+        return reportdate;
     }
 
-    public void setReportstate(boolean reportstate) {
-        this.reportstate = reportstate;
+    public void setReportdate(String reportdate) {
+        this.reportdate = reportdate;
     }
-
-    public int getReportemployee() {
-        return reportemployee;
-    }
-
-    public void setReportemployee(int reportemployee) {
-        this.reportemployee = reportemployee;
-    }
-
 }

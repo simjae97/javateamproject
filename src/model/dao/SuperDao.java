@@ -8,6 +8,7 @@ public class SuperDao {
     protected Connection conn;
     protected PreparedStatement ps; //작성된 sql을 가지고있고 실행 담당
     protected ResultSet rs;
+    protected ResultSet rs2;
     SuperDao(){
         try {
             //1.MYSQL 회사의 JDBC관련된 객체를 JVM에 로딩한다
