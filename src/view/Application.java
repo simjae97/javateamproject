@@ -21,7 +21,6 @@ public class Application {
             } else if (ch == 3) {
               new EmployeeView().exit();
             }
-
         }
     }
 }
