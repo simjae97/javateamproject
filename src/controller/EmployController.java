@@ -37,9 +37,7 @@ public class EmployController {
     }
 
     public void logOut(){
-        loginEno.setEno(0);
-        loginEno.setPartno(0);
-        loginEno.setGradeno(0);
+        loginEno = null;
     }
 
     public boolean exit(EmployeeDTO employeeDTO){

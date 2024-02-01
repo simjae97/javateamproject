@@ -7,7 +7,7 @@ import java.util.Scanner;
 
 
 public class EmployeeView {
-    Scanner scanner = new Application().scanner;
+    Scanner scanner = new MainView().scanner;
 
 
     //회원가입
@@ -38,7 +38,7 @@ public class EmployeeView {
         }
     }
 
-    public void logIn(){
+    public boolean logIn(){
         //입력
         System.out.println("아이디 : ");       String id = scanner.nextLine();
         System.out.println("비밀번호 : ");      String pw = scanner.nextLine();
@@ -54,8 +54,7 @@ public class EmployeeView {
         }else{
             System.out.println("<안내> 로그인 실패");
         }
-
-
+        return result;
     }
 
     public void exit(){
