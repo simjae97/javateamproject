@@ -22,7 +22,7 @@ public class MainView {
                     scanner.nextLine();
                     if (ch2 == 1){
                         while (true) {
-                            System.out.println("0.뒤로가기 1.받은 보고서 2.보낸 보고서");
+                            System.out.println("0.뒤로가기 1.받은 보고서 2.보낸 보고서 3.보고서 작성");
                             int ch3 = scanner.nextInt();
                             if (ch3 == 1) {
                                 new ReportView().allReport();
@@ -30,6 +30,14 @@ public class MainView {
                                 new ReportView().goReport();
                             } else if (ch3 == 0) {
                                 break;
+                            }
+                            else if(ch3 == 3){
+                                if(new ReportView().writeReport()){
+                                    System.out.println("작성완료");
+                                }
+                                else {
+                                    System.out.println("작성실패");
+                                }
                             }
                         }
                     } else if(ch2 == 2){

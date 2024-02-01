@@ -28,7 +28,9 @@ public class ReportController {
     public boolean reportWrite(ReportDTO dto, ArrayList<Integer> array){
         return reportDAO.reportWrite(dto,array);
     }
-
+    public EmployeeDTO enoSearch(int num){
+        return reportDAO.enoSearch(num);
+    }
     public TreeMap<ReportDTO,Boolean> goReport(){
         return reportDAO.goReport();
     }
