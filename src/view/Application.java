@@ -17,7 +17,7 @@ public class Application {
             } else if (ch == 2) {
                 new EmployeeView().logIn();
 
-                System.out.println();
+
             } else if (ch == 3) {
               new EmployeeView().exit();
             }
