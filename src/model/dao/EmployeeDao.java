@@ -102,4 +102,32 @@ public class EmployeeDao extends SuperDao{
         }
         return null;
     }
+
+    public boolean exit(EmployeeDTO employeeDTO, int i){
+
+        try {
+            String sql = "select eno from employee where eid = ? and epw = ?";
+            ps=conn.prepareStatement(sql);
+            ps.setString(1,employeeDTO.getEid());
+            ps.setString(2,employeeDTO.getEpw());
+
+            rs = ps.executeQuery();
+
+            if(rs.next()){
+                if(rs.getInt("eno")==i){
+                    String sqld = "delete from employee where eno = ?";
+                    ps= conn.prepareStatement(sqld);
+                    ps.setInt(1,i);
+
+                    ps.executeUpdate();
+                    return true;
+                }
+            }
+
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+
+        return false;
+    }
 }

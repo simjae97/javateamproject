@@ -36,5 +36,19 @@ public class EmployController {
         return result;
     }
 
+    public void logOut(){
+        loginEno.setEno(0);
+        loginEno.setPartno(0);
+        loginEno.setGradeno(0);
+    }
+
+    public boolean exit(EmployeeDTO employeeDTO){
+
+        boolean result = false;
+
+        result = EmployeeDao.getInstance().exit(employeeDTO, loginEno.getEno());
+
+        return result;
+    }
 
 }

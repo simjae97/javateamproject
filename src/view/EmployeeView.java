@@ -58,4 +58,22 @@ public class EmployeeView {
 
     }
 
+    public void exit(){
+        System.out.println("회원 탈퇴 아이디 : ");     String id = scanner.nextLine();
+        System.out.println("회원 탈퇴 비밀번호 : ");    String pw = scanner.nextLine();
+
+        EmployeeDTO employeeDTO = new EmployeeDTO();
+        employeeDTO.setEid(id);     employeeDTO.setEpw(pw);
+
+
+        boolean result = EmployController.getInstance().exit(employeeDTO);
+
+        if(result){
+            System.out.println("<안내>회원 탈퇴를 성공했습니다.");
+        }else {
+            System.out.println("<안내>회원 탈퇴에 실패했습니다.");
+        }
+
+    }
+
 }
