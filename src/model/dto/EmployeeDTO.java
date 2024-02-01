@@ -15,6 +15,7 @@ public class EmployeeDTO {
     public EmployeeDTO() {
     }
 
+    // 로그인 상태 생성자(테스트용)
     public EmployeeDTO(int eno, int gradeno, int partno) {
         this.eno = eno;
         this.gradeno = gradeno;
