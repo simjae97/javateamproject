@@ -38,7 +38,8 @@ public class Board1View { // 개별 글 뷰
             if(ch==0){return;} // 뒤로 가기
             else if (ch==1) { // 댓글 등록
                     System.out.print("댓글 입력 :");
-                    String newreplycontent = new MainView().scanner.nextLine(); // 적을 댓글 받기
+                    Scanner scanner = new MainView().scanner;
+                    String newreplycontent = scanner.nextLine(); // 적을 댓글 받기
                     ReplyDTO replyDTO = new ReplyDTO();
                     replyDTO.setEno(EmployController.loginEno.getEno()); // 로그인 중인 Eno DTO에 넣기
                     replyDTO.setReplycontent(newreplycontent);  // newreplycontent를 DTO에 넣기
@@ -49,10 +50,12 @@ public class Board1View { // 개별 글 뷰
                     }else{
                             System.out.println("댓글 등록이 되지 않았습니다.");
                     }
-            } else if (ch==2) {
-
-            } else if (ch==3) {
-
+            } else if (ch==2) { // 글 수정 실행
+                    new BoardUpdateView().boardUpdate(boardno);
+                    board1(boardno); //함수 다시 실행되서 수정된 글 보이게.
+            } else if (ch==3) { // 글 삭제 실행
+                    new BoardUpdateView().boardDelete(boardno);
+                    return; // 함수 나가기.
             }
 
 

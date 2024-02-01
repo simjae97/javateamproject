@@ -12,6 +12,7 @@ public class SuperDao {
     protected PreparedStatement ps; //작성된 sql을 가지고있고 실행 담당
     protected ResultSet rs;
     protected ResultSet rs2;
+
     SuperDao(){
         try {
             //1.MYSQL 회사의 JDBC관련된 객체를 JVM에 로딩한다
@@ -64,6 +65,21 @@ public class SuperDao {
             System.out.println(e);
         }
         return null;
+    }
+
+    public int boardnoSearch(int boardno){//보드넘버로 eno 구하기.
+        try{
+            String sql = "select * from board where boardno = ?;";
+            ps = conn.prepareStatement(sql);
+            ps.setInt(1, boardno);
+            rs = ps.executeQuery();
+            while (rs.next()){
+                return rs.getInt("eno"); //board넘버에서 가져온 eno return값으로 보내주기
+            }
+        }catch (Exception e){
+            System.out.println(e);
+        }
+        return 0; // 없으면 0 리턴
     }
 
 }
