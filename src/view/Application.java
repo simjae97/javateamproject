@@ -1,22 +1,26 @@
 package view;
 
+import model.dto.EmployeeDTO;
+
 import java.util.Scanner;
 
 public class Application {
-    public Scanner scanner = new Scanner(System.in);
+    static Scanner scanner = new Scanner(System.in);
+
     public static void main(String[] args) {
-        Scanner scanner = new Scanner(System.in);
-        ReportView reportView = new ReportView();
         while (true) {
-            System.out.println("1.받은 보고서 확인 2.보낸 보고서 확인.");
+            System.out.println("1.회원가입  2.로그인 3.회원탈퇴");
             int ch = scanner.nextInt();
-            if(ch==1) {
-                reportView.allReport();
-            }
-            else if (ch==2){
-                reportView.goReport();
+            scanner.nextLine();
+            if (ch == 1) {
+                new EmployeeView().signUp();
+            } else if (ch == 2) {
+                new EmployeeView().logIn();
+
+                System.out.println();
+            } else if (ch == 3) {
+              new EmployeeView().exit();
             }
         }
-
     }
 }
