@@ -18,6 +18,14 @@ public class Board1View { // 개별 글 뷰
             System.out.println("글 내용 : "+map.get("boardcontent"));
             System.out.println("글 작성일 : "+map.get("boarddate"));
             System.out.println("댓글 ======================================================");
-            ArrayList<Map> map2 = ReplyController.getInstance().replywrite(boardno); // 리플 담은 배열 출력
+            ArrayList<Map> map2 = ReplyController.getInstance().replyview(boardno); // 리플 담은 배열 출력
+            for(int i =0 ; i<map2.size(); i++){
+                    System.out.print(i+"번째 댓글 :");
+                    System.out.print(map2.get(i).get("partname")+"/");
+                    System.out.print(map2.get(i).get("ename")+" :: ");
+                    System.out.println(map2.get(i).get("replycontent"));
+                    System.out.println(map2.get(i).get("replydate"));
+            }
+
     }
 }

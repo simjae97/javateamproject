@@ -13,8 +13,8 @@ public class ReplyController {
     public static ReplyController getInstance(){return replyController;}
 
     //입력받은 boardno 를 댓글 다오로 보내서 처리결과 받아오기
-    public ArrayList<Map> replywrite(int boardno){
-        ArrayList<Map> result = ReplyDao.getInstance().replyWrite(boardno);
+    public ArrayList<Map> replyview(int boardno){
+        ArrayList<Map> result = ReplyDao.getInstance().replyview(boardno);
         return result;
     }
 }

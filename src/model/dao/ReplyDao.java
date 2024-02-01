@@ -13,7 +13,7 @@ public class ReplyDao extends SuperDao{
     private static ReplyDao replyDao = new ReplyDao();
     public static ReplyDao getInstance(){return replyDao;}
 
-    public ArrayList<Map> replyWrite(int boardno){ // 리플들을 담을 배열 빼오기.
+    public ArrayList<Map> replyview(int boardno){ // 리플들을 담을 배열 빼오기.
         ArrayList<Map> result = new ArrayList<>();
         try{
             String sql = "select * from reply where boardno = ? order by replyno;";
@@ -26,7 +26,8 @@ public class ReplyDao extends SuperDao{
                 int eno = rs.getInt("eno"); // 작성자 정보 받을 로직짜기.
                 EmployeeDTO employeeDTO = enoSearch(eno);
                 map1.put("ename", employeeDTO.getEname());
-                map1.put("", employeeDTO.getEname());
+                map1.put("partname", partnoSearch(employeeDTO.getPartno()).getPartname());
+                System.out.println(rs.getString("replycontent"));
                 map1.put("replycontent" , rs.getString("replycontent"));
                 map1.put("replydate", rs.getString("replydate"));
                 result.add(map1); // 댓글 하나 어레이리스트에 넣기
