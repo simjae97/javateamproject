@@ -1,6 +1,8 @@
 package model.dao;
 
+import controller.EmployController;
 import controller.ReportController;
+import model.dto.EmployeeDTO;
 import model.dto.ReportDTO;
 
 import javax.annotation.processing.Generated;
@@ -14,7 +16,7 @@ public class ReportDAO extends SuperDao {
     public ArrayList<ReportDTO> allReport() {
         try {
             String sql = "SELECT report.* FROM report JOIN reportlog ON report.reportno = reportlog.reportno WHERE reportlog.eno = ? and reportlog.confirm = true;";
-            int loginnum = ReportController.loginemployee.getEno();
+            int loginnum = EmployController.loginEno.getEno();
             ps = conn.prepareStatement(sql);
             ps.setInt(1, loginnum);
             rs = ps.executeQuery();
@@ -35,7 +37,7 @@ public class ReportDAO extends SuperDao {
     public TreeMap<ReportDTO, Boolean> allReport2() {
         try {
             String sql = "SELECT report.*,reportlog.confirm FROM report JOIN reportlog ON report.reportno = reportlog.reportno WHERE reportlog.eno = ?;";
-            int loginnum = ReportController.loginemployee.getEno();
+            int loginnum = EmployController.loginEno.getEno();
             ps = conn.prepareStatement(sql);
             ps.setInt(1, loginnum);
             rs = ps.executeQuery();
@@ -80,7 +82,7 @@ public class ReportDAO extends SuperDao {
     public boolean reportWrite(ReportDTO dto, ArrayList<Integer> array) {
         try {
             String sql = " insert into Report(eno,reporttitle, reportcontent) values (?, ?,?);";
-            int loginnum = ReportController.loginemployee.getEno();
+            int loginnum = EmployController.loginEno.getEno();
             // 2. SQL 기재
             ps = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
             // ? 매개변수 대입
@@ -122,7 +124,7 @@ public class ReportDAO extends SuperDao {
         try {
             String sql = "SElect report.reportno,report.reporttitle,Count(*) as count FROM report JOIN reportlog ON report.reportno = reportlog.reportno WHERE report.eno = ? group by report.reportno;";
             String sql2 = "SELECT report.reportno,Count(*) as count FROM report JOIN reportlog ON report.reportno = reportlog.reportno WHERE report.eno = ? and reportlog.confirm =true group by report.reportno, reportlog.confirm;";
-            int loginnum = ReportController.loginemployee.getEno();
+            int loginnum = EmployController.loginEno.getEno();
 
             ps = conn.prepareStatement(sql);
             ps.setInt(1, loginnum);
@@ -192,7 +194,7 @@ public class ReportDAO extends SuperDao {
         try {
             ps = conn.prepareStatement(sql);
             ps.setInt(1, num);
-            ps.setInt(2, ReportController.loginemployee.getEno());
+            ps.setInt(2, EmployController.loginEno.getEno());
             int count = ps.executeUpdate();
             if(count == 1){
                 return true;
@@ -202,5 +204,30 @@ public class ReportDAO extends SuperDao {
             System.out.println(e);
         }
         return false;
+    }
+
+    public ArrayList<EmployeeDTO> findSuperior(){
+      try {
+          String sql = "SELECT * FROM Employee WHERE gradeno>? and partno = ?;";
+          int logingrade = EmployController.loginEno.getGradeno();
+          int loginpart = EmployController.loginEno.getPartno();
+          ps = conn.prepareStatement(sql);
+          ps.setInt(1, logingrade);
+          ps.setInt(2, loginpart);
+          rs = ps.executeQuery();
+          ArrayList<EmployeeDTO> reportDTOS = new ArrayList<>();
+
+          while (rs.next()) {
+              EmployeeDTO employeeDTO = new EmployeeDTO();
+              employeeDTO.setEno(rs.getInt("eno"));
+              employeeDTO.setEname(rs.getString("ename"));
+              reportDTOS.add(employeeDTO);
+          }
+          return reportDTOS;
+      }
+      catch (Exception e) {
+          System.out.println(e);
+      }
+        return null;
     }
 }

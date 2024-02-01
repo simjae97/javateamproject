@@ -22,13 +22,14 @@ public class EmployController {
         return 0;
     }
 
-    public static EmployeeDTO loginEno = new EmployeeDTO();
+    public static EmployeeDTO loginEno;
 
     public boolean logIn(EmployeeDTO employeeDTO){
         boolean result = false;
         result = EmployeeDao.getInstance().logIn(employeeDTO);
         if(result){
             int[] loginint = EmployeeDao.getInstance().findEPGno(employeeDTO);
+            loginEno = new EmployeeDTO();
             loginEno.setEno(loginint[0]);
             loginEno.setPartno(loginint[1]);
             loginEno.setGradeno(loginint[2]);

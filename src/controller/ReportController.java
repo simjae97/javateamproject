@@ -9,8 +9,6 @@ import java.util.TreeMap;
 
 
 public class ReportController {
-    public static EmployeeDTO loginemployee = new EmployeeDTO( 1,1,1);
-
     ReportDAO reportDAO = new ReportDAO();
 
 //    public ArrayList<ReportDTO> allReport(){
@@ -41,5 +39,9 @@ public class ReportController {
 
     public boolean accept(int num){
         return reportDAO.accept(num);
+    }
+
+    public ArrayList<EmployeeDTO> findSuperior(){
+        return reportDAO.findSuperior();
     }
 }

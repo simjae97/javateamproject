@@ -1,6 +1,7 @@
 package view;
 
 import controller.ReportController;
+import model.dto.EmployeeDTO;
 import model.dto.ReportDTO;
 
 import java.util.*;
@@ -10,7 +11,6 @@ public class ReportView {
     ReportController reportController = new ReportController();
     public void allReport() {
         while (true) {
-            System.out.println("안녕하세요");
 //            System.out.println("결재한서류");
 //            ArrayList<ReportDTO> reportDTOS = reportController.allReport();
 //            if(reportDTOS != null) {
@@ -54,14 +54,35 @@ public class ReportView {
                 ReportDTO reportDTO = new ReportDTO();
                 reportDTO.setReporttitle(title);
                 reportDTO.setReportcontent(content);
+                ArrayList<EmployeeDTO> superior = reportController.findSuperior();
+                System.out.println("보낼수 있는 사람 ");
+                ArrayList<Integer> superiors = new ArrayList<>();
+                for (EmployeeDTO i : superior){
+                    System.out.println("번호 :"+i.getEno());
+                    System.out.println("성함 :"+i.getEname());
+                    superiors.add(i.getEno());
+                }
+
                 System.out.println("보낼 사람 수 선택");
                 int users = application.scanner.nextInt();
+                if( users > superiors.size()){
+                    System.out.println("그만큼 못 보냅니다 ");
+                    continue;
+                }
                 ArrayList<Integer> userArray = new ArrayList<>();
                 for (int i =0; i< users; i++){
                     System.out.println("보내고싶은 사람의 번호 입력");
-                    userArray.add(application.scanner.nextInt());
+                    int user = application.scanner.nextInt();
+                    if (superiors.contains(user) && !userArray.contains(user)) {
+                        userArray.add(user);
+                    }
+                    else {
+                        System.out.println("보낼 권한이 없거나 이미 선택한 상사입니다");
+                        return;
+                    }
                 }
                 boolean result = reportController.reportWrite(reportDTO,userArray);
+
                 if(result){
                     System.out.println("작성 완료");
                 }
@@ -105,6 +126,8 @@ public class ReportView {
             for (Map.Entry<ReportDTO, Boolean> entry : reportDTOS.entrySet()) {
                 System.out.println("번호"+entry.getKey().getReportno()+"제목 :" + entry.getKey().getReporttitle() + " 상태 :" + (entry.getValue() ?"결재완료":"결재대기"));
             }
+            System.out.println("1.확인");
+            int ch= application.scanner.nextInt();
         }
         catch (Exception e){
             System.out.println(e);
