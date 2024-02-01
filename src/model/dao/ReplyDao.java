@@ -2,6 +2,7 @@ package model.dao;
 
 import model.dto.EmployeeDTO;
 import model.dto.PartDTO;
+import model.dto.ReplyDTO;
 
 import java.sql.ResultSet;
 import java.util.ArrayList;
@@ -49,4 +50,19 @@ public class ReplyDao extends SuperDao{
         return result;
     } // 리뷰 보이기 로직
 
+    public boolean replyWrite(ReplyDTO replyDTO){
+        try {
+            String sql = "insert into reply(eno, boardno, replycontent) values (?,?,?);";
+            ps = conn.prepareStatement(sql);
+            ps.setInt(1, replyDTO.getEno());
+            ps.setInt(2, replyDTO.getBoardno());
+            ps.setString(3, replyDTO.getReplycontent());
+            if(ps.executeUpdate()==1){
+                return true;
+            }
+        }catch (Exception e){
+            System.out.println(e);
+        }
+        return false;
+    }
 }

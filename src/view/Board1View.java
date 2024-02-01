@@ -1,10 +1,13 @@
 package view;
 
 import controller.Board1Controller;
+import controller.EmployController;
 import controller.ReplyController;
+import model.dto.ReplyDTO;
 
 import java.util.ArrayList;
 import java.util.Map;
+import java.util.Scanner;
 
 public class Board1View { // 개별 글 뷰
 
@@ -28,6 +31,30 @@ public class Board1View { // 개별 글 뷰
                     System.out.println(map2.get(i).get("replycontent"));
                     System.out.println("----------------------------------------------------------");
             }
+            System.out.println("0.뒤로 가기 | 1.댓글 입력 | 2.글 수정 | 3.글 삭제");
+
+            int ch = new MainView().scanner.nextInt();
+            new MainView().scanner.nextLine();
+            if(ch==0){return;} // 뒤로 가기
+            else if (ch==1) { // 댓글 등록
+                    System.out.print("댓글 입력 :");
+                    String newreplycontent = new MainView().scanner.nextLine(); // 적을 댓글 받기
+                    ReplyDTO replyDTO = new ReplyDTO();
+                    replyDTO.setEno(EmployController.loginEno.getEno()); // 로그인 중인 Eno DTO에 넣기
+                    replyDTO.setReplycontent(newreplycontent);  // newreplycontent를 DTO에 넣기
+                    replyDTO.setBoardno(boardno); // 받아온 보드넘버도 같이 넣기.
+                    if(ReplyController.getInstance().replyWrite(replyDTO)){// DTO 보내기 boolean값으로 리턴 받기
+                            System.out.println("댓글 등록 완료.");
+                            board1(boardno);
+                    }else{
+                            System.out.println("댓글 등록이 되지 않았습니다.");
+                    }
+            } else if (ch==2) {
+
+            } else if (ch==3) {
+
+            }
+
 
     }
 }

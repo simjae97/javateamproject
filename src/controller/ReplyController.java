@@ -1,6 +1,7 @@
 package controller;
 
 import model.dao.ReplyDao;
+import model.dto.ReplyDTO;
 
 import java.util.ArrayList;
 import java.util.Map;
@@ -16,5 +17,9 @@ public class ReplyController {
     public ArrayList<Map> replyview(int boardno){
         ArrayList<Map> result = ReplyDao.getInstance().replyview(boardno);
         return result;
+    }
+
+    public boolean replyWrite(ReplyDTO replyDTO){
+        return ReplyDao.getInstance().replyWrite(replyDTO);
     }
 }
