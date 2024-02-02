@@ -105,4 +105,19 @@ public class EmployeeDTO {
     public void setPartno(int partno) {
         this.partno = partno;
     }
+
+    @Override
+    public String toString() {
+        return "|" +
+                "" + eno +
+                ", gradeno=" + gradeno +
+                ", partno=" + partno +
+                ", ename='" + ename + '\'' +
+                ", ephone='" + ephone + '\'' +
+                ", eemail='" + eemail + '\'' +
+                ", eid='" + eid + '\'' +
+                ", epw='" + epw + '\'' +
+                ", edate='" + edate + '\'' +
+                '|'+"\n";
+    }
 }

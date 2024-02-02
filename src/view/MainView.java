@@ -1,10 +1,12 @@
 package view;
 
 import controller.EmployController;
+import model.dto.EmployeeDTO;
 
 import java.util.Scanner;
 
 public class MainView {
+
     public static Scanner scanner = new Scanner(System.in);
     public void run(){
         while (true) {
@@ -16,8 +18,10 @@ public class MainView {
             } else if (ch == 2) {
 
                 boolean run = new EmployeeView().logIn();
+
+
                 while (run) {  // 로그인 되면
-                    System.out.println("1.보고서  2.게시판 3.로그아웃 4.회원탈퇴");
+                    System.out.println("1.보고서  2.게시판 3.로그아웃 4.회원탈퇴"+(EmployController.loginEno.getGradeno()==5?" 5.관리자권한 실행":""));
                     int ch2 = scanner.nextInt();
                     scanner.nextLine();
                     if (ch2 == 1){
@@ -47,6 +51,14 @@ public class MainView {
                         EmployController.getInstance().logOut();
                     } else if(ch2 == 4){
                         new EmployeeView().exit();
+                    }else if (ch2==5 && EmployController.loginEno.getGradeno()==5){
+                        new EmployeeView().employeeInfo();
+                        System.out.println("1.직책변환");
+                        int manageemployee = scanner.nextInt(); scanner.nextLine();
+                        if(manageemployee == 1){
+                            new EmployeeView().changegradeno();
+                        }
+
                     }
                 }
             } else if (ch == 3) {

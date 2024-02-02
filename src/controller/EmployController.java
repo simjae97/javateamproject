@@ -2,6 +2,9 @@ package controller;
 
 import model.dao.EmployeeDao;
 import model.dto.EmployeeDTO;
+import model.dto.PartDTO;
+
+import java.util.ArrayList;
 
 public class EmployController {
     //싱글톤
@@ -19,7 +22,7 @@ public class EmployController {
 
         //회원가입 요청
         result = EmployeeDao.getInstance().signUp(employeeDTO);
-        return 0;
+        return result;
     }
 
     public static EmployeeDTO loginEno;
@@ -50,4 +53,22 @@ public class EmployController {
         return result;
     }
 
+    public ArrayList<EmployeeDTO> employeeInfo(EmployeeDTO employeeDTO){
+        ArrayList<EmployeeDTO> result = new ArrayList<>();
+
+        result = EmployeeDao.getInstance().employeeInfo(employeeDTO);
+
+        return result;
+    }
+
+    public boolean changegradeno(EmployeeDTO employeeDTO){
+        boolean result = false;
+
+        result = EmployeeDao.getInstance().changegradeno(employeeDTO);
+        return result;
+    }
+
+    public PartDTO managerpartView(int partno){
+        return EmployeeDao.getInstance().partnoSearch(partno);
+    }
 }
