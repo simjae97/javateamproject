@@ -46,4 +46,9 @@ public class ReportController {
     public ArrayList<EmployeeDTO> findSuperior(){
         return reportDAO.findSuperior();
     }
+
+    public boolean reportDelete(int num){return reportDAO.reportDelete(num);}
+    public TreeMap<Integer, Boolean > findSuperiors(int num){
+        return reportDAO.findSuperiors(num);
+    }
 }

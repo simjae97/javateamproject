@@ -13,26 +13,26 @@ import java.util.Map;
 import java.util.TreeMap;
 
 public class ReportDAO extends SuperDao {
-    public ArrayList<ReportDTO> allReport() {
-        try {
-            String sql = "SELECT report.* FROM report JOIN reportlog ON report.reportno = reportlog.reportno WHERE reportlog.eno = ? and reportlog.confirm = true;";
-            int loginnum = EmployController.loginEno.getEno();
-            ps = conn.prepareStatement(sql);
-            ps.setInt(1, loginnum);
-            rs = ps.executeQuery();
-            ArrayList<ReportDTO> reportDTOS = new ArrayList<>();
-            while (rs.next()) {
-                ReportDTO reportDTO = new ReportDTO();
-                reportDTO.setReporttitle(rs.getString("reporttitle"));
-                reportDTO.setReportno(rs.getInt("reportno"));
-                reportDTOS.add(reportDTO);
-            }
-            return reportDTOS;
-        } catch (Exception e) {
-
-        }
-        return null;
-    }
+//    public ArrayList<ReportDTO> allReport() {
+//        try {
+//            String sql = "SELECT report.* FROM report JOIN reportlog ON report.reportno = reportlog.reportno WHERE reportlog.eno = ? and reportlog.confirm = true;";
+//            int loginnum = EmployController.loginEno.getEno();
+//            ps = conn.prepareStatement(sql);
+//            ps.setInt(1, loginnum);
+//            rs = ps.executeQuery();
+//            ArrayList<ReportDTO> reportDTOS = new ArrayList<>();
+//            while (rs.next()) {
+//                ReportDTO reportDTO = new ReportDTO();
+//                reportDTO.setReporttitle(rs.getString("reporttitle"));
+//                reportDTO.setReportno(rs.getInt("reportno"));
+//                reportDTOS.add(reportDTO);
+//            }
+//            return reportDTOS;
+//        } catch (Exception e) {
+//
+//        }
+//        return null;
+//    }
 
     public TreeMap<ReportDTO, Boolean> allReport2() {
         try {
@@ -93,10 +93,10 @@ public class ReportDAO extends SuperDao {
 
             // 3. SQL 실행 // 4. SQL 결과
             int count = ps.executeUpdate();//executeUpdate() 기재된 sql 실행하고 insert된 레코드 개수 반환.
-            rs = ps.getGeneratedKeys();
-            rs.next();
-            int pk = rs.getInt(1);
 
+            rs = ps.getGeneratedKeys(); //바로 primary key 가져오기
+            rs.next(); // rs.실행
+            int pk = rs.getInt(1); //출력된 primary key를 pk에 저장
 
             if (count == 1) { // 1개가 영향을 받았다는 소리니까 혹시 0개일때를 대비해서 유효성
                 for (int i : array) {
@@ -228,6 +228,38 @@ public class ReportDAO extends SuperDao {
       catch (Exception e) {
           System.out.println(e);
       }
+        return null;
+    }
+    public boolean reportDelete(int num){
+        try {
+            String sql = "DELETE from report WHERE reportno = ? ";
+            ps = conn.prepareStatement(sql);
+            ps.setInt(1, num);
+            int count = ps.executeUpdate();
+            if(count == 1){
+                return true;
+            }
+        }
+        catch (Exception e){
+
+        }
+        return false;
+    }
+    public TreeMap<Integer, Boolean > findSuperiors(int num){
+        try {
+            TreeMap<Integer, Boolean > superiors = new TreeMap<>();
+            String sql = "select eno, confirm from reportlog where reportno = ?";
+            ps = conn.prepareStatement(sql);
+            ps.setInt(1, num);
+            rs = ps.executeQuery();
+            while(rs.next()) {
+                superiors.put(rs.getInt("eno"),rs.getBoolean("confirm"));
+            }
+            return superiors;
+        }
+        catch (Exception e){
+            System.out.println(e);
+        }
         return null;
     }
 }

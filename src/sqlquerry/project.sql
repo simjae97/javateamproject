@@ -38,11 +38,11 @@ create table employee( -- 사원
     eid varchar(30) not null unique,
     epw varchar(30) not null,
     edate datetime default now(),
-    partno int not null,
+    partno int,
     
     primary key(eno),
     foreign key(gradeno) references grade(gradeno), 
-    foreign key(partno) references part(partno)
+    foreign key(partno) references part(partno) on update cascade on delete set null
 );
 
 insert into employee(gradeno,ename,ephone,eemail,eid,epw,partno) values(1,'일사원','010-0000-0000','a@co.kr','a','a',1);
@@ -76,11 +76,11 @@ create table board(
 	boardno int auto_increment,
     boardtitle varchar(30) not null,
     boardcontent longtext not null,
-    eno int not null,
+    eno int,
     boarddate datetime default now(),
    
     primary key(boardno),
-    foreign key(eno) references employee(eno)
+    foreign key(eno) references employee(eno) on delete set null
 );
 
 insert into board(boardtitle,boardcontent,eno) values('1번 게시글','게시글 내용',1);
@@ -105,9 +105,9 @@ create table boardpermit(
     partno int default 0,
     
     
-    foreign key(boardno) references board(boardno),
+    foreign key(boardno) references board(boardno) on delete cascade,
     foreign key(gradeno) references grade(gradeno),
-   foreign key(partno) references part(partno)
+	foreign key(partno) references part(partno) on update cascade on delete set null
     
 );
 
@@ -132,15 +132,15 @@ insert into boardpermit(boardno,gradeno,partno) values(15,5,3);
 -- gradno 별 3개, partno 별 5개
 
 create table reply(
-	eno int not null,
+	eno int,
     boardno int not null,
     replyno int auto_increment,
     replycontent text not null,
     replydate datetime default now(),
     
     primary key (replyno),
-    foreign key (eno) references employee(eno),
-    foreign key (boardno) references board(boardno)
+    foreign key (eno) references employee(eno) on delete set null,
+    foreign key (boardno) references board(boardno) on delete cascade
 );
 
 insert into reply(eno,boardno,replycontent) values(2,1,"댓글내용1");
@@ -148,26 +148,78 @@ insert into reply(eno,boardno,replycontent) values(3,1,"댓글내용2");
 insert into reply(eno,boardno,replycontent) values(2,2,"댓글내용3");
 
 create table report(
-	eno int not null,
+	eno int,
 	reportno int auto_increment,
 	reporttitle varchar(50) not null,
     reportcontent longtext not null,
     reportdate datetime default now(),
     
     primary key(reportno),
-    foreign key(eno) references employee(eno)
+    foreign key(eno) references employee(eno) on delete set null
 );
 
 create table reportlog(
 	reportno int not null,
-    eno int not null,
+    eno int,
     confirm bool default false,
     
-    foreign key(reportno) references report(reportno),
-    foreign key(eno) references employee(eno)
+    foreign key(reportno) references report(reportno) on delete cascade,
+    foreign key(eno) references employee(eno) on delete set null
 );
 
 select * from employee;
 select * from board;
 select * from boardpermit;
 select * from reply;
+
+
+select * from report;
+select * from reportlog;
+-- 심재훈
+SELECT  report.reportno ,COUNT(*)FROM report JOIN reportlog ON report.reportno = reportlog.reportno GROUP BY report.reportno;
+SELECT  report.reportno ,reportlog.confirm FROM report JOIN reportlog ON report.reportno = reportlog.reportno where report.eno = 1 GROUP BY report.reportno, reportlog.confirm;
+SELECT report.*,reportlog.eno FROM report JOIN reportlog ON report.reportno = reportlog.reportno WHERE reportlog.eno = 1;
+SELECT report.*,reportlog.confirm FROM report JOIN reportlog ON report.reportno = reportlog.reportno WHERE reportlog.eno = 4;
+
+
+select * from report;
+select * from reportlog;
+
+SELECT  report.* ,reportlog.confirm FROM report JOIN reportlog ON report.reportno = reportlog.reportno;
+
+SELECT  report.* ,reportlog.confirm FROM report JOIN reportlog ON report.reportno = reportlog.reportno where reportlog.eno = 2;
+
+
+
+SElect report.reportno,Count(*) as count FROM report JOIN reportlog ON report.reportno = reportlog.reportno group by report.reportno;
+SELECT report.reportno,Count(*) FROM report JOIN reportlog ON report.reportno = reportlog.reportno WHERE reportlog.confirm =true group by report.reportno, reportlog.confirm;
+
+select * from report where reportno = 5;
+
+
+
+
+DELIMITER //
+
+CREATE EVENT IF NOT EXISTS update_report_confirm
+ON SCHEDULE EVERY 1 DAY
+DO
+BEGIN
+  UPDATE reportlog
+  SET confirm = false
+  WHERE reportno IN (
+    SELECT report.reportno
+    FROM report
+    LEFT JOIN (
+      SELECT reportno, COUNT(*) FROM report JOIN reportlog ON report.reportno = reportlog.reportno GROUP BY report.reportno
+    ) r1 ON report.reportno = r1.reportno
+    LEFT JOIN (
+      SELECT reportno, COUNT(*) FROM report JOIN reportlog ON report.reportno = reportlog.reportno WHERE reportlog.confirm = true GROUP BY report.reportno, reportlog.confirm
+    ) r2 ON report.reportno = r2.reportno
+    WHERE report.reportdate < NOW() - INTERVAL 7 DAY AND COALESCE(r1.count, 0) != COALESCE(r2.count, 0)
+  );
+END//
+
+DELIMITER ;
+
+show events;
