@@ -8,7 +8,7 @@ public class BoardWriteController {
     private static BoardWriteController boadAllWriteController = new BoardWriteController();
     public static BoardWriteController getInstance(){return boadAllWriteController;}
 
-    public boolean boardWrite(BoardDTO boardDTO){
+    public boolean boardWrite(BoardDTO boardDTO) {
         return BoardWriteDao.getInstance().boardWrite(boardDTO,EmployController.loginEno);
     }
 }
