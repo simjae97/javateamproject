@@ -31,6 +31,7 @@ public class Board1Dao extends SuperDao{ // 개별 글 관련 dao
                 int eno = rs.getInt("eno"); // eno 가져와서 작성자를 확인한다. // 메소드로 만들기.
                 EmployeeDTO employeeDTO = enoSearch(eno); // eno로 가져온 회원DTO 정보저장.
 
+
                 Map<String , String> map = new HashMap<>();
                 map.put("boardno", boardDTO.getBoardno()+"");
                 map.put("boardtitle", boardDTO.getBoardtitle());
