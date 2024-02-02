@@ -69,7 +69,6 @@ public class ReportView {
                 else {
                     System.out.println("볼 권한이 존재하지 않는 보고서 번호입니다");
                 }
-
             }
         }
     }
