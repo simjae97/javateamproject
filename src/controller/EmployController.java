@@ -2,6 +2,7 @@ package controller;
 
 import model.dao.EmployeeDao;
 import model.dto.EmployeeDTO;
+import model.dto.GradeDTO;
 import model.dto.PartDTO;
 
 import java.util.ArrayList;
@@ -70,5 +71,8 @@ public class EmployController {
 
     public PartDTO managerpartView(int partno){
         return EmployeeDao.getInstance().partnoSearch(partno);
+    }
+    public GradeDTO managergradeView(int gradeno){
+        return EmployeeDao.getInstance().gradenoSearch(gradeno);
     }
 }
