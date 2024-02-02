@@ -80,10 +80,12 @@ public class EmployeeView {
     }
 
     public void employeeInfo(){
-        System.out.println("----------------------------------------------------------------------------------------------------");
-        System.out.println("                                        직원 정보                                                     ");
-        System.out.println("-----------------------------------------------------------------------------------------------------");
-        System.out.println("회원번호 \t 직급 \t 부서 \t 이름 \t 전화번호 \t email \t id \t pw \t date");
+        System.out.println("-----------------------------------------------------------------------------------------------------------------------------------------------------");
+        System.out.println("                                                                    직원 정보                                                                          ");
+        System.out.println("-----------------------------------------------------------------------------------------------------------------------------------------------------");
+        System.out.printf("%-5s \t %-5s \t %-5s \t %-7s \t %-18s \t %-20s \t %-10s \t %-10s \t %-20s \n","회원번호","직급","부서","이름","전화번호","email","id","pw","date");
+
+        //System.out.println("회원번호 \t 직급 \t 부서 \t 이름 \t 전화번호 \t\t email \t\t id \t\t pw \t\t date");
         //객체화
         EmployeeDTO employeeDTO = new EmployeeDTO();
 
@@ -97,7 +99,7 @@ public class EmployeeView {
             // result.get(i).getEno() i번재 eno
             int employeeno = result.get(i).getEno();
             String partname = EmployController.getInstance().managerpartView(result.get(i).getPartno()).getPartname();// result 어레이리스트에 i번째 partno 으로 출력하는 구문
-            //EmployController.getInstance().managergradeView(result.get(i).getGradeno());
+            String gradename = EmployController.getInstance().managergradeView(result.get(i).getGradeno()).getGradename();
             String ename = result.get(i).getEname();
             String ephone = result.get(i).getEphone();
             String eemail = result.get(i).getEemail();
@@ -105,9 +107,9 @@ public class EmployeeView {
             String epw = result.get(i).getEpw();
             String edate = result.get(i).getEdate();
 
-            System.out.printf("%d \t %s \t %s \t %s \t %s \t %s \t %s \t %s \t %s \n",employeeno,partname,ename,ephone,eemail,eid,epw,edate);
+            System.out.printf("%-8d \t %-5s \t %-5s \t %-7s \t %-20s \t %-20s \t %-10s \t %-10s \t %-20s \n",employeeno,gradename,partname,ename,ephone,eemail,eid,epw,edate);
         }
-        System.out.println("-----------------------------------------------------------------------------------------------------");
+        System.out.println("-----------------------------------------------------------------------------------------------------------------------------------------------------");
     }
 
     public void changegradeno(){
