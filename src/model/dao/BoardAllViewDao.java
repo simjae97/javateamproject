@@ -17,14 +17,14 @@ public class BoardAllViewDao extends SuperDao {
         String sql = null;
         try {
             if(ch == 1){    // [5-1] 전체글보기 = board게시판 모든글 가져오기
-                sql = "select * from board order by boardno;";
+                sql = "select * from board order by boardno desc;";
                 ps = conn.prepareStatement(sql);
             } else if (ch == 2){    // [5-2] 직급게시판 = 현재로그인된 직급
-                sql = "SELECT * FROM board JOIN boardpermit ON board.boardno = boardpermit.boardno where boardpermit.gradeno = ?;";
+                sql = "SELECT * FROM board JOIN boardpermit ON board.boardno = boardpermit.boardno where boardpermit.gradeno = ? order by board.boardno desc ;";
                 ps = conn.prepareStatement(sql);
                 ps.setInt(1, loginstate.getGradeno());
             } else if (ch == 3){    // [5-3] 부서별게시판 = 현재 로그인된 부서
-                sql = "SELECT * FROM board JOIN boardpermit ON board.boardno = boardpermit.boardno where boardpermit.partno = ?;";
+                sql = "SELECT * FROM board JOIN boardpermit ON board.boardno = boardpermit.boardno where boardpermit.partno = ? order by board.boardno desc;";
                 ps = conn.prepareStatement(sql);
                 ps.setInt(1, loginstate.getPartno());
             }

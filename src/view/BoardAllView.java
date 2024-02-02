@@ -23,22 +23,22 @@ public class BoardAllView {
                 } else if(ch > 3){ // [2] 입력받은 숫자 확인
                     System.out.println("숫자를 다시 입력해주세요.");
                 } else {    // [3] 입력받은 숫자를 매개 변수로 BoadAllViewController View 메소드 실행
-                    boardDTOArrayList = BoadAllViewController.getInstance().boardAllView(ch);
-                    System.out.printf("%-5s \t %-10s \t %-10s \t %-10s \n","번호","제목","작성자","작성일");
-                    for(int i=0; i<boardDTOArrayList.size(); i++){
-                        System.out.printf("%-5d \t %-10s \t %-10s \t %-10s \n", i + 1, boardDTOArrayList.get(i).getBoardtitle(), BoadAllViewController.getInstance().enoSearch(boardDTOArrayList.get(i).getEno()).getEname(), boardDTOArrayList.get(i).getBoarddate().split(":")[0]);
-                    }
                     while (true){
+                    boardDTOArrayList = BoadAllViewController.getInstance().boardAllView(ch);
+                        System.out.printf("%-5s \t %-10s \t %-10s \t %-10s \n","번호","제목","작성자","작성일");
+                        for(int i=0; i<boardDTOArrayList.size(); i++){
+                            System.out.printf("%-5d \t %-10s \t %-10s \t %-10s \n", i + 1, boardDTOArrayList.get(i).getBoardtitle(), BoadAllViewController.getInstance().enoSearch(boardDTOArrayList.get(i).getEno()).getEname(), boardDTOArrayList.get(i).getBoarddate().split(":")[0]);
+                        }
                         System.out.println("0.뒤로가기1.개별글보기 2.글쓰기");
                         int ch4 = scanner.nextInt();
                         if(ch4 == 0){
                             break;
                         } else if(ch4 == 1){
                             System.out.print("보고싶은 게시물을 선택하시오.> ");
-                            int ch5 = scanner.nextInt();
-                            new Board1View().board1(boardDTOArrayList.get(ch5).getEno());
+                            int boardno = scanner.nextInt() - 1;
+                            new Board1View().board1(boardDTOArrayList.get(boardno).getBoardno());
                         } else if(ch4 == 2){
-
+                            new BoardWriteView().BoardWrite();
                         } else {
                             System.out.println("숫자를 다시 입력해주세요.");
                         }
