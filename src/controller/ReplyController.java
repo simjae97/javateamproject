@@ -22,4 +22,12 @@ public class ReplyController {
     public boolean replyWrite(ReplyDTO replyDTO){
         return ReplyDao.getInstance().replyWrite(replyDTO);
     }
+
+    public boolean replyDelete(int replyno){
+        return  ReplyDao.getInstance().replyDelete(replyno);
+    }
+
+    public boolean replyUpdate(ReplyDTO replyDTO){
+        return ReplyDao.getInstance().replyUpdate(replyDTO);
+    }
 }

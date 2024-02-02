@@ -1,5 +1,6 @@
 package model.dao;
 import model.dto.EmployeeDTO;
+import model.dto.GradeDTO;
 import model.dto.PartDTO;
 
 import java.sql.Connection;
@@ -67,6 +68,25 @@ public class SuperDao {
         return null;
     }
 
+    public GradeDTO gradenoSearch(int gradeno){ // gradeno로 gradeDTO 값 뽑아내기
+        GradeDTO gradeDTO;
+        try{
+            String sql = "select * from grade where gradeno = ?;";
+            ps = conn.prepareStatement(sql);
+            ps.setInt(1, gradeno);
+            rs = ps.executeQuery();
+            while (rs.next()) { // rs.next() -> 데이터베이스 테이블에서 한칸이동후 값이 있으면 true 없으면 false
+                gradeDTO = new GradeDTO();
+                gradeDTO.setGradename(rs.getString("gradename"));  // 가져와 객체에 넣어준다.
+                gradeDTO.setGradeno(rs.getInt("gradeno"));  // e가져와 객체에 넣어준다.
+                return gradeDTO;
+            }
+        }catch (Exception e){
+            System.out.println(e);
+        }
+        return null;
+    }
+
     public int boardnoSearch(int boardno){//보드넘버로 eno 구하기.
         try{
             String sql = "select * from board where boardno = ?;";
@@ -81,5 +101,7 @@ public class SuperDao {
         }
         return 0; // 없으면 0 리턴
     }
+
+
 
 }

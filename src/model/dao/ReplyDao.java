@@ -26,10 +26,6 @@ public class ReplyDao extends SuperDao{
             while (rs.next()){// 한 줄(레코드) 단위로 소환.
                 Map<String, String> map1 = new HashMap<>();
                 // 리플 하나 하나당 있을 데이터 , 작성자, 부서, 쓴 날짜, 내용
-//                int eno = rs.getInt("eno"); // 작성자 정보 받을 로직짜기.
-//                EmployeeDTO employeeDTO = enoSearch(eno);
-//                map1.put("ename", employeeDTO.getEname());
-//                map1.put("partname", partnoSearch(employeeDTO.getPartno()).getPartname());
                 map1.put("eno", rs.getString("eno"));
                 map1.put("replyno", rs.getString("replyno"));
                 map1.put("replycontent" , rs.getString("replycontent"));
@@ -65,4 +61,36 @@ public class ReplyDao extends SuperDao{
         }
         return false;
     }
+
+    public boolean replyDelete(int replyno){
+        try {
+            String sql = "delete from reply where replyno = ?";
+            ps = conn.prepareStatement(sql);
+            ps.setInt(1, replyno);
+            if(ps.executeUpdate()==1){ // 업데이트 된건가 확인할 것.
+                return true;
+            }
+        }
+        catch (Exception e){
+            System.out.println(e);
+        }
+        return false;
+    }
+
+    public boolean replyUpdate(ReplyDTO replyDTO){
+        try {
+            String sql = "update reply set replycontent =? where replyno = ?";
+            ps = conn.prepareStatement(sql);
+            ps.setString(1, replyDTO.getReplycontent());
+            ps.setInt(2, replyDTO.getReplyno());
+            if(ps.executeUpdate()==1){ // 업데이트 된건가 확인할 것.
+                return true;
+            }
+        }
+        catch (Exception e){
+            System.out.println(e);
+        }
+        return false;
+    }
+
 }
