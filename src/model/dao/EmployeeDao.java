@@ -152,7 +152,10 @@ public class EmployeeDao extends SuperDao{
                 employeeDTO.setPartno(rs.getInt("partno"));
                 employeeDTO.setEphone(rs.getString("ephone"));
                 employeeDTO.setEemail(rs.getString("eemail"));
+                employeeDTO.setEdate(rs.getString("edate"));
                 result.add(employeeDTO);
+
+
             }
 
 

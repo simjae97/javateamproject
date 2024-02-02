@@ -108,8 +108,8 @@ public class EmployeeDTO {
 
     @Override
     public String toString() {
-        return "EmployeeDTO{" +
-                "eno=" + eno +
+        return "|" +
+                "" + eno +
                 ", gradeno=" + gradeno +
                 ", partno=" + partno +
                 ", ename='" + ename + '\'' +
@@ -118,6 +118,6 @@ public class EmployeeDTO {
                 ", eid='" + eid + '\'' +
                 ", epw='" + epw + '\'' +
                 ", edate='" + edate + '\'' +
-                '}';
+                '|'+"\n";
     }
 }

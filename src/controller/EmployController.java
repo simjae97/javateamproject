@@ -2,6 +2,7 @@ package controller;
 
 import model.dao.EmployeeDao;
 import model.dto.EmployeeDTO;
+import model.dto.PartDTO;
 
 import java.util.ArrayList;
 
@@ -21,7 +22,7 @@ public class EmployController {
 
         //회원가입 요청
         result = EmployeeDao.getInstance().signUp(employeeDTO);
-        return 0;
+        return result;
     }
 
     public static EmployeeDTO loginEno;
@@ -65,5 +66,9 @@ public class EmployController {
 
         result = EmployeeDao.getInstance().changegradeno(employeeDTO);
         return result;
+    }
+
+    public PartDTO managerpartView(int partno){
+        return EmployeeDao.getInstance().partnoSearch(partno);
     }
 }

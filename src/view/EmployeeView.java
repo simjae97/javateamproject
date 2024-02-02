@@ -1,6 +1,7 @@
 package view;
 
 import controller.EmployController;
+import model.dao.SuperDao;
 import model.dto.EmployeeDTO;
 
 import java.util.ArrayList;
@@ -16,12 +17,12 @@ public class EmployeeView {
     public void signUp(){
 
         //입력
-        System.out.println("아이디를 입력하세요 : ");            String id = scanner.nextLine();
-        System.out.println("비밀번호를 입력하세요 : ");          String pw = scanner.nextLine();
-        System.out.println("이름을 입력하세요 :");              String name = scanner.nextLine();
-        System.out.println("전화번호를 입력하세요 : ");          String phone = scanner.nextLine();
-        System.out.println("본인 부서 번호를 입력하세요 : ");     int partno = scanner.nextInt(); scanner.nextLine();
-        System.out.println("이메일을 입력하세요 : ");            String email = scanner.nextLine();
+        System.out.print("아이디를 입력하세요 : ");            String id = scanner.nextLine();
+        System.out.print("비밀번호를 입력하세요 : ");          String pw = scanner.nextLine();
+        System.out.print("이름을 입력하세요 :");              String name = scanner.nextLine();
+        System.out.print("전화번호를 입력하세요 : ");          String phone = scanner.nextLine();
+        System.out.print("본인 부서 번호를 입력하세요 : ");     int partno = scanner.nextInt(); scanner.nextLine();
+        System.out.print("이메일을 입력하세요 : ");            String email = scanner.nextLine();
 
         //객체화
         EmployeeDTO employeeDTO = new EmployeeDTO();
@@ -43,8 +44,8 @@ public class EmployeeView {
 
     public boolean logIn(){
         //입력
-        System.out.println("아이디 : ");       String id = scanner.nextLine();
-        System.out.println("비밀번호 : ");      String pw = scanner.nextLine();
+        System.out.print("아이디 : ");       String id = scanner.nextLine();
+        System.out.print("비밀번호 : ");      String pw = scanner.nextLine();
 
         //객체화
         EmployeeDTO employeeDTO = new EmployeeDTO();
@@ -79,9 +80,10 @@ public class EmployeeView {
     }
 
     public void employeeInfo(){
-
-        System.out.println("직원 정보를 출력합니다.");
-
+        System.out.println("----------------------------------------------------------------------------------------------------");
+        System.out.println("                                        직원 정보                                                     ");
+        System.out.println("-----------------------------------------------------------------------------------------------------");
+        System.out.println("회원번호 \t 직급 \t 부서 \t 이름 \t 전화번호 \t email \t id \t pw \t date");
         //객체화
         EmployeeDTO employeeDTO = new EmployeeDTO();
 
@@ -89,7 +91,23 @@ public class EmployeeView {
 
 
         //결과 출력
-        System.out.println(result);
+        for(int i=0; i<result.size();i++) {
+
+//            System.out.println(result.get(i).getEno());
+            // result.get(i).getEno() i번재 eno
+            int employeeno = result.get(i).getEno();
+            String partname = EmployController.getInstance().managerpartView(result.get(i).getPartno()).getPartname();// result 어레이리스트에 i번째 partno 으로 출력하는 구문
+            //EmployController.getInstance().managergradeView(result.get(i).getGradeno());
+            String ename = result.get(i).getEname();
+            String ephone = result.get(i).getEphone();
+            String eemail = result.get(i).getEemail();
+            String eid = result.get(i).getEid();
+            String epw = result.get(i).getEpw();
+            String edate = result.get(i).getEdate();
+
+            System.out.printf("%d \t %s \t %s \t %s \t %s \t %s \t %s \t %s \t %s \n",employeeno,partname,ename,ephone,eemail,eid,epw,edate);
+        }
+        System.out.println("-----------------------------------------------------------------------------------------------------");
     }
 
     public void changegradeno(){
