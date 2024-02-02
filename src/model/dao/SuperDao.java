@@ -1,5 +1,6 @@
 package model.dao;
 import model.dto.EmployeeDTO;
+import model.dto.GradeDTO;
 import model.dto.PartDTO;
 
 import java.sql.Connection;
@@ -12,6 +13,7 @@ public class SuperDao {
     protected PreparedStatement ps; //작성된 sql을 가지고있고 실행 담당
     protected ResultSet rs;
     protected ResultSet rs2;
+
     SuperDao(){
         try {
             //1.MYSQL 회사의 JDBC관련된 객체를 JVM에 로딩한다
@@ -65,5 +67,41 @@ public class SuperDao {
         }
         return null;
     }
+
+    public GradeDTO gradenoSearch(int gradeno){ // gradeno로 gradeDTO 값 뽑아내기
+        GradeDTO gradeDTO;
+        try{
+            String sql = "select * from grade where gradeno = ?;";
+            ps = conn.prepareStatement(sql);
+            ps.setInt(1, gradeno);
+            rs = ps.executeQuery();
+            while (rs.next()) { // rs.next() -> 데이터베이스 테이블에서 한칸이동후 값이 있으면 true 없으면 false
+                gradeDTO = new GradeDTO();
+                gradeDTO.setGradename(rs.getString("gradename"));  // 가져와 객체에 넣어준다.
+                gradeDTO.setGradeno(rs.getInt("gradeno"));  // e가져와 객체에 넣어준다.
+                return gradeDTO;
+            }
+        }catch (Exception e){
+            System.out.println(e);
+        }
+        return null;
+    }
+
+    public int boardnoSearch(int boardno){//보드넘버로 eno 구하기.
+        try{
+            String sql = "select * from board where boardno = ?;";
+            ps = conn.prepareStatement(sql);
+            ps.setInt(1, boardno);
+            rs = ps.executeQuery();
+            while (rs.next()){
+                return rs.getInt("eno"); //board넘버에서 가져온 eno return값으로 보내주기
+            }
+        }catch (Exception e){
+            System.out.println(e);
+        }
+        return 0; // 없으면 0 리턴
+    }
+
+
 
 }
