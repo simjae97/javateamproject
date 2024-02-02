@@ -72,7 +72,6 @@ public class ReportView {
 
             }
         }
-
     }
     public void goReport() {
         TreeMap<ReportDTO, Boolean> reportDTOS = reportController.goReport();
