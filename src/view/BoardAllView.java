@@ -2,6 +2,7 @@ package view;
 
 
 import controller.BoadAllViewController;
+import controller.Board1Controller;
 import model.dto.BoardDTO;
 
 import java.util.ArrayList;
@@ -26,10 +27,10 @@ public class BoardAllView {
                 } else {    // [3] 입력받은 숫자를 매개 변수로 BoadAllViewController View 메소드 실행
                     int nowpage = 1;
                     while (true){
+                        boardDTOArrayList = BoadAllViewController.getInstance().boardAllView(ch);
                         if(boardDTOArrayList.size() == 0){
                             System.out.println("표시할 게시글이 없습니다.");
                         } else {
-                            boardDTOArrayList = BoadAllViewController.getInstance().boardAllView(ch);
                             System.out.printf("%-5s \t %-10s \t %-10s \t %-10s \n","번호","제목","작성자","작성일");
                             for(int i=0+(nowpage-1)*PAGE_NATION; i<PAGE_NATION*nowpage; i++){
                                 if(i >= boardDTOArrayList.size()){break;}
@@ -42,8 +43,14 @@ public class BoardAllView {
                             break;
                         } else if(ch4 == 1){
                             System.out.print("보고싶은 게시물을 선택하시오.> ");
-                            int boardno = scanner.nextInt() - 1;
-                            new Board1View().board1(boardDTOArrayList.get(boardno).getBoardno());
+                            int boardIndex = scanner.nextInt() - 1;
+                            int boardno = boardDTOArrayList.get(boardIndex).getBoardno();
+                            System.out.println(boardno);
+                            if(!Board1Controller.getInstance().board1Checking(boardno)){
+                                System.out.println("권한이 없습니다.");
+                                continue;
+                            }
+                            new Board1View().board1(boardno);
                         } else if(ch4 == 2){
                             new BoardWriteView().BoardWrite();
                         } else if(ch4 == 3){
