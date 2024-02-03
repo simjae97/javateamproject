@@ -13,6 +13,10 @@ import java.util.Map;
 import java.util.TreeMap;
 
 public class ReportDAO extends SuperDao {
+
+    private ReportDAO(){}
+    private static ReportDAO reportDAO = new ReportDAO();
+    public static ReportDAO getInstance(){return reportDAO;}
 //    public ArrayList<ReportDTO> allReport() {
 //        try {
 //            String sql = "SELECT report.* FROM report JOIN reportlog ON report.reportno = reportlog.reportno WHERE reportlog.eno = ? and reportlog.confirm = true;";

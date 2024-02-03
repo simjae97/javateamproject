@@ -9,11 +9,10 @@ import java.util.*;
 
 public class ReportView {
     MainView application = new MainView();
-    ReportController reportController = new ReportController();
 
     public void allReport() {
         while (true) {
-            TreeMap<ReportDTO, Boolean> reportDTOS2 = reportController.allReport2();
+            TreeMap<ReportDTO, Boolean> reportDTOS2 = ReportController.getInstance().allReport2();
 
             ArrayList<Integer> reportS = new ArrayList<>();
             try {
@@ -33,21 +32,21 @@ public class ReportView {
                 System.out.println("보고싶은 게시물 번호 입력");
                 int ch2 = application.scanner.nextInt();
                 if (reportS.contains(ch2)) {
-                    ReportDTO reportDTO = reportController.specificreport(ch2);
+                    ReportDTO reportDTO = ReportController.getInstance().specificreport(ch2);
                     while (true) {
                         System.out.println("제목 : " + reportDTO.getReporttitle());
                         System.out.println("번호 :" + reportDTO.getReportno());
                         System.out.println("내용 : " + reportDTO.getReportcontent());
-                        System.out.println("보낸사람 :" + reportController.enoSearch(reportDTO.getEno()).getEname());//eno로 사람 찾는 함수로 변경
+                        System.out.println("보낸사람 :" + ReportController.getInstance().enoSearch(reportDTO.getEno()).getEname());//eno로 사람 찾는 함수로 변경
                         System.out.println("보낸 일자 : " + reportDTO.getReportdate());
-                        TreeMap<Integer, Boolean> superiors = reportController.findSuperiors(reportDTO.getReportno());
+                        TreeMap<Integer, Boolean> superiors = ReportController.getInstance().findSuperiors(reportDTO.getReportno());
                         for (Map.Entry<Integer, Boolean> entry : superiors.entrySet()) {
                             Integer key = entry.getKey();
                             Boolean value = entry.getValue();
                             // 키와 값을 사용하여 작업 수행
-                            System.out.println("결재자: " + reportController.enoSearch(key).getEname() + ", 결재상태: " + value);
+                            System.out.println("결재자: " + ReportController.getInstance().enoSearch(key).getEname() + ", 결재상태: " + value);
                         }
-                        System.out.println("0.뒤로가기"+(reportDTO.getEno()== EmployController.loginEno.getEno()?"1.결재승인":"1.보고서삭제"));
+                        System.out.println("0.뒤로가기"+(reportDTO.getEno()== EmployController.loginEno.getEno()?"1.게시물삭제":"1.결재승인"));
                         int ch3 = application.scanner.nextInt();
                         if (ch3 == 0) {
                             break;
@@ -56,7 +55,7 @@ public class ReportView {
                             System.out.println("삭제함수 실행");
                         }
                         else if (ch3 == 1) {
-                            if (reportController.accept(reportDTO.getReportno())) {
+                            if (ReportController.getInstance().accept(reportDTO.getReportno())) {
                                 System.out.println("결재완료");
                             }
                             else {
@@ -73,7 +72,7 @@ public class ReportView {
         }
     }
     public void goReport() {
-        TreeMap<ReportDTO, Boolean> reportDTOS = reportController.goReport();
+        TreeMap<ReportDTO, Boolean> reportDTOS = ReportController.getInstance().goReport();
         try {
             for (Map.Entry<ReportDTO, Boolean> entry : reportDTOS.entrySet()) {
                 System.out.println("번호" + entry.getKey().getReportno() + "제목 :" + entry.getKey().getReporttitle() + " 상태 :" + (entry.getValue() ? "결재완료" : "결재대기"));
@@ -83,12 +82,12 @@ public class ReportView {
             if(ch==1){
                 System.out.println("보고싶은 게시물 번호 입력");
                 int ch2 = application.scanner.nextInt();
-                ReportDTO reportDTO = reportController.specificreport(ch2);
+                ReportDTO reportDTO = ReportController.getInstance().specificreport(ch2);
                 while (true) {
                     System.out.println("제목 : " + reportDTO.getReporttitle());
                     System.out.println("번호 :" + reportDTO.getReportno());
                     System.out.println("내용 : " + reportDTO.getReportcontent());
-                    System.out.println("보낸사람 :" + reportController.enoSearch(reportDTO.getEno()).getEname());//eno로 사람 찾는 함수로 변경
+                    System.out.println("보낸사람 :" + ReportController.getInstance().enoSearch(reportDTO.getEno()).getEname());//eno로 사람 찾는 함수로 변경
                     System.out.println("보낸 일자 : " + reportDTO.getReportdate());
                     System.out.println("0.뒤로가기"+(reportDTO.getEno()== EmployController.loginEno.getEno()?"1.보고서삭제 ":" 1.결재승인"));
                     int ch3 = application.scanner.nextInt();
@@ -97,7 +96,7 @@ public class ReportView {
                     }
                     else if (ch3 == 1 && reportDTO.getEno()== EmployController.loginEno.getEno()){
                         System.out.println("삭제함수 실행");
-                        if(reportController.reportDelete(reportDTO.getReportno())){
+                        if(ReportController.getInstance().reportDelete(reportDTO.getReportno())){
                             System.out.println("삭제성공");
                             return;
                         }
@@ -106,7 +105,7 @@ public class ReportView {
                         }
                     }
                     else if (ch3 == 1) {
-                        if (reportController.accept(reportDTO.getReportno())) {
+                        if (ReportController.getInstance().accept(reportDTO.getReportno())) {
                             System.out.println("결재완료");
                         }
                         else {
@@ -130,7 +129,7 @@ public class ReportView {
         ReportDTO reportDTO = new ReportDTO();
         reportDTO.setReporttitle(title);
         reportDTO.setReportcontent(content);
-        ArrayList<EmployeeDTO> superior = reportController.findSuperior();
+        ArrayList<EmployeeDTO> superior = ReportController.getInstance().findSuperior();
         System.out.println("보낼수 있는 사람 ");
         ArrayList<Integer> superiors = new ArrayList<>();
         for (EmployeeDTO i : superior) {
@@ -155,7 +154,7 @@ public class ReportView {
                 return false;
             }
         }
-        return reportController.reportWrite(reportDTO, userArray);
+        return ReportController.getInstance().reportWrite(reportDTO, userArray);
 
     }
 }
