@@ -26,7 +26,7 @@ public class BoardWriteDao extends SuperDao {
                 int boardno = rs.getInt(1);
                 int gradno = loginEno.getGradeno();
                 int partno = loginEno.getPartno();
-                sql = "insert into board(boardno,gradno,partno) values(?,?,?);";
+                sql = "insert into boardpermit(boardno,gradeno,partno) values(?,?,?);";
                 ps = conn.prepareStatement(sql); // getGeneratedKeys() 메소드를 실행 하기위한 매개변수 등록
                 ps.setInt(1,boardno);
                 ps.setInt(2,gradno);
