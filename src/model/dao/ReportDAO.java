@@ -2,8 +2,7 @@ package model.dao;
 
 import controller.EmployController;
 import controller.ReportController;
-import model.dto.EmployeeDTO;
-import model.dto.ReportDTO;
+import model.dto.*;
 
 import javax.annotation.processing.Generated;
 import java.sql.Statement;
@@ -85,6 +84,12 @@ public class ReportDAO extends SuperDao {
 
     public boolean reportWrite(ReportDTO dto, ArrayList<Integer> array) {
         try {
+            int a = dto instanceof WorkreportDTO? 1: dto instanceof VacationreportDTO? 2:dto instanceof PurchasereportDTO?3:0;
+            System.out.println(a);
+            if (a == 0){
+                System.out.println("잘못된 형식의 보고서입니다");
+                return false;
+            }
             String sql = " insert into Report(eno,reporttitle, reportcontent) values (?, ?,?);";
             int loginnum = EmployController.loginEno.getEno();
             // 2. SQL 기재

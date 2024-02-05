@@ -133,7 +133,7 @@ public class ReportView {
             String content1 = application.scanner.next();
             System.out.println("업무 결과 입력");
             String content2 = application.scanner.next();
-            reportDTO = new workreportDTO(title,content1,content2);
+            reportDTO = new WorkreportDTO(title,content1,content2);
         }
 
         if(ch == 2){
@@ -146,7 +146,7 @@ public class ReportView {
             String startdate = application.scanner.next();
             System.out.println("휴가 종료일 입력");
             String enddate = application.scanner.next();
-            reportDTO = new vacationreportDTO(title,content,startdate,enddate);
+            reportDTO = new VacationreportDTO(title,content,startdate,enddate);
         }
         if(ch == 3){
             System.out.println("============구매보고서=========");
@@ -158,7 +158,7 @@ public class ReportView {
             String itemlist = application.scanner.next();
             System.out.println("총가격 입력");
             int totalprice = application.scanner.nextInt();
-            reportDTO = new purchasereportDTO(title,content,itemlist,totalprice);
+            reportDTO = new PurchasereportDTO(title,content,itemlist,totalprice);
         }
 
         ArrayList<Integer> superiors = findSuperior();

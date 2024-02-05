@@ -1,10 +1,10 @@
 package model.dto;
 
-public class vacationreportDTO extends ReportDTO{
+public class VacationreportDTO extends ReportDTO{
     String startdate;
     String enddate;
 
-    public vacationreportDTO(String reporttitle, String reportcontent, String startdate, String enddate) {
+    public VacationreportDTO(String reporttitle, String reportcontent, String startdate, String enddate) {
         super(reporttitle, reportcontent);
         this.startdate = startdate;
         this.enddate = enddate;

@@ -1,10 +1,10 @@
 package model.dto;
 
-public class purchasereportDTO extends ReportDTO{
+public class PurchasereportDTO extends ReportDTO{
     String itemlist;
     int totalprice;
 
-    public purchasereportDTO(String reporttitle, String reportcontent, String itemlist, int totalprice) {
+    public PurchasereportDTO(String reporttitle, String reportcontent, String itemlist, int totalprice) {
         super(reporttitle, reportcontent);
         this.itemlist = itemlist;
         this.totalprice = totalprice;

@@ -1,6 +1,6 @@
 package model.dto;
 
-public class workreportDTO extends ReportDTO{
+public class WorkreportDTO extends ReportDTO{
     String content2;
 
     public String getContent2() {
@@ -11,11 +11,11 @@ public class workreportDTO extends ReportDTO{
         this.content2 = content2;
     }
 
-    public workreportDTO(String content2) {
+    public WorkreportDTO(String content2) {
         this.content2 = content2;
     }
 
-    public workreportDTO(String reporttitle, String reportcontent, String content2) {
+    public WorkreportDTO(String reporttitle, String reportcontent, String content2) {
         super(reporttitle, reportcontent);
         this.content2 = content2;
     }
