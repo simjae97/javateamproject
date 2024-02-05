@@ -75,4 +75,10 @@ public class EmployController {
     public GradeDTO managergradeView(int gradeno){
         return EmployeeDao.getInstance().gradenoSearch(gradeno);
     }
+
+    public boolean changepartno(EmployeeDTO employeeDTO){
+        boolean result= false;
+        result = EmployeeDao.getInstance().changepartno(employeeDTO);
+        return result;
+    }
 }

@@ -52,15 +52,22 @@ public class MainView {
                     } else if(ch2 == 4){
                         new EmployeeView().exit();
 
-                    }else if (ch2==5 && EmployController.loginEno.getGradeno()==5){ // 관리자 권한 부분
+                    }else if(ch2==5 && EmployController.loginEno.getGradeno()==5&& EmployController.loginEno.getPartno()==1){
                         new EmployeeView().employeeInfo();
-                        System.out.println("1.직책변환");
+                        System.out.println("1.직책변환 2.부서변환 3.해고");
                         int manageemployee = scanner.nextInt();
                         scanner.nextLine();
+
                         if(manageemployee == 1){
                             new EmployeeView().changegradeno();
+                        }else if(manageemployee==2){
+                            new EmployeeView().changepartno();
+                        }else if(manageemployee==3){
+                            //해고부분
                         }
 
+                    }else if (ch2==5) { // 관리자 권한 부분
+                        new EmployeeView().employeeInfo();
                     }
                 }
             } else{
