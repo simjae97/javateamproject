@@ -2,11 +2,15 @@ package view;
 
 import controller.EmployController;
 import controller.ReportController;
-import model.dto.*;
+import model.dto.EmployeeDTO;
+import model.dto.ReportDTO;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Map;
+import java.util.TreeMap;
 
-public class ReportView {
+public class oldReportView {
+
     MainView application = new MainView();
 
     public void allReport() {
@@ -16,7 +20,6 @@ public class ReportView {
             ArrayList<Integer> reportS = new ArrayList<>();
             try {
                 for (Map.Entry<ReportDTO, Boolean> entry : reportDTOS2.entrySet()) {
-                    System.out.println(entry.getKey().toString());
                     System.out.println("번호" + entry.getKey().getReportno() + "제목 :" + entry.getKey().getReporttitle() + " 상태 :" + (entry.getValue() ? "결재완료" : "결재대기"));
                     reportS.add(entry.getKey().getReportno());
                 }
@@ -46,31 +49,28 @@ public class ReportView {
                             // 키와 값을 사용하여 작업 수행
                             System.out.println("결재자: " + ReportController.getInstance().enoSearch(key).getEname() + ", 결재상태: " + value);
                         }
-                        System.out.println("0.뒤로가기"+(reportDTO.getEno()== EmployController.loginEno.getEno()?"1.게시물삭제":"1.결재승인"));
+                        System.out.println("0.뒤로가기" + (reportDTO.getEno() == EmployController.loginEno.getEno() ? "1.게시물삭제" : "1.결재승인"));
                         int ch3 = application.scanner.nextInt();
                         if (ch3 == 0) {
                             break;
-                        }
-                        else if (ch3 == 1 && reportDTO.getEno()== EmployController.loginEno.getEno()){
+                        } else if (ch3 == 1 && reportDTO.getEno() == EmployController.loginEno.getEno()) {
                             System.out.println("삭제함수 실행");
-                        }
-                        else if (ch3 == 1) {
+                        } else if (ch3 == 1) {
                             if (ReportController.getInstance().accept(reportDTO.getReportno())) {
                                 System.out.println("결재완료");
-                            }
-                            else {
+                            } else {
                                 System.out.println("결재실패");
                             }
                         }
 
                     }
-                }
-                else {
+                } else {
                     System.out.println("볼 권한이 존재하지 않는 보고서 번호입니다");
                 }
             }
         }
     }
+
     public void goReport() {
         TreeMap<ReportDTO, Boolean> reportDTOS = ReportController.getInstance().goReport();
         try {
@@ -79,7 +79,7 @@ public class ReportView {
             }
             System.out.println("0.뒤로가기 1.게시물확인");
             int ch = application.scanner.nextInt();
-            if(ch==1){
+            if (ch == 1) {
                 System.out.println("보고싶은 게시물 번호 입력");
                 int ch2 = application.scanner.nextInt();
                 ReportDTO reportDTO = ReportController.getInstance().specificreport(ch2);
@@ -89,26 +89,22 @@ public class ReportView {
                     System.out.println("내용 : " + reportDTO.getReportcontent());
                     System.out.println("보낸사람 :" + ReportController.getInstance().enoSearch(reportDTO.getEno()).getEname());//eno로 사람 찾는 함수로 변경
                     System.out.println("보낸 일자 : " + reportDTO.getReportdate());
-                    System.out.println("0.뒤로가기"+(reportDTO.getEno()== EmployController.loginEno.getEno()?"1.보고서삭제 ":" 1.결재승인"));
+                    System.out.println("0.뒤로가기" + (reportDTO.getEno() == EmployController.loginEno.getEno() ? "1.보고서삭제 " : " 1.결재승인"));
                     int ch3 = application.scanner.nextInt();
                     if (ch3 == 0) {
                         break;
-                    }
-                    else if (ch3 == 1 && reportDTO.getEno()== EmployController.loginEno.getEno()){
+                    } else if (ch3 == 1 && reportDTO.getEno() == EmployController.loginEno.getEno()) {
                         System.out.println("삭제함수 실행");
-                        if(ReportController.getInstance().reportDelete(reportDTO.getReportno())){
+                        if (ReportController.getInstance().reportDelete(reportDTO.getReportno())) {
                             System.out.println("삭제성공");
                             return;
-                        }
-                        else{
+                        } else {
                             System.out.println("삭제 실패");
                         }
-                    }
-                    else if (ch3 == 1) {
+                    } else if (ch3 == 1) {
                         if (ReportController.getInstance().accept(reportDTO.getReportno())) {
                             System.out.println("결재완료");
-                        }
-                        else {
+                        } else {
                             System.out.println("결재실패");
                         }
                     }
@@ -121,47 +117,22 @@ public class ReportView {
     }
 
     public boolean writeReport() {
-        System.out.println("보고서 카테고리 입력"); //추후 보고서 출력 구현
-        int ch = application.scanner.nextInt();
+        System.out.println("제목 입력");
+        String title = application.scanner.next();
+        System.out.println("내용 입력");
+        String content = application.scanner.next();
 
-        ReportDTO reportDTO = null;
-        if(ch == 1){
-            System.out.println("============업무보고서=========");
-            System.out.println("제목 입력");
-            String title = application.scanner.next();
-            System.out.println("업무 내용 입력");
-            String content1 = application.scanner.next();
-            System.out.println("업무 결과 입력");
-            String content2 = application.scanner.next();
-            reportDTO = new workreportDTO(title,content1,content2);
+        ReportDTO reportDTO = new ReportDTO();
+        reportDTO.setReporttitle(title);
+        reportDTO.setReportcontent(content);
+        ArrayList<EmployeeDTO> superior = ReportController.getInstance().findSuperior();
+        System.out.println("보낼수 있는 사람 ");
+        ArrayList<Integer> superiors = new ArrayList<>();
+        for (EmployeeDTO i : superior) {
+            System.out.println("번호 :" + i.getEno());
+            System.out.println("성함 :" + i.getEname());
+            superiors.add(i.getEno());
         }
-
-        if(ch == 2){
-            System.out.println("============휴가보고서=========");
-            System.out.println("제목 입력");
-            String title = application.scanner.next();
-            System.out.println("휴가사유 입력");
-            String content = application.scanner.next();
-            System.out.println("휴가 시작일 입력");
-            String startdate = application.scanner.next();
-            System.out.println("휴가 종료일 입력");
-            String enddate = application.scanner.next();
-            reportDTO = new vacationreportDTO(title,content,startdate,enddate);
-        }
-        if(ch == 3){
-            System.out.println("============구매보고서=========");
-            System.out.println("제목 입력");
-            String title = application.scanner.next();
-            System.out.println("구매사유 입력");
-            String content = application.scanner.next();
-            System.out.println("품목/개수/개별가격 입력");
-            String itemlist = application.scanner.next();
-            System.out.println("총가격 입력");
-            int totalprice = application.scanner.nextInt();
-            reportDTO = new purchasereportDTO(title,content,itemlist,totalprice);
-        }
-
-        ArrayList<Integer> superiors = findSuperior();
         System.out.println("보낼 사람 수 선택");
         int users = application.scanner.nextInt();
         if (users > superiors.size()) {
@@ -180,18 +151,5 @@ public class ReportView {
             }
         }
         return ReportController.getInstance().reportWrite(reportDTO, userArray);
-
-    }
-
-    public ArrayList<Integer> findSuperior(){
-        ArrayList<EmployeeDTO> superior = ReportController.getInstance().findSuperior();
-        System.out.println("보낼수 있는 사람 ");
-        ArrayList<Integer> superiors = new ArrayList<>();
-        for (EmployeeDTO i : superior) {
-            System.out.println("번호 :" + i.getEno());
-            System.out.println("성함 :" + i.getEname());
-            superiors.add(i.getEno());
-        }
-        return superiors;
     }
 }

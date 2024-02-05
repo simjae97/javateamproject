@@ -19,6 +19,21 @@ public class ReportDTO implements Comparable<ReportDTO> {
         return Integer.compare(this.reportno, o.reportno);
     }
 
+    @Override
+    public String toString() {
+        return "ReportDTO{" +
+                "eno=" + eno +
+                ", reportno=" + reportno +
+                ", reporttitle='" + reporttitle + '\'' +
+                ", reportcontent='" + reportcontent + '\'' +
+                ", reportdate='" + reportdate + '\'' +
+                '}';
+    }
+
+    public ReportDTO(String reporttitle, String reportcontent) {
+        this.reporttitle = reporttitle;
+        this.reportcontent = reportcontent;
+    }
 
     public ReportDTO(int eno, int reportno, String reporttitle, String reportcontent) {
         this.eno = eno;
@@ -66,4 +81,5 @@ public class ReportDTO implements Comparable<ReportDTO> {
     public void setReportdate(String reportdate) {
         this.reportdate = reportdate;
     }
+
 }

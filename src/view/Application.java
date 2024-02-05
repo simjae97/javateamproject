@@ -1,5 +1,6 @@
 package view;
 
+import model.dao.EmployeeDao;
 import model.dto.EmployeeDTO;
 
 import java.util.Scanner;
