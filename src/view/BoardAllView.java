@@ -17,7 +17,7 @@ public class BoardAllView {
     public void boardAllView(){
         while (true){
             try {
-                System.out.println("0.뒤로가기 1.전체게시판 2.직급게시판 3.부서별게시판");
+                System.out.println("0.뒤로가기 1.전체게시판 2.부서게시판 3.직급게시판");
                 System.out.println("선택 > "); int ch = scanner.nextInt();
                 ArrayList<BoardDTO> boardDTOArrayList = new ArrayList<>();  // [1]글 출력을 위한 배열 생성
                 if(ch == 0){
@@ -27,16 +27,25 @@ public class BoardAllView {
                 } else {    // [3] 입력받은 숫자를 매개 변수로 BoadAllViewController View 메소드 실행
                     int nowpage = 1;
                     while (true){
+                        // 1. 공지글 먼저 상위로 출력 - 공지는 항상 유지
+                        boardDTOArrayList = BoadAllViewController.getInstance().boardAllView(0);
+                        System.out.printf("%-5s \t %-20s \t %-10s \t %-10s \n","번호","제목\t","작성자","작성일");
+                        for(int i=0; i<boardDTOArrayList.size(); i++){
+                            System.out.printf("%-5s \t %-20s \t %-10s \t %-10s \n", "공지", boardDTOArrayList.get(i).getBoardtitle(), BoadAllViewController.getInstance().enoSearch(boardDTOArrayList.get(i).getEno()).getEname(), boardDTOArrayList.get(i).getBoarddate().split(":")[0]);
+                        }
+                        // 공지글 출력 종료
+
+                        // 2. 카테고리별 게시판 출력 15개씩
                         boardDTOArrayList = BoadAllViewController.getInstance().boardAllView(ch);
                         if(boardDTOArrayList.size() == 0){
                             System.out.println("표시할 게시글이 없습니다.");
                         } else {
-                            System.out.printf("%-5s \t %-10s \t %-10s \t %-10s \n","번호","제목","작성자","작성일");
                             for(int i=0+(nowpage-1)*PAGE_NATION; i<PAGE_NATION*nowpage; i++){
                                 if(i >= boardDTOArrayList.size()){break;}
-                                System.out.printf("%-5d \t %-10s \t %-10s \t %-10s \n", i + 1, boardDTOArrayList.get(i).getBoardtitle(), BoadAllViewController.getInstance().enoSearch(boardDTOArrayList.get(i).getEno()).getEname(), boardDTOArrayList.get(i).getBoarddate().split(":")[0]);
+                                System.out.printf("%-5d \t %-20s \t %-10s \t %-10s \n", i + 1, boardDTOArrayList.get(i).getBoardtitle(), BoadAllViewController.getInstance().enoSearch(boardDTOArrayList.get(i).getEno()).getEname(), boardDTOArrayList.get(i).getBoarddate().split(":")[0]);
                             }
                         }
+                        // 게시판 공지 종료
                         System.out.println("0.뒤로가기1.개별글보기 2.글쓰기 3.이전페이지 4.다음페이지");
                         int ch4 = scanner.nextInt();
                         if(ch4 == 0){
