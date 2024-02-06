@@ -2,8 +2,7 @@ package model.dao;
 
 import controller.EmployController;
 import controller.ReportController;
-import model.dto.EmployeeDTO;
-import model.dto.ReportDTO;
+import model.dto.*;
 
 import javax.annotation.processing.Generated;
 import java.sql.Statement;
@@ -13,6 +12,10 @@ import java.util.Map;
 import java.util.TreeMap;
 
 public class ReportDAO extends SuperDao {
+
+    private ReportDAO(){}
+    private static ReportDAO reportDAO = new ReportDAO();
+    public static ReportDAO getInstance(){return reportDAO;}
 //    public ArrayList<ReportDTO> allReport() {
 //        try {
 //            String sql = "SELECT report.* FROM report JOIN reportlog ON report.reportno = reportlog.reportno WHERE reportlog.eno = ? and reportlog.confirm = true;";
@@ -34,7 +37,7 @@ public class ReportDAO extends SuperDao {
 //        return null;
 //    }
 
-    public TreeMap<ReportDTO, Boolean> allReport2() {
+    public TreeMap<ReportDTO, Boolean> allReport2() { //cno같이 출력
         try {
             String sql = "SELECT report.*,reportlog.confirm FROM report JOIN reportlog ON report.reportno = reportlog.reportno WHERE reportlog.eno = ?;";
             int loginnum = EmployController.loginEno.getEno();
@@ -46,6 +49,7 @@ public class ReportDAO extends SuperDao {
                 ReportDTO reportDTO = new ReportDTO();
                 reportDTO.setReporttitle(rs.getString("reporttitle"));
                 reportDTO.setReportno(rs.getInt("reportno"));
+                reportDTO.setCno(rs.getInt("cno"));
                 boolean state = rs.getBoolean("confirm");
                 reportDTOS.put(reportDTO, state);
             }
@@ -79,9 +83,14 @@ public class ReportDAO extends SuperDao {
 //        return null;
 //    }
 
-    public boolean reportWrite(ReportDTO dto, ArrayList<Integer> array) {
+    public boolean reportWrite(ReportDTO dto, ArrayList<Integer> array) { //cno추가,cno에 따른 다운캐스팅후 개별테이블에 입력
         try {
-            String sql = " insert into Report(eno,reporttitle, reportcontent) values (?, ?,?);";
+            int cno = dto instanceof WorkreportDTO? 1: dto instanceof VacationreportDTO? 2:dto instanceof PurchasereportDTO?3:0;
+            if (cno == 0){
+                System.out.println("잘못된 형식의 보고서입니다");
+                return false;
+            }
+            String sql = " insert into Report(eno,reporttitle, reportcontent, cno) values (?, ?,?,?);";
             int loginnum = EmployController.loginEno.getEno();
             // 2. SQL 기재
             ps = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
@@ -89,7 +98,7 @@ public class ReportDAO extends SuperDao {
             ps.setInt(1, loginnum); // 기재된 SQL내 첫번째 ?에 값 대입
             ps.setString(2, dto.getReporttitle()); // 기재된 SQL내 2번째 ?에 값 대입
             ps.setString(3, dto.getReportcontent()); // 기재된 SQL내 3번째 ?에 값 대입
-
+            ps.setInt(4, cno);
 
             // 3. SQL 실행 // 4. SQL 결과
             int count = ps.executeUpdate();//executeUpdate() 기재된 sql 실행하고 insert된 레코드 개수 반환.
@@ -99,6 +108,62 @@ public class ReportDAO extends SuperDao {
             int pk = rs.getInt(1); //출력된 primary key를 pk에 저장
 
             if (count == 1) { // 1개가 영향을 받았다는 소리니까 혹시 0개일때를 대비해서 유효성
+                if (cno == 1){
+                    WorkreportDTO workreportDTO = (WorkreportDTO) dto;
+                    sql = "insert into workreport(reportno,content2) values(?,?)";
+                    ps = conn.prepareStatement(sql);
+                    ps.setInt(1,pk);
+                    ps.setString(2,workreportDTO.getContent2());
+                    int count2 = ps.executeUpdate();
+                    if(count2 != 1){
+                        sql = "delete from report where reportno = ?";
+                        ps = conn.prepareStatement(sql);
+                        ps.setInt(1,pk);
+                        ps.executeUpdate();
+                        return false;
+                    }
+                }
+                if (cno == 2){ //휴가용으로 바꾸기
+                    VacationreportDTO vacationreportDTO = (VacationreportDTO) dto;
+                    sql = "insert into vacationreport(reportno,startdate,enddate) values(?,?,?)";
+                    String startdate =vacationreportDTO.getStartdate();
+                    String enddate = vacationreportDTO.getEnddate();
+                    if(startdate.compareTo(enddate) >= 0){
+                        sql = "delete from report where reportno = ?";
+                        ps = conn.prepareStatement(sql);
+                        ps.setInt(1,pk);
+                        ps.executeUpdate();
+                        return false;
+                    }
+                    ps = conn.prepareStatement(sql);
+                    ps.setInt(1,pk);
+                    ps.setString(2,vacationreportDTO.getStartdate());
+                    ps.setString(3,vacationreportDTO.getEnddate());
+                    int count2 = ps.executeUpdate();
+                    if(count2 != 1){
+                        sql = "delete from report where reportno = ?";
+                        ps = conn.prepareStatement(sql);
+                        ps.setInt(1,pk);
+                        ps.executeUpdate();
+                        return false;
+                    }
+                }
+                if (cno == 3){ //구매용으로 바꾸기
+                    PurchasereportDTO purchasereportDTO = (PurchasereportDTO) dto;
+                    sql = "insert into purchasereport(reportno,itemlist,totalprice) values(?,?,?)";
+                    ps = conn.prepareStatement(sql);
+                    ps.setInt(1,pk);
+                    ps.setString(2,purchasereportDTO.getItemlist());
+                    ps.setInt(3,purchasereportDTO.getTotalprice());
+                    int count2 = ps.executeUpdate();
+                    if(count2 != 1){
+                        sql = "delete from report where reportno = ?";
+                        ps = conn.prepareStatement(sql);
+                        ps.setInt(1,pk);
+                        ps.executeUpdate();
+                        return false;
+                    }
+                }
                 for (int i : array) {
                     sql = "insert into rEPOrtLOg(reportno, eno) vALuEs(?,?);";
                     ps = conn.prepareStatement(sql);
@@ -106,7 +171,14 @@ public class ReportDAO extends SuperDao {
                     ps.setInt(2, i);
                     int check = ps.executeUpdate();
                     if (check != 1) {
-                        System.out.println("오류발생");
+                        sql = "delete from report where reportno = ?";
+                        ps = conn.prepareStatement(sql);
+                        ps.setInt(1,pk);
+                        ps.executeUpdate();
+                        sql = "delete from reportlog where reportno = ?";
+                        ps = conn.prepareStatement(sql);
+                        ps.setInt(1,pk);
+                        ps.executeUpdate();
                         return false;
                     }
                 }
@@ -120,9 +192,9 @@ public class ReportDAO extends SuperDao {
         return false; // 실패 샘플
     }
 
-    public TreeMap<ReportDTO, Boolean> goReport() {
+    public TreeMap<ReportDTO, Boolean> goReport() { //변동없음(아직)
         try {
-            String sql = "SElect report.reportno,report.reporttitle,Count(*) as count FROM report JOIN reportlog ON report.reportno = reportlog.reportno WHERE report.eno = ? group by report.reportno;";
+            String sql = "SElect report.reportno,report.reporttitle,cno,Count(*) as count FROM report JOIN reportlog ON report.reportno = reportlog.reportno WHERE report.eno = ? group by report.reportno;";
             String sql2 = "SELECT report.reportno,Count(*) as count FROM report JOIN reportlog ON report.reportno = reportlog.reportno WHERE report.eno = ? and reportlog.confirm =true group by report.reportno, reportlog.confirm;";
             int loginnum = EmployController.loginEno.getEno();
 
@@ -143,6 +215,7 @@ public class ReportDAO extends SuperDao {
                 int reportno = rs.getInt("reportno");
                 reportDTO.setReporttitle(rs.getString("reporttitle"));
                 reportDTO.setReportno(reportno);
+                reportDTO.setCno(rs.getInt("cno"));
                 int count = rs.getInt("count");
                 int result = 0;
                 for (Map.Entry<Integer, Integer> entry : compare.entrySet()) {
@@ -167,20 +240,64 @@ public class ReportDAO extends SuperDao {
         return null;
     }
 
-    public ReportDTO specificreport(int num) {
+    public ReportDTO specificreport(int num) { //변동없음(아직)
         String sql = "select * from report where reportno = ? ";
         try {
             ps = conn.prepareStatement(sql);
             ps.setInt(1, num);
             rs = ps.executeQuery();
             if(rs.next()){
-                ReportDTO reportDTO = new ReportDTO();
-                reportDTO.setReportcontent(rs.getString("reportcontent"));
-                reportDTO.setReporttitle(rs.getString("reporttitle"));
-                reportDTO.setEno(rs.getInt("eno"));
-                reportDTO.setReportno(rs.getInt("reportno"));
-                reportDTO.setReportdate(rs.getString("reportdate"));
-                return reportDTO;
+                int cno = rs.getInt("cno");
+                if(cno == 1){
+                    WorkreportDTO reportDTO = new WorkreportDTO();
+                    reportDTO.setReportcontent(rs.getString("reportcontent"));
+                    reportDTO.setReporttitle(rs.getString("reporttitle"));
+                    reportDTO.setEno(rs.getInt("eno"));
+                    reportDTO.setReportno(rs.getInt("reportno"));
+                    reportDTO.setReportdate(rs.getString("reportdate"));
+                    sql = "select * from workreport where reportno =?";
+                    ps = conn.prepareStatement(sql);
+                    ps.setInt(1,num);
+                    rs2 = ps.executeQuery();
+                    if(rs2.next()){
+                        reportDTO.setContent2(rs2.getString("content2"));
+                    }
+                    return reportDTO;
+                }
+                if(cno == 2){
+                    VacationreportDTO reportDTO = new VacationreportDTO();
+                    reportDTO.setReportcontent(rs.getString("reportcontent"));
+                    reportDTO.setReporttitle(rs.getString("reporttitle"));
+                    reportDTO.setEno(rs.getInt("eno"));
+                    reportDTO.setReportno(rs.getInt("reportno"));
+                    reportDTO.setReportdate(rs.getString("reportdate"));
+                    sql = "select * from Vacationreport where reportno =?";
+                    ps = conn.prepareStatement(sql);
+                    ps.setInt(1,num);
+                    rs2 = ps.executeQuery();
+                    if(rs2.next()){
+                        reportDTO.setStartdate(rs2.getString("startdate"));
+                        reportDTO.setEnddate(rs2.getString("enddate"));
+                    }
+                    return reportDTO;
+                }
+                if(cno == 3){
+                    PurchasereportDTO reportDTO = new PurchasereportDTO();
+                    reportDTO.setReportcontent(rs.getString("reportcontent"));
+                    reportDTO.setReporttitle(rs.getString("reporttitle"));
+                    reportDTO.setEno(rs.getInt("eno"));
+                    reportDTO.setReportno(rs.getInt("reportno"));
+                    reportDTO.setReportdate(rs.getString("reportdate"));
+                    sql = "select * from Vacationreport where reportno = ?";
+                    ps = conn.prepareStatement(sql);
+                    ps.setInt(1,num);
+                    rs2 = ps.executeQuery();
+                    if(rs2.next()){
+                        reportDTO.setItemlist(rs2.getString("itemlist"));
+                        reportDTO.setTotalprice(rs2.getInt("totalprice"));
+                    }
+                    return reportDTO;
+                }
             }
         }
         catch (Exception e){
@@ -189,7 +306,7 @@ public class ReportDAO extends SuperDao {
         return null;
     }
 
-    public boolean accept(int num){
+    public boolean accept(int num){ //변동없음(아직)
         String sql = "update reportlog set confirm = true where reportno = ? and eno = ?";
         try {
             ps = conn.prepareStatement(sql);
@@ -206,7 +323,7 @@ public class ReportDAO extends SuperDao {
         return false;
     }
 
-    public ArrayList<EmployeeDTO> findSuperior(){
+    public ArrayList<EmployeeDTO> findSuperior(){ //변동없음(아직)
       try {
           String sql = "SELECT * FROM Employee WHERE gradeno>? and partno = ?;";
           int logingrade = EmployController.loginEno.getGradeno();
@@ -230,7 +347,7 @@ public class ReportDAO extends SuperDao {
       }
         return null;
     }
-    public boolean reportDelete(int num){
+    public boolean reportDelete(int num){ //변동없음(아직)
         try {
             String sql = "DELETE from report WHERE reportno = ? ";
             ps = conn.prepareStatement(sql);
@@ -245,7 +362,7 @@ public class ReportDAO extends SuperDao {
         }
         return false;
     }
-    public TreeMap<Integer, Boolean > findSuperiors(int num){
+    public TreeMap<Integer, Boolean > findSuperiors(int num){ //변동없음 (아직)
         try {
             TreeMap<Integer, Boolean > superiors = new TreeMap<>();
             String sql = "select eno, confirm from reportlog where reportno = ?";
@@ -261,5 +378,40 @@ public class ReportDAO extends SuperDao {
             System.out.println(e);
         }
         return null;
+    }
+
+    public String findType(int cno){ //신규 추가
+        try {
+            String sql = "select cname from reportcategory where cno = ?";
+            ps = conn.prepareStatement(sql);
+            ps.setInt(1, cno);
+            rs = ps.executeQuery();
+            if(rs.next()){
+                return rs.getString("cname");
+            }
+        }
+        catch (Exception e){
+            System.out.println(e);
+        }
+
+        return null;
+    }
+
+    public ArrayList<HashMap<Integer,String >> findCategories(){
+        ArrayList<HashMap<Integer,String >> result = new ArrayList<>();
+        try {
+            String sql = "select * from reportcategory";
+            ps = conn.prepareStatement(sql);
+            rs = ps.executeQuery();
+            while(rs.next()){
+                HashMap<Integer, String> input = new HashMap<>();
+                input.put(rs.getInt("cno"),rs.getString("cname"));
+                result.add(input);
+            }
+        }
+        catch (Exception e){
+            System.out.println(e);
+        }
+        return result;
     }
 }

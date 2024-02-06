@@ -18,4 +18,8 @@ public class Board1Controller { // 개별 글 출력 컨트롤러
         Map<String,String> result = Board1Dao.getInstance().board1(boardno);
         return result;
     }
+
+    public boolean board1Checking(int boaradno){
+        return Board1Dao.getInstance().board1Checking(boaradno, EmployController.loginEno);
+    }
 }

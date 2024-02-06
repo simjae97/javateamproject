@@ -7,6 +7,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.util.ArrayList;
 
 public class SuperDao {
     protected Connection conn;
@@ -43,6 +44,26 @@ public class SuperDao {
                 employeeDTO.setPartno(rs.getInt("partno")); // partno 가져와서 객체에 넣어준다.
                 return employeeDTO;
             }
+        }catch (Exception e){
+            System.out.println(e);
+        }
+        return null;
+    }
+
+    public ArrayList<PartDTO> partView(){ // 전체 Part출력용 Dao기능
+        PartDTO partDTO;
+        try{
+            String sql = "select * from part order by partno";
+            ArrayList<PartDTO> partArr = new ArrayList<>();
+            ps = conn.prepareStatement(sql);
+            rs = ps.executeQuery();
+            while (rs.next()) { // rs.next() -> 데이터베이스 테이블에서 한칸이동후 값이 있으면 true 없으면 false
+                partDTO = new PartDTO();
+                partDTO.setPartname(rs.getString("partname"));  // eno 가져와 객체에 넣어준다.
+                partDTO.setPartno(rs.getInt("partno"));  // eid 가져와 객체에 넣어준다.
+                partArr.add(partDTO);
+            }
+            return partArr;
         }catch (Exception e){
             System.out.println(e);
         }

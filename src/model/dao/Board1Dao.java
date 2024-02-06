@@ -53,5 +53,30 @@ public class Board1Dao extends SuperDao{ // 개별 글 관련 dao
         return null;// DB에서 찾은 boardno에 맞는 Query쓰기
     }
 
+    public boolean board1Checking(int boradno, EmployeeDTO loginEno){
+        try {
+            String sql = "select * from board where boardno = ? and eno = ?;";
+            ps = conn.prepareStatement(sql);
+            ps.setInt(1,boradno);
+            ps.setInt(2,loginEno.getEno());
+            rs = ps.executeQuery();
+            if(rs.next()){
+                return true;
+            } else {
+                sql = "select * from boardpermit where boardno = ? and (gradeno = ? or partno = ?)";
+                ps = conn.prepareStatement(sql);
+                ps.setInt(1,boradno);
+                ps.setInt(2,loginEno.getGradeno());
+                ps.setInt(3,loginEno.getPartno());
+                rs = ps.executeQuery();
+                if(rs.next()){
+                    return true;
+                }
+            }
+        } catch (Exception e) {
+            System.out.println(e);
+        }
 
+        return false;
+    }
 }

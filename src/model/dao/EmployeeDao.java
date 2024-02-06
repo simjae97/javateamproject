@@ -12,7 +12,6 @@ public class EmployeeDao extends SuperDao{
     private static EmployeeDao employeeDao = new EmployeeDao();
     public static EmployeeDao getInstance(){return  employeeDao;}
 
-
     public int signUp(EmployeeDTO employeeDTO){
         try {
             String sql = "insert into employee(eid,epw,ename,ephone,partno,eemail) values (?,?,?,?,?,?)";
