@@ -1,5 +1,10 @@
 package model.dto;
 
+import controller.ReportController;
+import model.dao.EmployeeDao;
+import model.dao.ReportDAO;
+import model.dao.SuperDao;
+
 public class ReportDTO implements Comparable<ReportDTO> {
 
     private int eno;
@@ -8,8 +13,16 @@ public class ReportDTO implements Comparable<ReportDTO> {
     private String reportcontent;
 
     private String reportdate;
+    private int cno;
 
 
+    public int getCno() {
+        return cno;
+    }
+
+    public void setCno(int cno) {
+        this.cno = cno;
+    }
 
     public ReportDTO() {
     }
@@ -21,13 +34,8 @@ public class ReportDTO implements Comparable<ReportDTO> {
 
     @Override
     public String toString() {
-        return "ReportDTO{" +
-                "eno=" + eno +
-                ", reportno=" + reportno +
-                ", reporttitle='" + reporttitle + '\'' +
-                ", reportcontent='" + reportcontent + '\'' +
-                ", reportdate='" + reportdate + '\'' +
-                '}';
+        return "제목 : " + reporttitle+"\n 번호 :" + reportno+
+                "\n보낸사람 :" + ReportController.getInstance().enoSearch(eno).getEname()+ "\n보낸 일자 : " + reportdate;
     }
 
     public ReportDTO(String reporttitle, String reportcontent) {

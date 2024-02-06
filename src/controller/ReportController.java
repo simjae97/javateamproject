@@ -5,6 +5,7 @@ import model.dto.EmployeeDTO;
 import model.dto.ReportDTO;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.TreeMap;
 
 
@@ -53,4 +54,7 @@ public class ReportController {
     public TreeMap<Integer, Boolean > findSuperiors(int num){
         return ReportDAO.getInstance().findSuperiors(num);
     }
+    public String findType(int cno){return ReportDAO.getInstance().findType(cno);}
+
+    public ArrayList<HashMap<Integer,String >> findCategories(){return ReportDAO.getInstance().findCategories();}
 }

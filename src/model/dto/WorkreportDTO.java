@@ -15,6 +15,9 @@ public class WorkreportDTO extends ReportDTO{
         this.content2 = content2;
     }
 
+    public WorkreportDTO() {
+    }
+
     public WorkreportDTO(String reporttitle, String reportcontent, String content2) {
         super(reporttitle, reportcontent);
         this.content2 = content2;
@@ -22,8 +25,6 @@ public class WorkreportDTO extends ReportDTO{
 
     @Override
     public String toString() {
-        return super.toString() +
-                "content2='" + content2 + '\'' +
-                '}';
+        return super.toString() + "\n 업무 내용 :"+super.getReportcontent()+"\n 업무 결과 :"+content2;
     }
 }

@@ -3,6 +3,7 @@ package model.dto;
 public class VacationreportDTO extends ReportDTO{
     String startdate;
     String enddate;
+    public VacationreportDTO(){}
 
     public VacationreportDTO(String reporttitle, String reportcontent, String startdate, String enddate) {
         super(reporttitle, reportcontent);
@@ -28,9 +29,9 @@ public class VacationreportDTO extends ReportDTO{
 
     @Override
     public String toString() {
-        return "안녕월드"+super.toString() +
-                "startdate='" + startdate + '\'' +
-                ", enddate='" + enddate + '\'' +
-                '}';
+        return super.toString() +
+                "\n 휴가 사유 :"+super.getReportcontent()+
+                "\n 휴가시작일 :" + startdate +
+                ", \n 휴가종료일 :" + enddate;
     }
 }

@@ -12,17 +12,7 @@ public class ReportView {
     public void allReport() {
         while (true) {
             TreeMap<ReportDTO, Boolean> reportDTOS2 = ReportController.getInstance().allReport2();
-
-            ArrayList<Integer> reportS = new ArrayList<>();
-            try {
-                for (Map.Entry<ReportDTO, Boolean> entry : reportDTOS2.entrySet()) {
-                    System.out.println(entry.getKey().toString());
-                    System.out.println("번호" + entry.getKey().getReportno() + "제목 :" + entry.getKey().getReporttitle() + " 상태 :" + (entry.getValue() ? "결재완료" : "결재대기"));
-                    reportS.add(entry.getKey().getReportno());
-                }
-            } catch (Exception e) {
-                System.out.println("서류함이 비었습니다");
-            }
+            ArrayList<Integer> reportS = allsend(reportDTOS2);
 
             System.out.println("0.뒤로가기 1.개별보고서 보기");
             int ch = application.scanner.nextInt();
@@ -34,11 +24,8 @@ public class ReportView {
                 if (reportS.contains(ch2)) {
                     ReportDTO reportDTO = ReportController.getInstance().specificreport(ch2);
                     while (true) {
-                        System.out.println("제목 : " + reportDTO.getReporttitle());
-                        System.out.println("번호 :" + reportDTO.getReportno());
-                        System.out.println("내용 : " + reportDTO.getReportcontent());
-                        System.out.println("보낸사람 :" + ReportController.getInstance().enoSearch(reportDTO.getEno()).getEname());//eno로 사람 찾는 함수로 변경
-                        System.out.println("보낸 일자 : " + reportDTO.getReportdate());
+                        System.out.println(reportDTO.toString());
+
                         TreeMap<Integer, Boolean> superiors = ReportController.getInstance().findSuperiors(reportDTO.getReportno());
                         for (Map.Entry<Integer, Boolean> entry : superiors.entrySet()) {
                             Integer key = entry.getKey();
@@ -73,60 +60,60 @@ public class ReportView {
     }
     public void goReport() {
         TreeMap<ReportDTO, Boolean> reportDTOS = ReportController.getInstance().goReport();
-        try {
-            for (Map.Entry<ReportDTO, Boolean> entry : reportDTOS.entrySet()) {
-                System.out.println("번호" + entry.getKey().getReportno() + "제목 :" + entry.getKey().getReporttitle() + " 상태 :" + (entry.getValue() ? "결재완료" : "결재대기"));
-            }
-            System.out.println("0.뒤로가기 1.게시물확인");
-            int ch = application.scanner.nextInt();
-            if(ch==1){
-                System.out.println("보고싶은 게시물 번호 입력");
-                int ch2 = application.scanner.nextInt();
+        ArrayList<Integer> reportS = allsend(reportDTOS);
+        System.out.println("0.뒤로가기 1.게시물확인");
+        int ch = application.scanner.nextInt();
+        if (ch == 1) {
+            System.out.println("보고싶은 게시물 번호 입력");
+            int ch2 = application.scanner.nextInt();
+            if (reportS.contains(ch2)) {
                 ReportDTO reportDTO = ReportController.getInstance().specificreport(ch2);
                 while (true) {
-                    System.out.println("제목 : " + reportDTO.getReporttitle());
-                    System.out.println("번호 :" + reportDTO.getReportno());
-                    System.out.println("내용 : " + reportDTO.getReportcontent());
-                    System.out.println("보낸사람 :" + ReportController.getInstance().enoSearch(reportDTO.getEno()).getEname());//eno로 사람 찾는 함수로 변경
-                    System.out.println("보낸 일자 : " + reportDTO.getReportdate());
-                    System.out.println("0.뒤로가기"+(reportDTO.getEno()== EmployController.loginEno.getEno()?"1.보고서삭제 ":" 1.결재승인"));
+                    System.out.println(reportDTO.toString());
+                    TreeMap<Integer, Boolean> superiors = ReportController.getInstance().findSuperiors(reportDTO.getReportno());
+                    for (Map.Entry<Integer, Boolean> entry : superiors.entrySet()) {
+                        Integer key = entry.getKey();
+                        Boolean value = entry.getValue();
+                        // 키와 값을 사용하여 작업 수행
+                        System.out.println("결재자: " + ReportController.getInstance().enoSearch(key).getEname() + ", 결재상태: " + value);
+                    }
+                    System.out.println("0.뒤로가기" + (reportDTO.getEno() == EmployController.loginEno.getEno() ? "1.보고서삭제 " : " 1.결재승인"));
                     int ch3 = application.scanner.nextInt();
                     if (ch3 == 0) {
                         break;
-                    }
-                    else if (ch3 == 1 && reportDTO.getEno()== EmployController.loginEno.getEno()){
+                    } else if (ch3 == 1 && reportDTO.getEno() == EmployController.loginEno.getEno()) {
                         System.out.println("삭제함수 실행");
-                        if(ReportController.getInstance().reportDelete(reportDTO.getReportno())){
+                        if (ReportController.getInstance().reportDelete(reportDTO.getReportno())) {
                             System.out.println("삭제성공");
                             return;
-                        }
-                        else{
+                        } else {
                             System.out.println("삭제 실패");
                         }
-                    }
-                    else if (ch3 == 1) {
+                    } else if (ch3 == 1) {
                         if (ReportController.getInstance().accept(reportDTO.getReportno())) {
                             System.out.println("결재완료");
-                        }
-                        else {
+                        } else {
                             System.out.println("결재실패");
                         }
                     }
-
                 }
             }
-        } catch (Exception e) {
-            System.out.println(e);
+            else {
+                System.out.println("볼 권한이 없는 게시물입니다");
+            }
         }
     }
-
     public boolean writeReport() {
-        System.out.println("보고서 카테고리 입력"); //추후 보고서 출력 구현
+        ArrayList <Integer> reportlist = findCategories();
+        System.out.println("보고서 카테고리 번호 입력"); //추후 보고서 출력 구현
         int ch = application.scanner.nextInt();
-
+        if(!reportlist.contains(ch)){
+            System.out.println("없는 카테고리입니다");
+            return false;
+        }
+        System.out.println("============"+ReportController.getInstance().findType(ch)+"=========");
         ReportDTO reportDTO = null;
         if(ch == 1){
-            System.out.println("============업무보고서=========");
             System.out.println("제목 입력");
             String title = application.scanner.next();
             System.out.println("업무 내용 입력");
@@ -137,7 +124,6 @@ public class ReportView {
         }
 
         if(ch == 2){
-            System.out.println("============휴가보고서=========");
             System.out.println("제목 입력");
             String title = application.scanner.next();
             System.out.println("휴가사유 입력");
@@ -149,7 +135,6 @@ public class ReportView {
             reportDTO = new VacationreportDTO(title,content,startdate,enddate);
         }
         if(ch == 3){
-            System.out.println("============구매보고서=========");
             System.out.println("제목 입력");
             String title = application.scanner.next();
             System.out.println("구매사유 입력");
@@ -194,4 +179,35 @@ public class ReportView {
         }
         return superiors;
     }
+
+    public ArrayList<Integer> allsend(TreeMap<ReportDTO, Boolean> send){
+        ArrayList<Integer> result = new ArrayList<>();
+        try {
+            for (Map.Entry<ReportDTO, Boolean> entry : send.entrySet()) {
+                if(entry.getKey() == null){
+                    System.out.println("삭제된 글입니다");
+                    return result;
+                }
+                System.out.println("리포트 번호:"+entry.getKey().getReportno()+" 제목 : "+entry.getKey().getReporttitle()+"상태 : "+ (entry.getValue() ? "결재완료" : "결재대기")+" 타입 :"+ReportController.getInstance().findType(entry.getKey().getCno()) );
+                result.add(entry.getKey().getReportno());
+            }
+        } catch (Exception e) {
+            System.out.println("서류함이 비었습니다");
+        }
+        return result;
+    }
+
+    public ArrayList<Integer> findCategories(){
+        ArrayList<Integer> result1 = new ArrayList<>();
+        ArrayList<HashMap<Integer,String >> result = ReportController.getInstance().findCategories();
+        for(HashMap<Integer,String >   i : result){
+            for(Map.Entry<Integer,String > entry: i.entrySet()){
+                System.out.println("카테고리 번호 : "+entry.getKey()+"카테고리 제목: "+entry.getValue()+"\n");
+                result1.add(entry.getKey());
+            }
+
+        }
+        return result1;
+    }
+
 }
