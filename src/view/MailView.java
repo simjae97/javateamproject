@@ -56,11 +56,11 @@ public class MailView {
                     }
 
                 } else if (ch==2) { // 부서 메일보내기 시작
-                    System.out.println("1. 인사 | 2. 총무 | 3. 개발");
+                    System.out.println("1. 인사 | 2. 총무 | 3. 개발"); //part 테이블 저장된 레코드들 빼내기 로직
                     System.out.print("입력 > ");
                     int ch3 = scanner.nextInt();
                     scanner.nextLine();
-                    MailController.getInstance().sendMail(ch3);
+                    MailController.getInstance().sendMail(ch3); // 입력받은 partno
 
                 }
 
