@@ -21,7 +21,7 @@ public class MainView {
 
 
                 while (run) {  // 로그인 되면
-                    System.out.println("1.보고서  2.게시판 3.로그아웃 4.회원탈퇴"+(EmployController.loginEno.getGradeno()==5?" 5.관리자권한 실행":""));
+                    System.out.println("1.보고서  2.게시판 3.로그아웃 4.회원탈퇴"+"5.메일"+(EmployController.loginEno.getGradeno()==5?" 6.관리자권한 실행":"6.회원정보 수정" ));
                     int ch2 = scanner.nextInt();
                     scanner.nextLine();
                     if (ch2 == 1){
@@ -35,6 +35,7 @@ public class MainView {
                             } else if (ch3 == 0) {
                                 break;
                             }
+
                             else if(ch3 == 3){
                                 if(new ReportView().writeReport()){
                                     System.out.println("작성완료");
@@ -52,7 +53,11 @@ public class MainView {
                     } else if(ch2 == 4){
                         new EmployeeView().exit();
 
-                    }else if(ch2==5 && EmployController.loginEno.getGradeno()==5&& EmployController.loginEno.getPartno()==1){
+
+                    } else if (ch2==5) {
+                        new MailView().run();
+                    }
+                    else if(ch2==6 && EmployController.loginEno.getGradeno()==5&& EmployController.loginEno.getPartno()==1){
                         new EmployeeView().employeeInfo();
                         System.out.println("1.직책변환 2.부서변환 3.해고");
                         int manageemployee = scanner.nextInt();
@@ -66,8 +71,21 @@ public class MainView {
                             //해고부분
                         }
 
-                    }else if (ch2==5) { // 관리자 권한 부분
+                    }else if (ch2==6&&EmployController.loginEno.getGradeno()==5) { // 관리자 권한 부분
                         new EmployeeView().employeeInfo();
+                    }else if(ch2==6){
+                        System.out.println("회원 정보를 수정합니다.");
+                        System.out.println("1. 비밀번호변경, 2. 번호 변경, 3. 이메일 변경");
+                        int change = scanner.nextInt();
+                        scanner.nextLine();
+                        if(change==1) {
+                            new EmployeeView().updateInfopw();
+                        }else if(change==2){
+                            new EmployeeView().updateInfophone();
+                        }else if(change==3){
+
+                        }
+
                     }
                 }
             } else{
