@@ -28,15 +28,18 @@ public class EmployController {
 
     public static EmployeeDTO loginEno;
 
+
     public boolean logIn(EmployeeDTO employeeDTO){
         boolean result = false;
         result = EmployeeDao.getInstance().logIn(employeeDTO);
         if(result){
             int[] loginint = EmployeeDao.getInstance().findEPGno(employeeDTO);
+
             loginEno = new EmployeeDTO();
             loginEno.setEno(loginint[0]);
             loginEno.setPartno(loginint[1]);
             loginEno.setGradeno(loginint[2]);
+
         }
         return result;
     }
@@ -81,4 +84,27 @@ public class EmployController {
         result = EmployeeDao.getInstance().changepartno(employeeDTO);
         return result;
     }
+
+    public boolean fire(EmployeeDTO employeeDTO){
+        boolean result = false;
+        result = EmployeeDao.getInstance().fire(employeeDTO);
+        return result;
+    }
+
+    public boolean updateInfopw(EmployeeDTO employeeDTO){
+        boolean result = false;
+        result = EmployeeDao.getInstance().updateInfopw(employeeDTO);
+        return result;
+    }
+
+    public boolean updateInfophone(EmployeeDTO employeeDTO){
+        boolean result = false;
+        result = EmployeeDao.getInstance().updateInfophone(employeeDTO);
+        return result;
+
+    }
+
+    public String findEid(){
+        return EmployeeDao.getInstance().findEid(loginEno);
+    };
 }

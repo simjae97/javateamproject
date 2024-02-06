@@ -4,6 +4,7 @@ import controller.EmployController;
 import controller.MailController;
 import model.dto.MailDTO;
 
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -56,14 +57,16 @@ public class MailDao extends SuperDao{
     public boolean sendMail(ArrayList<Map<String,String>> sendemailarr){
         try{
             String sql1 = "insert into mail(eno, mailtitle, mailcontetnt) values (?,?,?)";
-            ps = conn.prepareStatement(sql1);
+            ps = conn.prepareStatement(sql1, Statement.RETURN_GENERATED_KEYS);
             ps.setInt(1, EmployController.loginEno.getEno()); // 로그인 중인 사람 번호 넣기
-            ps.setString(2, sendemailarr.get(sendemailarr.size()-1).get("mailtitle"));
-            ps.setString(3, sendemailarr.get(sendemailarr.size()-1).get("mailcontetnt"));
+            ps.setString(2, sendemailarr.get(sendemailarr.size()-1).get("sendEtitle"));
+            ps.setString(3, sendemailarr.get(sendemailarr.size()-1).get("sendEContent"));
             // 2, 3번째에 마지막 인덱스에서 가져온 제목 내용 넣기
 
             if(ps.executeUpdate()==1){ // mail table에 데이터 넣고, 이제 maillog에도 넣어야한다.(들어갈 값 : 받는사람들eno, mailno(fk))
-                int mailno = ps.getGeneratedKeys().getInt("mailno"); // 방금 넣은 레코드의 mailno 저장.
+                rs = ps.getGeneratedKeys();
+                rs.next();
+                int mailno = rs.getInt(1); // 방금 넣은 레코드의 mailno 저장.
 
                 int[] arr = new int[sendemailarr.size()-2]; // 마지막 전까지 eno 넣을 배열 미리 만들기
                 for(int i = 0 ; i<sendemailarr.size()-1 ; i++){
@@ -88,10 +91,10 @@ public class MailDao extends SuperDao{
     public boolean sendpartMail(ArrayList<Map<String,String>> sendemailarr){ // 실제로 보내기
         try{
             String sql1 = "insert into mail(eno, mailtitle, mailcontetnt) values (?,?,?)";
-            ps = conn.prepareStatement(sql1);
+            ps = conn.prepareStatement(sql1, Statement.RETURN_GENERATED_KEYS);
             ps.setInt(1, EmployController.loginEno.getEno()); // 로그인 중인 사람 번호 넣기
-            ps.setString(2, sendemailarr.get(sendemailarr.size()-1).get("mailtitle"));
-            ps.setString(3, sendemailarr.get(sendemailarr.size()-1).get("mailcontetnt"));
+            ps.setString(2, sendemailarr.get(sendemailarr.size()-1).get("sendEtitle"));
+            ps.setString(3, sendemailarr.get(sendemailarr.size()-1).get("sendEContent"));
             // 2, 3번째에 마지막 인덱스에서 가져온 제목 내용 넣기
             // 이까진 같다
             if(ps.executeUpdate()==1){ // mail table에 데이터 넣고, 이제 maillog에도 넣어야한다.(들어갈 값 : 받는사람들eno, mailno(fk))

@@ -99,7 +99,23 @@ public class EmployeeDao extends SuperDao{
             result[0] = rs.getInt("eno");
             result[1] = rs.getInt("partno");
             result[2] = rs.getInt("gradeno");
+
             return result;
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return null;
+    }
+    public String findEid(EmployeeDTO employeeDTO){
+        try {
+            String sql = "select eid from employee where eno = ?";
+            ps= conn.prepareStatement(sql);
+            ps.setInt(1,employeeDTO.getEno());
+            rs=ps.executeQuery();
+            if(rs.next()){
+                return rs.getString("eid");
+            }
+
         }catch (Exception e){
             e.printStackTrace();
         }
@@ -191,6 +207,52 @@ public class EmployeeDao extends SuperDao{
 
             ps.executeUpdate();
             return  true;
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+
+        return false;
+    }
+
+    public boolean fire(EmployeeDTO employeeDTO){
+        try{
+            String sql = "delete from employee where ename = ?";
+            ps = conn.prepareStatement(sql);
+            ps.setString(1,employeeDTO.getEname());
+            ps.executeUpdate();
+            return true;
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    public boolean updateInfopw(EmployeeDTO employeeDTO){
+        try{
+            String sql = "update employee set epw = ? where eid = ?";
+            ps=conn.prepareStatement(sql);
+            ps.setString(1,employeeDTO.getEpw());
+            ps.setString(2,employeeDTO.getEid());
+
+            ps.executeUpdate();
+            return true;
+
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+
+
+        return false;
+    }
+    public boolean updateInfophone(EmployeeDTO employeeDTO){
+        try{
+            String sql = "update employee set ephone = ? where eid = ?";
+            ps=conn.prepareStatement(sql);
+            ps.setString(1,employeeDTO.getEphone());
+            ps.setString(2,employeeDTO.getEid());
+            ps.executeUpdate();
+            return true;
+
         }catch (Exception e){
             e.printStackTrace();
         }
