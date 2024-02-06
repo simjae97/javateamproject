@@ -35,6 +35,7 @@ public class MainView {
                             } else if (ch3 == 0) {
                                 break;
                             }
+
                             else if(ch3 == 3){
                                 if(new ReportView().writeReport()){
                                     System.out.println("작성완료");
