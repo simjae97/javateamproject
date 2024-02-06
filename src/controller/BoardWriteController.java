@@ -2,6 +2,7 @@ package controller;
 
 import model.dao.BoardWriteDao;
 import model.dto.BoardDTO;
+import model.dto.EmployeeDTO;
 
 public class BoardWriteController {
     private BoardWriteController(){}

@@ -20,6 +20,7 @@ public class BoardAllView {
                 System.out.println("0.뒤로가기 1.전체게시판 2.부서게시판 3.직급게시판");
                 System.out.println("선택 > "); int ch = scanner.nextInt();
                 ArrayList<BoardDTO> boardDTOArrayList = new ArrayList<>();  // [1]글 출력을 위한 배열 생성
+                ArrayList<BoardDTO> notiBardDTOArrayList = new ArrayList<>();  // [1]글 출력을 위한 배열 생성
                 if(ch == 0){
                   return;
                 } else if(ch > 3){ // [2] 입력받은 숫자 확인
@@ -28,10 +29,10 @@ public class BoardAllView {
                     int nowpage = 1;
                     while (true){
                         // 1. 공지글 먼저 상위로 출력 - 공지는 항상 유지
-                        boardDTOArrayList = BoadAllViewController.getInstance().boardAllView(0);
-                        System.out.printf("%-5s \t %-20s \t %-10s \t %-10s \n","번호","제목\t","작성자","작성일");
-                        for(int i=0; i<boardDTOArrayList.size(); i++){
-                            System.out.printf("%-5s \t %-20s \t %-10s \t %-10s \n", "공지", boardDTOArrayList.get(i).getBoardtitle(), BoadAllViewController.getInstance().enoSearch(boardDTOArrayList.get(i).getEno()).getEname(), boardDTOArrayList.get(i).getBoarddate().split(":")[0]);
+                        notiBardDTOArrayList = BoadAllViewController.getInstance().boardAllView(0);
+                        System.out.printf("%-5s \t %-25s \t %-10s \t %-10s \n","번호","제목\t","작성자","작성일");
+                        for(int i=0; i<notiBardDTOArrayList.size(); i++){
+                            System.out.printf("%-5s \t %-25s \t %-10s \t %-10s \n", "공지"+(i+1), notiBardDTOArrayList.get(i).getBoardtitle(), BoadAllViewController.getInstance().enoSearch(notiBardDTOArrayList.get(i).getEno()).getEname(), notiBardDTOArrayList.get(i).getBoarddate().split(" ")[0]);
                         }
                         // 공지글 출력 종료
 
@@ -42,7 +43,7 @@ public class BoardAllView {
                         } else {
                             for(int i=0+(nowpage-1)*PAGE_NATION; i<PAGE_NATION*nowpage; i++){
                                 if(i >= boardDTOArrayList.size()){break;}
-                                System.out.printf("%-5d \t %-20s \t %-10s \t %-10s \n", i + 1, boardDTOArrayList.get(i).getBoardtitle(), BoadAllViewController.getInstance().enoSearch(boardDTOArrayList.get(i).getEno()).getEname(), boardDTOArrayList.get(i).getBoarddate().split(":")[0]);
+                                System.out.printf("%-5d \t %-25s \t %-10s \t %-10s \n", i + 1, boardDTOArrayList.get(i).getBoardtitle(), BoadAllViewController.getInstance().enoSearch(boardDTOArrayList.get(i).getEno()).getEname(), boardDTOArrayList.get(i).getBoarddate().split(" ")[0]);
                             }
                         }
                         // 게시판 공지 종료
@@ -51,13 +52,18 @@ public class BoardAllView {
                         if(ch4 == 0){
                             break;
                         } else if(ch4 == 1){
+                            System.out.println("0.공지 1.일반게시물");
+                            int notino = scanner.nextInt();
+                            int boardno;
                             System.out.print("보고싶은 게시물을 선택하시오.> ");
                             int boardIndex = scanner.nextInt() - 1;
-                            int boardno = boardDTOArrayList.get(boardIndex).getBoardno();
-                            System.out.println(boardno);
-                            if(!Board1Controller.getInstance().board1Checking(boardno)){
-                                System.out.println("권한이 없습니다.");
-                                continue;
+                            if(notino == 0){
+                                boardno = notiBardDTOArrayList.get(boardIndex).getBoardno();
+                            } else if (notino == 1) {
+                                boardno = boardDTOArrayList.get(boardIndex).getBoardno();
+                            } else {
+                                System.out.println("없는 번호입니다.");
+                                break;
                             }
                             new Board1View().board1(boardno);
                         } else if(ch4 == 2){
