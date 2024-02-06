@@ -136,7 +136,8 @@ public class EmployeeView {
         //입력
         System.out.println("대상자 : ");
         String changename = scanner.nextLine();
-        System.out.println("바뀔 팀 : ");
+        System.out.println("1.총무 , 2.회계 , 3.개발");
+        System.out.println("바뀔 팀 번호: ");
         int changepart = scanner.nextInt();
         scanner.nextLine();
         //객체
@@ -152,6 +153,80 @@ public class EmployeeView {
             System.out.println("부서를 변경했습니다.");
         }else{
             System.out.println("부서 변경 실패 ");
+        }
+
+    }
+
+    public void fire(){
+        System.out.println("대상자 : ");
+        String firename = scanner.nextLine();
+
+        EmployeeDTO employeeDTO = new EmployeeDTO();
+        employeeDTO.setEname(firename);
+
+        boolean result = EmployController.getInstance().fire(employeeDTO);
+
+        if(result){
+            System.out.println("해고!!!");
+        }else {
+            System.out.println("해고 실패!!!");
+        }
+
+    }
+
+    public void updateInfopw(){
+
+        System.out.println("회원정보를 수정합니다. ");
+        System.out.println("본인 아이디를 입력하세요");
+        String id = scanner.nextLine();
+
+        if(!id.equals(EmployController.getInstance().findEid())){
+            System.out.println("아이디가 틀렸습니다.");
+            return;
+        }
+
+        System.out.print("비밀번호를 입력하세요 : ");
+        String newpw = scanner.nextLine();
+
+        EmployeeDTO employeeDTO = new EmployeeDTO();
+        employeeDTO.setEpw(newpw); employeeDTO.setEid(id);
+
+
+
+        boolean result = EmployController.getInstance().updateInfopw(employeeDTO);
+
+        if(result){
+            System.out.println("비밀번호 변경");
+        }else {
+            System.out.println("실패");
+        }
+
+    }
+    public void updateInfophone(){
+
+        System.out.println("회원정보를 수정합니다. ");
+        System.out.println("본인 아이디를 입력하세요");
+        String id = scanner.nextLine();
+
+        if(!id.equals(EmployController.getInstance().findEid())){
+            System.out.println("아이디가 틀렸습니다.");
+            return;
+        }
+
+        System.out.print("변경할 번호를 입력하세요 : ");
+        String newphone = scanner.nextLine();
+
+        EmployeeDTO employeeDTO = new EmployeeDTO();
+        employeeDTO.setEid(id);
+        employeeDTO.setEphone(newphone);
+
+
+        boolean result = EmployController.getInstance().updateInfophone(employeeDTO);
+
+        if(result){
+            System.out.println("전화번호 변경");
+        }else {
+            System.out.println("실패");
         }
 
     }
