@@ -16,10 +16,7 @@ public class MainView {
             if (ch == 1) {
                 new EmployeeView().signUp();
             } else if (ch == 2) {
-
                 boolean run = new EmployeeView().logIn();
-
-
                 while (run) {  // 로그인 되면
                     System.out.println("1.보고서 2.게시판 3.로그아웃 4.회원탈퇴 5.메일"+(EmployController.loginEno.getGradeno()==5?" 6.관리자권한 실행":""));
                     int ch2 = scanner.nextInt();
