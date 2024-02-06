@@ -25,6 +25,7 @@ public class MainView {
                     int ch2 = scanner.nextInt();
                     scanner.nextLine();
                     if (ch2 == 1){
+
                         while (true) {
                             System.out.println("0.뒤로가기 1.받은 보고서 2.보낸 보고서 3.보고서 작성");
                             int ch3 = scanner.nextInt();
