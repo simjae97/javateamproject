@@ -288,7 +288,7 @@ public class ReportDAO extends SuperDao {
                     reportDTO.setEno(rs.getInt("eno"));
                     reportDTO.setReportno(rs.getInt("reportno"));
                     reportDTO.setReportdate(rs.getString("reportdate"));
-                    sql = "select * from Vacationreport where reportno = ?";
+                    sql = "select * from Purchasereport where reportno = ?";
                     ps = conn.prepareStatement(sql);
                     ps.setInt(1,num);
                     rs2 = ps.executeQuery();
