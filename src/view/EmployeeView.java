@@ -132,4 +132,28 @@ public class EmployeeView {
         }
     }
 
+    public void changepartno(){
+        //입력
+        System.out.println("대상자 : ");
+        String changename = scanner.nextLine();
+        System.out.println("바뀔 팀 : ");
+        int changepart = scanner.nextInt();
+        scanner.nextLine();
+        //객체
+        EmployeeDTO employeeDTO = new EmployeeDTO();
+        employeeDTO.setEname(changename);
+        employeeDTO.setPartno(changepart);
+
+        //컨트롤러
+        boolean result = EmployController.getInstance().changepartno(employeeDTO);
+
+        //결과
+        if(result){
+            System.out.println("부서를 변경했습니다.");
+        }else{
+            System.out.println("부서 변경 실패 ");
+        }
+
+    }
+
 }

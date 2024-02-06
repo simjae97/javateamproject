@@ -10,7 +10,7 @@ public class MainView {
     public static Scanner scanner = new Scanner(System.in);
     public void run(){
         while (true) {
-            System.out.println("1.회원가입  2.로그인 3.회원탈퇴");
+            System.out.println("1.회원가입  2.로그인 ");
             int ch = scanner.nextInt();
             scanner.nextLine();
             if (ch == 1) {
@@ -51,18 +51,27 @@ public class MainView {
                         EmployController.getInstance().logOut();
                     } else if(ch2 == 4){
                         new EmployeeView().exit();
-                    }else if (ch2==5 && EmployController.loginEno.getGradeno()==5){
+
+                    }else if(ch2==5 && EmployController.loginEno.getGradeno()==5&& EmployController.loginEno.getPartno()==1){
                         new EmployeeView().employeeInfo();
-                        System.out.println("1.직책변환");
-                        int manageemployee = scanner.nextInt(); scanner.nextLine();
+                        System.out.println("1.직책변환 2.부서변환 3.해고");
+                        int manageemployee = scanner.nextInt();
+                        scanner.nextLine();
+
                         if(manageemployee == 1){
                             new EmployeeView().changegradeno();
+                        }else if(manageemployee==2){
+                            new EmployeeView().changepartno();
+                        }else if(manageemployee==3){
+                            //해고부분
                         }
 
+                    }else if (ch2==5) { // 관리자 권한 부분
+                        new EmployeeView().employeeInfo();
                     }
                 }
-            } else if (ch == 3) {
-                new EmployeeView().exit();
+            } else{
+                System.out.println("없는 기능 번호 입니다.");
             }
         }
     }

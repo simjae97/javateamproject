@@ -181,4 +181,20 @@ public class EmployeeDao extends SuperDao{
         }
         return false;
     }
+
+    public boolean changepartno(EmployeeDTO employeeDTO){
+        try{
+            String sql = "update employee set partno = ? where ename = ?";
+            ps = conn.prepareStatement(sql);
+            ps.setInt(1,employeeDTO.getPartno());
+            ps.setString(2,employeeDTO.getEname());
+
+            ps.executeUpdate();
+            return  true;
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+
+        return false;
+    }
 }
