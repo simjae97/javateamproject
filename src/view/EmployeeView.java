@@ -231,4 +231,30 @@ public class EmployeeView {
 
     }
 
+    public void updateInfoEmail(){
+        System.out.println("회원정보를 수정합니다.");
+        System.out.println("본인 아이디를 입력하세요");
+        String id = scanner.nextLine();
+
+        if(!id.equals(EmployController.getInstance().findEid())){
+            System.out.println("아이디가 틀렸습니다.");
+            return;
+        }
+        System.out.println("변경할 이메일을 입력하세요");
+        String newEmail = scanner.nextLine();
+
+        EmployeeDTO employeeDTO = new EmployeeDTO();
+        employeeDTO.setEid(id);
+        employeeDTO.setEemail(newEmail);
+
+        boolean result = EmployController.getInstance().updateInfoEmail(employeeDTO);
+
+        if(result){
+            System.out.println("이메일 변경");
+        }else{
+            System.out.println("실패");
+        }
+
+    }
+
 }

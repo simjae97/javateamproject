@@ -83,7 +83,7 @@ public class MainView {
                         }else if(change==2){
                             new EmployeeView().updateInfophone();
                         }else if(change==3){
-
+                            new EmployeeView().updateInfoEmail();
                         }
 
                     }

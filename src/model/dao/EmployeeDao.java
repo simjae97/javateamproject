@@ -259,4 +259,19 @@ public class EmployeeDao extends SuperDao{
 
         return false;
     }
+    public boolean updateInfoEmail(EmployeeDTO employeeDTO){
+        try {
+            String sql = "update employee set eemail = ? where eid =?";
+            ps=conn.prepareStatement(sql);
+            ps.setString(1,employeeDTO.getEemail());
+            ps.setString(2,employeeDTO.getEid());
+            ps.executeUpdate();
+            return true;
+
+
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return false;
+    }
 }
