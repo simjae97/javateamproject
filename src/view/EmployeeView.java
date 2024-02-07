@@ -50,9 +50,9 @@ public class EmployeeView {
         //객체화
         EmployeeDTO employeeDTO = new EmployeeDTO();
         employeeDTO.setEid(id); employeeDTO.setEpw(pw);
-
+        //전달
         boolean result = EmployController.getInstance().logIn(employeeDTO);
-
+        //출력
         if(result){
             System.out.println("<안내> 로그인 성공");
         }else{
@@ -61,16 +61,17 @@ public class EmployeeView {
         return result;
     }
 
-    public void exit(){
+    public void exit(){//회원 탈퇴
+        //입력
         System.out.println("회원 탈퇴 아이디 : ");     String id = scanner.nextLine();
         System.out.println("회원 탈퇴 비밀번호 : ");    String pw = scanner.nextLine();
-
+        //객체화
         EmployeeDTO employeeDTO = new EmployeeDTO();
         employeeDTO.setEid(id);     employeeDTO.setEpw(pw);
 
-
+        //전달
         boolean result = EmployController.getInstance().exit(employeeDTO);
-
+        //결과
         if(result){
             System.out.println("<안내>회원 탈퇴를 성공했습니다.");
         }else {
@@ -79,7 +80,7 @@ public class EmployeeView {
 
     }
 
-    public void employeeInfo(){
+    public void employeeInfo(){ //회원 정보 출력
         System.out.println("-----------------------------------------------------------------------------------------------------------------------------------------------------");
         System.out.println("                                                                    직원 정보                                                                          ");
         System.out.println("-----------------------------------------------------------------------------------------------------------------------------------------------------");
@@ -95,8 +96,6 @@ public class EmployeeView {
         //결과 출력
         for(int i=0; i<result.size();i++) {
 
-//            System.out.println(result.get(i).getEno());
-            // result.get(i).getEno() i번재 eno
             int employeeno = result.get(i).getEno();
             String partname = EmployController.getInstance().managerpartView(result.get(i).getPartno()).getPartname();// result 어레이리스트에 i번째 partno 으로 출력하는 구문
             String gradename = EmployController.getInstance().managergradeView(result.get(i).getGradeno()).getGradename();
@@ -112,7 +111,7 @@ public class EmployeeView {
         System.out.println("-----------------------------------------------------------------------------------------------------------------------------------------------------");
     }
 
-    public void changegradeno(){
+    public void changegradeno(){ //직책 변경
         System.out.print("대상자 : ");
         String changename = scanner.nextLine();
         System.out.println("바뀔 직책 : ");
@@ -132,7 +131,7 @@ public class EmployeeView {
         }
     }
 
-    public void changepartno(){
+    public void changepartno(){ //부서 변경
         //입력
         System.out.println("대상자 : ");
         String changename = scanner.nextLine();
@@ -157,7 +156,7 @@ public class EmployeeView {
 
     }
 
-    public void fire(){
+    public void fire(){ // 해고
         System.out.println("대상자 : ");
         String firename = scanner.nextLine();
 
@@ -174,12 +173,14 @@ public class EmployeeView {
 
     }
 
+    //개인정보 수정
     public void updateInfopw(){
 
         System.out.println("회원정보를 수정합니다. ");
         System.out.println("본인 아이디를 입력하세요");
         String id = scanner.nextLine();
 
+        // 유효성 검사 -> id값이 EmployController.getInstance().findEid() 에서 나온 값과 같지 않으면 실행
         if(!id.equals(EmployController.getInstance().findEid())){
             System.out.println("아이디가 틀렸습니다.");
             return;
@@ -187,14 +188,14 @@ public class EmployeeView {
 
         System.out.print("비밀번호를 입력하세요 : ");
         String newpw = scanner.nextLine();
-
+        //객체화
         EmployeeDTO employeeDTO = new EmployeeDTO();
         employeeDTO.setEpw(newpw); employeeDTO.setEid(id);
 
 
-
+        //전달
         boolean result = EmployController.getInstance().updateInfopw(employeeDTO);
-
+        //출력
         if(result){
             System.out.println("비밀번호 변경");
         }else {
@@ -208,6 +209,7 @@ public class EmployeeView {
         System.out.println("본인 아이디를 입력하세요");
         String id = scanner.nextLine();
 
+        // 유효성 검사 -> id값이 EmployController.getInstance().findEid() 에서 나온 값과 같지 않으면 실행
         if(!id.equals(EmployController.getInstance().findEid())){
             System.out.println("아이디가 틀렸습니다.");
             return;
@@ -216,13 +218,14 @@ public class EmployeeView {
         System.out.print("변경할 번호를 입력하세요 : ");
         String newphone = scanner.nextLine();
 
+        //객체화
         EmployeeDTO employeeDTO = new EmployeeDTO();
         employeeDTO.setEid(id);
         employeeDTO.setEphone(newphone);
 
-
+        //전달
         boolean result = EmployController.getInstance().updateInfophone(employeeDTO);
-
+        //출력
         if(result){
             System.out.println("전화번호 변경");
         }else {
@@ -236,6 +239,7 @@ public class EmployeeView {
         System.out.println("본인 아이디를 입력하세요");
         String id = scanner.nextLine();
 
+        // 유효성 검사 -> id값이 EmployController.getInstance().findEid() 에서 나온 값과 같지 않으면 실행
         if(!id.equals(EmployController.getInstance().findEid())){
             System.out.println("아이디가 틀렸습니다.");
             return;
