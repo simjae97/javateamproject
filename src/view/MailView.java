@@ -321,10 +321,9 @@ public class MailView {
                             }
                         }
                     }
-
                 }
 
-
+////////////////////////////////////////////////////////////////////////////////////////////////////
             } else if (ch == 3) { // 보낸 메일함
                 // 내가 보낸 메일만 로직 출력 (메일 테이블)
                 System.out.println("보낸 메일함");
@@ -391,8 +390,8 @@ public class MailView {
                                 System.out.println("0.뒤로 가기 | 1.영구 삭제하기");
                                 int ch4 = scanner.nextInt();
                                 if(ch4 ==0){break;}
-                                else if(ch4 == 1){//휴지통 보내기
-                                    MailController.getInstance().changeEmailState(2 , Integer.parseInt(rmno));
+                                else if(ch4 == 1){//삭제하기
+                                    MailController.getInstance().changeEmailState(3 , Integer.parseInt(rmno));
                                 }else{
                                     System.out.println("잘못된 입력입니다.");
                                 }
