@@ -17,7 +17,7 @@ public class MailView {
             if (ch == 0) { // 뒤로 가기
                 return;
             } else if (ch == 1) { // 메일 보내기
-                System.out.println("0. 뒤로 가기 | 1.일반 메일보내기 | 2.부서 메일보내기 ");
+                System.out.println("0.뒤로 가기 | 1.일반 메일보내기 | 2.부서 메일보내기 ");
                 System.out.print("입력 > ");
                 int ch2 = scanner.nextInt();
                 scanner.nextLine();
@@ -118,7 +118,7 @@ public class MailView {
 
                     System.out.printf("%-5s | 보낸 사람:%-5s | 제목 : %-50s | %s\n",rmno,sendenoView,rmtitle,rmstateView);
                 }
-                System.out.println("0.뒤로가기 | 1. 메일 보기 | 2. 안 읽은 메일 | 3. 읽은 메일 | 4. 휴지통 보내기");
+                System.out.println("0.뒤로가기 | 1.메일 보기 | 2.안 읽은 메일 | 3.읽은 메일 | 4.휴지통 보내기");
                 // 안 읽은 메일 로그의 인트 0 / 읽은 메일 로그의 인트 1
                 System.out.print("입력 > ");
                 int ch2 = scanner.nextInt();
@@ -156,15 +156,12 @@ public class MailView {
                             System.out.println();
                             MailController.getInstance().changeEmailState(1 , Integer.parseInt(rmno)); // 본 메일 상태 바꾸기 (읽음)
                             System.out.println("===============================================================================");
-                            System.out.println("0.뒤로 가기 | 1.휴지통으로 보내기 | 2.답장하기");
+                            System.out.println("0.뒤로 가기 | 1.휴지통으로 보내기");
                             int ch4 = scanner.nextInt();
                             if(ch4 ==0){break;}
                             else if(ch4 == 1){//휴지통 보내기
                                 MailController.getInstance().changeEmailState(2 , Integer.parseInt(rmno));
-                            }else if(ch4 ==2){//답장하기
-
                             }
-
                         }
                         if(ch3 != Integer.parseInt(rmno) && i==a.size()-1){ // 마지막 인덱스까지 왔는데도 안같으면.
                             System.out.println("잘못된 입력입니다.");
@@ -226,13 +223,11 @@ public class MailView {
                                 System.out.println();
                                 MailController.getInstance().changeEmailState(1 , Integer.parseInt(rmno)); // 본 메일 상태 바꾸기 (읽음)
                                 System.out.println("===============================================================================");
-                                System.out.println("0.뒤로 가기 | 1.휴지통으로 보내기 | 2.답장하기");
+                                System.out.println("0.뒤로 가기 | 1.휴지통으로 보내기");
                                 int ch5 = scanner.nextInt();
                                 if(ch5 ==0){break;}
                                 else if(ch5 == 1){//휴지통 보내기
                                     MailController.getInstance().changeEmailState(2 , Integer.parseInt(rmno));
-                                }else if(ch5 == 2){//답장하기
-
                                 }
                             }
                             if (ch3 != Integer.parseInt(rmno) && i == a.size()-1) { // 마지막 인덱스까지 왔는데도 안같으면.
@@ -295,13 +290,11 @@ public class MailView {
                                 System.out.println();
                                 MailController.getInstance().changeEmailState(1 , Integer.parseInt(rmno)); // 본 메일 상태 바꾸기 (읽음)
                                 System.out.println("===============================================================================");
-                                System.out.println("0.뒤로 가기 | 1.휴지통으로 보내기 | 2.답장하기");
+                                System.out.println("0.뒤로 가기 | 1.휴지통으로 보내기");
                                 int ch5 = scanner.nextInt();
                                 if(ch5 ==0){break;}
                                 else if(ch5 == 1){//휴지통 보내기
                                     MailController.getInstance().changeEmailState(2 , Integer.parseInt(rmno));
-                                }else if(ch5 ==2){//답장하기
-
                                 }
                             }
                             if (ch3 != Integer.parseInt(rmno) && i == a.size() - 1) { // 마지막 인덱스까지 왔는데도 안같으면.
