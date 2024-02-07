@@ -11,45 +11,22 @@ public class ReportView {
 
     public void allReport() {
         while (true) {
-            TreeMap<ReportDTO, Boolean> reportDTOS2 = ReportController.getInstance().allReport2();
-            ArrayList<Integer> reportS = allsend(reportDTOS2);
+            TreeMap<ReportDTO, Boolean> reportDTOS2 = ReportController.getInstance().allReport2(); //컨트롤러의 받은 전체글 보기 함수 호출: 반환값은 리포트하나-상태로 이루어진 트리맵(해시맵의 경우 순서를 보장하지 않아 트리맵 사용, 정렬기준은 ReportDTO에 compareto 메소드를 오버라이딩 해서 지정)
+            ArrayList<Integer> reportS = allsend(reportDTOS2); //VIEW의 전체글 출력 함수 호출:앞서 받아온 트리맵을 출력하고 그에 다른 게시물 번호를 받아와서 유효성 검사 실행
 
             System.out.println("0.뒤로가기 1.개별보고서 보기");
             int ch = application.scanner.nextInt();
             if (ch == 0) {
                 return;
-            } else if (ch == 1) {
+            }
+            else if (ch == 1) {
                 System.out.println("보고싶은 게시물 번호 입력");
                 int ch2 = application.scanner.nextInt();
-                if (reportS.contains(ch2)) {
-                    ReportDTO reportDTO = ReportController.getInstance().specificreport(ch2);
-                    while (true) {
-                        System.out.println(reportDTO.toString());
-
-                        TreeMap<Integer, Boolean> superiors = ReportController.getInstance().findSuperiors(reportDTO.getReportno());
-                        for (Map.Entry<Integer, Boolean> entry : superiors.entrySet()) {
-                            Integer key = entry.getKey();
-                            Boolean value = entry.getValue();
-                            // 키와 값을 사용하여 작업 수행
-                            System.out.println("결재자: " + ReportController.getInstance().enoSearch(key).getEname() + ", 결재상태: " + value);
-                        }
-                        System.out.println("0.뒤로가기"+(reportDTO.getEno()== EmployController.loginEno.getEno()?"1.게시물삭제":"1.결재승인"));
-                        int ch3 = application.scanner.nextInt();
-                        if (ch3 == 0) {
-                            break;
-                        }
-                        else if (ch3 == 1 && reportDTO.getEno()== EmployController.loginEno.getEno()){
-                            System.out.println("삭제함수 실행");
-                        }
-                        else if (ch3 == 1) {
-                            if (ReportController.getInstance().accept(reportDTO.getReportno())) {
-                                System.out.println("결재완료");
-                            }
-                            else {
-                                System.out.println("결재실패");
-                            }
-                        }
-
+                if (reportS.contains(ch2)) { //앞서 받아온 어레이리스트에 비교해 고른 리포트 번호가 존재하지않는지 검사, 존재하지않으면 읽을 권한이 없다고 판단
+                    ReportDTO reportDTO = ReportController.getInstance().specificreport(ch2); //컨트롤러의 개별글 보기 함수 호출: 레포트번호를 입력받아 그에 해당하는 reportDTO를 리턴받아옴
+                    boolean run = true;
+                    while (run) {
+                        run = subview(reportDTO);
                     }
                 }
                 else {
@@ -58,9 +35,10 @@ public class ReportView {
             }
         }
     }
+
     public void goReport() {
-        TreeMap<ReportDTO, Boolean> reportDTOS = ReportController.getInstance().goReport();
-        ArrayList<Integer> reportS = allsend(reportDTOS);
+        TreeMap<ReportDTO, Boolean> reportDTOS = ReportController.getInstance().goReport(); //컨트롤러의 보낸 보낸전체글 보기 함수 호출: 반환값은 리포트하나-상태로 이루어진 트리맵(해시맵의 경우 순서를 보장하지 않아 트리맵 사용, 정렬기준은 ReportDTO에 compareto 메소드를 오버라이딩 해서 지정)
+        ArrayList<Integer> reportS = allsend(reportDTOS); //VIEW의 전체글 출력 함수 호출:앞서 받아온 트리맵을 출력하고 그에 다른 게시물 번호를 받아와서 유효성 검사 실행
         System.out.println("0.뒤로가기 1.게시물확인");
         int ch = application.scanner.nextInt();
         if (ch == 1) {
@@ -68,34 +46,9 @@ public class ReportView {
             int ch2 = application.scanner.nextInt();
             if (reportS.contains(ch2)) {
                 ReportDTO reportDTO = ReportController.getInstance().specificreport(ch2);
-                while (true) {
-                    System.out.println(reportDTO.toString());
-                    TreeMap<Integer, Boolean> superiors = ReportController.getInstance().findSuperiors(reportDTO.getReportno());
-                    for (Map.Entry<Integer, Boolean> entry : superiors.entrySet()) {
-                        Integer key = entry.getKey();
-                        Boolean value = entry.getValue();
-                        // 키와 값을 사용하여 작업 수행
-                        System.out.println("결재자: " + ReportController.getInstance().enoSearch(key).getEname() + ", 결재상태: " + value);
-                    }
-                    System.out.println("0.뒤로가기" + (reportDTO.getEno() == EmployController.loginEno.getEno() ? "1.보고서삭제 " : " 1.결재승인"));
-                    int ch3 = application.scanner.nextInt();
-                    if (ch3 == 0) {
-                        break;
-                    } else if (ch3 == 1 && reportDTO.getEno() == EmployController.loginEno.getEno()) {
-                        System.out.println("삭제함수 실행");
-                        if (ReportController.getInstance().reportDelete(reportDTO.getReportno())) {
-                            System.out.println("삭제성공");
-                            return;
-                        } else {
-                            System.out.println("삭제 실패");
-                        }
-                    } else if (ch3 == 1) {
-                        if (ReportController.getInstance().accept(reportDTO.getReportno())) {
-                            System.out.println("결재완료");
-                        } else {
-                            System.out.println("결재실패");
-                        }
-                    }
+                boolean run = true;
+                while (run) {
+                    run = subview(reportDTO);
                 }
             }
             else {
@@ -103,9 +56,10 @@ public class ReportView {
             }
         }
     }
+
     public boolean writeReport() {
         ArrayList <Integer> reportlist = findCategories();
-        System.out.println("보고서 카테고리 번호 입력"); //추후 보고서 출력 구현
+        System.out.println("보고서 카테고리 번호 입력");
         int ch = application.scanner.nextInt();
         if(!reportlist.contains(ch)){
             System.out.println("없는 카테고리입니다");
@@ -208,6 +162,42 @@ public class ReportView {
 
         }
         return result1;
+    }
+
+    public boolean subview(ReportDTO reportDTO){
+        System.out.println(reportDTO.toString());
+        TreeMap<Integer, Boolean> superiors = ReportController.getInstance().findSuperiors(reportDTO.getReportno());
+        for (Map.Entry<Integer, Boolean> entry : superiors.entrySet()) {
+            Integer key = entry.getKey();
+            Boolean value = entry.getValue();
+            // 키와 값을 사용하여 작업 수행
+            System.out.println("결재자: " + ReportController.getInstance().enoSearch(key).getEname() + ", 결재상태: " + value);
+        }
+        System.out.println("0.뒤로가기" + (reportDTO.getEno() == EmployController.loginEno.getEno() ? "1.보고서삭제 " : " 1.결재승인"));
+        int ch3 = application.scanner.nextInt();
+        if (ch3 == 0) {
+            return false;
+        }
+        else if (ch3 == 1 && reportDTO.getEno() == EmployController.loginEno.getEno()) {
+            System.out.println("삭제함수 실행");
+            if (ReportController.getInstance().reportDelete(reportDTO.getReportno())) {
+                System.out.println("삭제성공");
+                return false;
+            } else {
+                System.out.println("삭제 실패");
+                return true;
+            }
+        }
+        else if (ch3 == 1) {
+            if (ReportController.getInstance().accept(reportDTO.getReportno())) {
+                System.out.println("결재완료");
+            }
+            else {
+                System.out.println("결재실패");
+            }
+            return true;
+        }
+        return true;
     }
 
 }
