@@ -48,6 +48,7 @@ public class EmployeeDao extends SuperDao{
         try {
             String sql = "select eemail from employee where eemail =?";
             ps = conn.prepareStatement(sql);
+            ps.setString(1,eeamil);
             rs = ps.executeQuery();
             if(rs.next()){return true;}
         }catch (Exception e){

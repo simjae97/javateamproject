@@ -107,7 +107,7 @@ public class EmployeeView {
             String epw = result.get(i).getEpw();
             String edate = result.get(i).getEdate();
 
-            System.out.printf("%-8d \t %-5s \t %-5s \t %-7s \t %-20s \t %-20s \t %-10s \t %-10s \t %-20s \n",employeeno,gradename,partname,ename,ephone,eemail,eid,epw,edate);
+            System.out.printf("%-8d \t %-5s \t %-5s \t %-7s \t %-20s \t %-20s \t %-10s \t %-10s \t %-20s \n",employeeno,(gradename.equals("전체")?"미지정":gradename),partname,ename,ephone,eemail,eid,epw,edate);
         }
         System.out.println("-----------------------------------------------------------------------------------------------------------------------------------------------------");
     }
