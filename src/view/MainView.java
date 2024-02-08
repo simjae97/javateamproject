@@ -20,6 +20,7 @@ public class MainView {
                 boolean run = new EmployeeView().logIn();
 
 
+
                 while (run) {  // 로그인 되면
                     System.out.println("1.보고서  2.게시판 3.로그아웃 4.회원탈퇴"+"5.메일"+(EmployController.loginEno.getGradeno()==5?" 6.관리자권한 실행":"6.회원정보 수정" ));
                     int ch2 = scanner.nextInt();
