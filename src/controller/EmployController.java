@@ -106,5 +106,11 @@ public class EmployController {
 
     public String findEid(){
         return EmployeeDao.getInstance().findEid(loginEno);
-    };
+    }
+
+    public boolean updateInfoEmail(EmployeeDTO employeeDTO){
+        boolean result = false;
+        result= EmployeeDao.getInstance().updateInfoEmail(employeeDTO);
+        return  result;
+    }
 }

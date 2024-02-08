@@ -6,7 +6,7 @@ use phoenix;
 create table grade( -- 직위
    gradeno int not null ,
     gradename varchar(10),
-    
+
     primary key(gradeno)
 );
 
@@ -21,7 +21,7 @@ insert into grade values(5,'임원');
 create table part( -- 부서
    partno int not null,
     partname varchar(30) unique,
-    
+
     primary key(partno)
 );
 
@@ -103,6 +103,8 @@ create table board(
     eno int,
     boarddate datetime default now(),
    bcno int,
+    bcno2 int,
+
     primary key(boardno),
     foreign key(eno) references employee(eno) on delete set null,
     foreign key(bcno) references boardcategory(bcno)
@@ -149,6 +151,10 @@ create table reportcategory(
     cname text
 );
 
+insert into reportcategory values(1,"workreport");
+insert into reportcategory values(2,"vacationreport");
+insert into reportcategory values(3,"purchasereport");
+
 create table report(
    eno int,
    reportno int auto_increment,
@@ -180,7 +186,6 @@ create table purchasereport(
    reportno int auto_increment,
     itemlist text,
     totalprice int,
-    pricereason text,
     foreign key(reportno) references report(reportno) on delete cascade
 );
 
@@ -204,6 +209,7 @@ create table mail(
    foreign key(eno) references employee(eno) on delete cascade
 );
 
+
 create table maillog(
    mailno int,
     eno int,
@@ -213,7 +219,65 @@ create table maillog(
     foreign key(mailno) references mail(mailno) on delete cascade
 );
 
+insert into mail(eno, mailtitle, mailcontetnt) values (1, '1번 메일', '1번 메일내용');
+insert into maillog(mailno, eno) values (1, 2);
+insert into maillog(mailno, eno) values (1, 3);
 
+insert into mail(eno, mailtitle, mailcontetnt) values (2, '2번 메일', '2번 메일내용');
+insert into maillog(mailno, eno) values (2, 3);
+insert into maillog(mailno, eno) values (2, 4);
+
+insert into mail(eno, mailtitle, mailcontetnt) values (3, '3번 메일', '3번 메일내용');
+insert into maillog(mailno, eno) values (3, 4);
+insert into maillog(mailno, eno) values (3, 5);
+
+insert into mail(eno, mailtitle, mailcontetnt) values (4, '4번 메일', '4번 메일내용');
+insert into maillog(mailno, eno) values (4, 5);
+insert into maillog(mailno, eno) values (4, 6);
+
+insert into mail(eno, mailtitle, mailcontetnt) values (5, '5번 메일', '5번 메일내용');
+insert into maillog(mailno, eno) values (5, 6);
+insert into maillog(mailno, eno) values (5, 7);
+
+insert into mail(eno, mailtitle, mailcontetnt) values (6, '6번 메일', '6번 메일내용');
+insert into maillog(mailno, eno) values (6, 7);
+insert into maillog(mailno, eno) values (6, 8);
+
+insert into mail(eno, mailtitle, mailcontetnt) values (7, '7번 메일', '7번 메일내용');
+insert into maillog(mailno, eno) values (7, 8);
+insert into maillog(mailno, eno) values (7, 9);
+
+insert into mail(eno, mailtitle, mailcontetnt) values (8, '8번 메일', '8번 메일내용');
+insert into maillog(mailno, eno) values (8, 9);
+insert into maillog(mailno, eno) values (8, 10);
+
+insert into mail(eno, mailtitle, mailcontetnt) values (9, '9번 메일', '9번 메일내용');
+insert into maillog(mailno, eno) values (9, 10);
+insert into maillog(mailno, eno) values (9, 11);
+
+insert into mail(eno, mailtitle, mailcontetnt) values (10, '10번 메일', '10번 메일내용');
+insert into maillog(mailno, eno) values (10, 11);
+insert into maillog(mailno, eno) values (10, 12);
+
+insert into mail(eno, mailtitle, mailcontetnt) values (11, '11번 메일', '11번 메일내용');
+insert into maillog(mailno, eno) values (11, 12);
+insert into maillog(mailno, eno) values (11, 13);
+
+insert into mail(eno, mailtitle, mailcontetnt) values (12, '12번 메일', '12번 메일내용');
+insert into maillog(mailno, eno) values (12, 13);
+insert into maillog(mailno, eno) values (12, 14);
+
+insert into mail(eno, mailtitle, mailcontetnt) values (13, '13번 메일', '13번 메일내용');
+insert into maillog(mailno, eno) values (13, 15);
+insert into maillog(mailno, eno) values (13, 1);
+
+insert into mail(eno, mailtitle, mailcontetnt) values (14, '14번 메일', '14번 메일내용');
+insert into maillog(mailno, eno) values (14, 1);
+insert into maillog(mailno, eno) values (14, 2);
+
+insert into mail(eno, mailtitle, mailcontetnt) values (15, '15번 메일', '15번 메일내용');
+insert into maillog(mailno, eno) values (15, 2);
+insert into maillog(mailno, eno) values (15, 3);
 
 select * from employee;
 select * from board;
@@ -222,6 +286,7 @@ select * from reply;
 
 select * from report;
 select * from reportlog;
+
 -- 심재훈
 SELECT  report.reportno ,COUNT(*)FROM report JOIN reportlog ON report.reportno = reportlog.reportno GROUP BY report.reportno;
 SELECT  report.reportno ,reportlog.confirm FROM report JOIN reportlog ON report.reportno = reportlog.reportno where report.eno = 1 GROUP BY report.reportno, reportlog.confirm;
@@ -239,8 +304,15 @@ SELECT report.reportno,Count(*) FROM report JOIN reportlog ON report.reportno = 
 
 select * from report where reportno = 5;
 
+select * from reportcategory;
 select * from report;
-select * from reportlog;
+select * from purchasereport;
+select * from vacationreport;
+select * from workreport;
+
+select cname from reportcategory where cno = 1;
+
+select * from report r1 left join purchasereport r2 on r1.reportno = r2.reportno left join vacationreport r3 on r1.reportno = r3.reportno left join workreport r4 on r1.reportno = r4.reportno;
 select * from reportlog;
 
 SELECT report.*, r1.log_count, r2.log_count_confirm
@@ -250,7 +322,90 @@ LEFT JOIN (SELECT report.reportno, COUNT(*) as log_count
 LEFT JOIN ( SELECT report.reportno, COUNT(*) AS log_count_confirm FROM report JOIN reportlog ON report.reportno = reportlog.reportno WHERE reportlog.confirm = true GROUP BY report.reportno, reportlog.confirm) r2
 ON report.reportno = r2.reportno;
 
+insert into boardcategory(bcname) values('공지');
+insert into boardcategory(bcname) values('전체');
+insert into boardcategory(bcname) values('부서');
+insert into boardcategory(bcname) values('직급');
 
+insert into board(boardtitle,boardcontent,eno,bcno,bcno2) values('1번 공지글','게시글 내용',5,1,0);
+insert into board(boardtitle,boardcontent,eno,bcno,bcno2) values('2번 공지글','게시글 내용',10,1,0);
+insert into board(boardtitle,boardcontent,eno,bcno,bcno2) values('3번 공지글','게시글 내용',15,1,0);
+
+insert into board(boardtitle,boardcontent,eno,bcno,bcno2) values('1번 전체 게시글','게시글 내용',1,2,0);
+insert into board(boardtitle,boardcontent,eno,bcno,bcno2) values('2번 전체 게시글','게시글 내용',2,2,0);
+insert into board(boardtitle,boardcontent,eno,bcno,bcno2) values('3번 전체 게시글','게시글 내용',3,2,0);
+insert into board(boardtitle,boardcontent,eno,bcno,bcno2) values('4번 전체 게시글','게시글 내용',4,2,0);
+insert into board(boardtitle,boardcontent,eno,bcno,bcno2) values('5번 전체 게시글','게시글 내용',5,2,0);
+insert into board(boardtitle,boardcontent,eno,bcno,bcno2) values('6번 전체 게시글','게시글 내용',6,2,0);
+insert into board(boardtitle,boardcontent,eno,bcno,bcno2) values('7번 전체 게시글','게시글 내용',7,2,0);
+insert into board(boardtitle,boardcontent,eno,bcno,bcno2) values('8번 전체 게시글','게시글 내용',8,2,0);
+insert into board(boardtitle,boardcontent,eno,bcno,bcno2) values('9번 전체 게시글','게시글 내용',9,2,0);
+insert into board(boardtitle,boardcontent,eno,bcno,bcno2) values('10번 전체 게시글','게시글 내용',10,2,0);
+insert into board(boardtitle,boardcontent,eno,bcno,bcno2) values('11번 전체 게시글','게시글 내용',11,2,0);
+insert into board(boardtitle,boardcontent,eno,bcno,bcno2) values('12번 전체 게시글','게시글 내용',12,2,0);
+insert into board(boardtitle,boardcontent,eno,bcno,bcno2) values('13번 전체 게시글','게시글 내용',13,2,0);
+insert into board(boardtitle,boardcontent,eno,bcno,bcno2) values('14번 전체 게시글','게시글 내용',14,2,0);
+insert into board(boardtitle,boardcontent,eno,bcno,bcno2) values('15번 전체 게시글','게시글 내용',15,2,0);
+insert into board(boardtitle,boardcontent,eno,bcno,bcno2) values('16번 전체 게시글','게시글 내용',1,2,0);
+insert into board(boardtitle,boardcontent,eno,bcno,bcno2) values('17번 전체 게시글','게시글 내용',6,2,0);
+insert into board(boardtitle,boardcontent,eno,bcno,bcno2) values('18번 전체 게시글','게시글 내용',11,2,0);
+insert into board(boardtitle,boardcontent,eno,bcno,bcno2) values('19번 전체 게시글','게시글 내용',2,2,0);
+insert into board(boardtitle,boardcontent,eno,bcno,bcno2) values('20번 전체 게시글','게시글 내용',7,2,0);
+insert into board(boardtitle,boardcontent,eno,bcno,bcno2) values('21번 전체 게시글','게시글 내용',12,2,0);
+
+insert into board(boardtitle,boardcontent,eno,bcno,bcno2) values('1번 부서 게시글','게시글 내용',1,3,1);
+insert into board(boardtitle,boardcontent,eno,bcno,bcno2) values('2번 부서 게시글','게시글 내용',2,3,1);
+insert into board(boardtitle,boardcontent,eno,bcno,bcno2) values('3번 부서 게시글','게시글 내용',3,3,1);
+insert into board(boardtitle,boardcontent,eno,bcno,bcno2) values('4번 부서 게시글','게시글 내용',4,3,1);
+insert into board(boardtitle,boardcontent,eno,bcno,bcno2) values('5번 부서 게시글','게시글 내용',5,3,1);
+insert into board(boardtitle,boardcontent,eno,bcno,bcno2) values('6번 부서 게시글','게시글 내용',6,3,2);
+insert into board(boardtitle,boardcontent,eno,bcno,bcno2) values('7번 부서 게시글','게시글 내용',7,3,2);
+insert into board(boardtitle,boardcontent,eno,bcno,bcno2) values('8번 부서 게시글','게시글 내용',8,3,2);
+insert into board(boardtitle,boardcontent,eno,bcno,bcno2) values('9번 부서 게시글','게시글 내용',9,3,2);
+insert into board(boardtitle,boardcontent,eno,bcno,bcno2) values('10번 부서 게시글','게시글 내용',10,3,2);
+insert into board(boardtitle,boardcontent,eno,bcno,bcno2) values('11번 부서 게시글','게시글 내용',11,3,3);
+insert into board(boardtitle,boardcontent,eno,bcno,bcno2) values('12번 부서 게시글','게시글 내용',12,3,3);
+insert into board(boardtitle,boardcontent,eno,bcno,bcno2) values('13번 부서 게시글','게시글 내용',13,3,3);
+insert into board(boardtitle,boardcontent,eno,bcno,bcno2) values('14번 부서 게시글','게시글 내용',14,3,3);
+insert into board(boardtitle,boardcontent,eno,bcno,bcno2) values('15번 부서 게시글','게시글 내용',15,3,3);
+insert into board(boardtitle,boardcontent,eno,bcno,bcno2) values('16번 부서 게시글','게시글 내용',1,3,1);
+insert into board(boardtitle,boardcontent,eno,bcno,bcno2) values('17번 부서 게시글','게시글 내용',6,3,2);
+insert into board(boardtitle,boardcontent,eno,bcno,bcno2) values('18번 부서 게시글','게시글 내용',11,3,3);
+insert into board(boardtitle,boardcontent,eno,bcno,bcno2) values('19번 부서 게시글','게시글 내용',2,3,1);
+insert into board(boardtitle,boardcontent,eno,bcno,bcno2) values('20번 부서 게시글','게시글 내용',7,3,2);
+insert into board(boardtitle,boardcontent,eno,bcno,bcno2) values('21번 부서 게시글','게시글 내용',12,3,3);
+
+insert into board(boardtitle,boardcontent,eno,bcno,bcno2) values('1번 직급 게시글','게시글 내용',1,4,1);
+insert into board(boardtitle,boardcontent,eno,bcno,bcno2) values('2번 직급 게시글','게시글 내용',2,4,2);
+insert into board(boardtitle,boardcontent,eno,bcno,bcno2) values('3번 직급 게시글','게시글 내용',3,4,3);
+insert into board(boardtitle,boardcontent,eno,bcno,bcno2) values('4번 직급 게시글','게시글 내용',4,4,4);
+insert into board(boardtitle,boardcontent,eno,bcno,bcno2) values('5번 직급 게시글','게시글 내용',5,4,5);
+insert into board(boardtitle,boardcontent,eno,bcno,bcno2) values('6번 직급 게시글','게시글 내용',6,4,1);
+insert into board(boardtitle,boardcontent,eno,bcno,bcno2) values('7번 직급 게시글','게시글 내용',7,4,2);
+insert into board(boardtitle,boardcontent,eno,bcno,bcno2) values('8번 직급 게시글','게시글 내용',8,4,3);
+insert into board(boardtitle,boardcontent,eno,bcno,bcno2) values('9번 직급 게시글','게시글 내용',9,4,4);
+insert into board(boardtitle,boardcontent,eno,bcno,bcno2) values('10번 직급 게시글','게시글 내용',10,4,5);
+insert into board(boardtitle,boardcontent,eno,bcno,bcno2) values('11번 직급 게시글','게시글 내용',11,4,1);
+insert into board(boardtitle,boardcontent,eno,bcno,bcno2) values('12번 직급 게시글','게시글 내용',12,4,2);
+insert into board(boardtitle,boardcontent,eno,bcno,bcno2) values('13번 직급 게시글','게시글 내용',13,4,3);
+insert into board(boardtitle,boardcontent,eno,bcno,bcno2) values('14번 직급 게시글','게시글 내용',14,4,4);
+insert into board(boardtitle,boardcontent,eno,bcno,bcno2) values('15번 직급 게시글','게시글 내용',15,4,5);
+insert into board(boardtitle,boardcontent,eno,bcno,bcno2) values('16번 직급 게시글','게시글 내용',1,4,1);
+insert into board(boardtitle,boardcontent,eno,bcno,bcno2) values('17번 직급 게시글','게시글 내용',6,4,1);
+insert into board(boardtitle,boardcontent,eno,bcno,bcno2) values('18번 직급 게시글','게시글 내용',11,4,1);
+insert into board(boardtitle,boardcontent,eno,bcno,bcno2) values('19번 직급 게시글','게시글 내용',2,4,2);
+insert into board(boardtitle,boardcontent,eno,bcno,bcno2) values('20번 직급 게시글','게시글 내용',7,4,2);
+insert into board(boardtitle,boardcontent,eno,bcno,bcno2) values('21번 직급 게시글','게시글 내용',12,4,2);
+
+select * from report;
+select * from mail;
+select * from maillog;
+select * from employee;
+select * from maillog join employee on maillog.eno = employee.eno where mailno = 13;
+select * from maillog where mailno = 1;
+--
+select *from maillog join mail on maillog.mailno = mail.mailno where maillog.eno = 1 order by mail.mailno;
+select *from maillog join mail on mail.eno = maillog.eno where mail.eno = 1;
 
 
 DELIMITER //

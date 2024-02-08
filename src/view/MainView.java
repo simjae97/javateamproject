@@ -69,7 +69,7 @@ public class MainView {
                         }else if(manageemployee==2){
                             new EmployeeView().changepartno();
                         }else if(manageemployee==3){
-                            //해고부분
+                            new EmployeeView().fire();
                         }
 
                     }else if (ch2==6&&EmployController.loginEno.getGradeno()==5) { // 관리자 권한 부분
@@ -84,7 +84,7 @@ public class MainView {
                         }else if(change==2){
                             new EmployeeView().updateInfophone();
                         }else if(change==3){
-
+                            new EmployeeView().updateInfoEmail();
                         }
 
                     }
