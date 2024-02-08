@@ -1,14 +1,14 @@
 package model.dao;
 
 import controller.EmployController;
-import controller.MailController;
-import model.dto.EmployeeDTO;
 import model.dto.MailDTO;
 
+import java.sql.PreparedStatement;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.TreeMap;
 
 public class MailDao extends SuperDao{
     // 싱글톤
@@ -126,6 +126,37 @@ public class MailDao extends SuperDao{
         return false;
     }
 
+    public TreeMap<MailDTO, ArrayList<String>> sendMailsView(int loginEno){
+        try{
+            String sql = "select * from mail where eno = ? order by mailno; ";
+            ps = conn.prepareStatement(sql);
+            ps.setInt(1, loginEno);
+            rs = ps.executeQuery();
+            TreeMap<MailDTO, ArrayList<String>> sendMailsarr = new TreeMap<>();
+            while(rs.next()){ // 보낸 메일 테이블 정보
+                MailDTO mailDTO = new MailDTO();
+                mailDTO.setEno(rs.getInt("eno"));//보낸 사람
+                mailDTO.setMailno(rs.getInt("mailno"));// 보낸 메일 넘버
+                mailDTO.setMailtitle(rs.getString("mailtitle"));
+                mailDTO.setMailcontetnt(rs.getString("mailcontetnt"));
+                mailDTO.setMaildate(rs.getString("maildate"));
+                String sql2 = "select * from maillog join employee on maillog.eno = employee.eno where mailno = ? order by mailno;";
+                ps = conn.prepareStatement(sql2);
+                ps.setInt(1, rs.getInt("mailno"));
+                rs2 = ps.executeQuery();
+                ArrayList<String> enameArr = new ArrayList<>();
+                while (rs2.next()){
+                    enameArr.add(rs2.getString("ename"));
+                } // 보낸 mailno에 맞는 ename 받아오기
+                sendMailsarr.put(mailDTO, enameArr);
+            } // while 끝
+            return sendMailsarr;
+        }catch (Exception e){
+            System.out.println(e);
+        }
+
+        return null;
+    }
 
     public ArrayList<Map<String,String>> receiveMail(int loginEno){
         try{
@@ -146,6 +177,7 @@ public class MailDao extends SuperDao{
                 map.put("maildate", rs.getString("maildate"));
                 recMailarr.add(map); // map 하나씩 recMailarr에 넣기
             }
+
             return recMailarr;
         }catch (Exception e){
             System.out.println(e);
@@ -165,6 +197,23 @@ public class MailDao extends SuperDao{
                 recMailarr.add(rs.getString("ename"));
             }
             return recMailarr;
+        }catch (Exception e){
+            System.out.println(e);
+        }
+        return null;
+    }
+
+    public ArrayList<String> sendEnoSearch(int mailno) { // 메일 보낸 사람들 배열보이기
+        try{
+            String sql = "select * from maillog join employee on maillog.eno = employee.eno where mailno = ?"; // 조인해서 mail.eno 검색해서 mail.mailno로 정렬하기
+            ps = conn.prepareStatement(sql);
+            ps.setInt(1, mailno);
+            rs = ps.executeQuery();
+            ArrayList<String> sendMailarr = new ArrayList<>();
+            while(rs.next()){
+                sendMailarr.add(rs.getString("ename"));
+            }
+            return sendMailarr;
         }catch (Exception e){
             System.out.println(e);
         }

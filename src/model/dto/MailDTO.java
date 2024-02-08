@@ -1,6 +1,6 @@
 package model.dto;
 
-public class MailDTO {
+public class MailDTO implements Comparable<MailDTO>{
     private int mailno;
     private int eno;
     private String mailtitle;
@@ -56,5 +56,10 @@ public class MailDTO {
 
     public void setMaildate(String maildate) {
         this.maildate = maildate;
+    }
+
+    public int compareTo(MailDTO other) {
+        // 여기서는 mailno를 기준으로 정렬하도록 구현합니다.
+        return Integer.compare(other.mailno, this.mailno);
     }
 }

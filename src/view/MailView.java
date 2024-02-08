@@ -3,6 +3,7 @@ package view;
 import controller.EmployController;
 import controller.MailController;
 import model.dto.EmployeeDTO;
+import model.dto.MailDTO;
 import model.dto.PartDTO;
 
 import java.util.*;
@@ -322,12 +323,71 @@ public class MailView {
                         }
                     }
                 }
-
-////////////////////////////////////////////////////////////////////////////////////////////////////
             } else if (ch == 3) { // 보낸 메일함
-                // 내가 보낸 메일만 로직 출력 (메일 테이블)
-                System.out.println("보낸 메일함");
-                System.out.print("입력 > ");
+                while (true) {
+                    System.out.println("보낸 메일함");
+                    // 내가 보낸 메일만 로직 출력 (메일 테이블)
+                    TreeMap<MailDTO, ArrayList<String>> a = MailController.getInstance().sendMailsView(EmployController.loginEno.getEno());//Map<MailDTO, ArrayList<String>> 받아옴
+                    // 트리맵 거꾸로 출력하게 만들기
+                    for (Map.Entry<MailDTO, ArrayList<String>> i : a.entrySet()) {// 전체 보낸 메일 출력
+                        int mailno = i.getKey().getMailno();
+                        String mailtitle = i.getKey().getMailtitle();
+                        System.out.printf("%-5s | 제목 : %-50s \n", mailno, mailtitle);
+                    }
+                    System.out.println("0.뒤로가기 | 1.보낸 메일 보기 ");
+                    System.out.print("입력 > ");
+                    int ch2 = scanner.nextInt();
+                    scanner.nextLine();
+                    if (ch2 == 0) {// 뒤로 가기
+                        break;
+                    } else if (ch2==1) { //보낸 메일 개별 보기
+                        System.out.println("볼 메일 넘버를 입력하세요.");
+                        System.out.print("입력 > ");
+                        int ch3 = scanner.nextInt();
+                        scanner.nextLine();
+                        int i2 = 0; // i2번째를 구할 value값 가져오기위해서
+                        for (Map.Entry<MailDTO, ArrayList<String>> i : a.entrySet()) { // 개별 메일 출력
+                            int mailno = i.getKey().getMailno();
+                            if (ch3 == mailno && EmployController.loginEno.getEno() == i.getKey().getEno()){
+                                int eno = i .getKey().getEno();
+                                String rmtitle = i.getKey().getMailtitle();
+                                String rmcontetnt = i.getKey().getMailcontetnt();
+                                String rmdate = i.getKey().getMaildate();
+                                ArrayList<String> recevArr = i.getValue();
+                                System.out.println();
+                                System.out.println("메일 번호 : " + mailno);
+                                System.out.println("제목 : " + rmtitle);
+                                System.out.println("보낸 사람 : " + MailController.getInstance().enoSearch(eno).getEname()); // eno가 나올게 아니라 ename이 나오게
+                                System.out.print("받는 사람 : ");
+                                for (int i3 = 0; i3 < recevArr.size(); i3++) { // maillog에서 빼온 애들 for문 돌려 출력
+                                    if(i3!= recevArr.size()-1){
+                                        System.out.print(recevArr.get(i3)+", ");
+                                    }else{
+                                        System.out.print(recevArr.get(i3));
+                                    }
+
+                                }
+                                System.out.println();
+                                System.out.println();
+                                System.out.println("내용 : " + rmcontetnt);
+                                System.out.println();
+                                System.out.println("보낸 날짜 : " + rmdate);
+                                System.out.println();
+                                System.out.println("===============================================================================");
+                                break;
+                            }
+                            if (ch3 != mailno && i2 == a.size()-1) { // 마지막 인덱스까지 왔는데도 안같으면.
+                                System.out.println("잘못된 입력입니다.");
+                            }
+                            i2++;
+                        }
+
+                    } else{
+                        System.out.println();
+                        System.out.println("잘못된 입력입니다.");
+                        System.out.println();
+                    }
+                }
 
             } else if (ch == 4) { // 휴지통( 추가하면 자동 삭제 기능.(시간 남으면))
                 // 내 메일로그의 인트만 2번으로 바뀌기 // 여기서 삭제하면 3번으로 바뀌기
@@ -416,7 +476,6 @@ public class MailView {
                                 System.out.println("잘못된 입력입니다.");
                             }
                         }
-
                     } else {
                         System.out.println("잘못된 입력입니다.");
                     }
