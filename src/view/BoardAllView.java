@@ -31,7 +31,7 @@ public class BoardAllView {
                     while (true){
                         // 1. 공지글 먼저 상위로 출력 - 공지는 항상 유지
                         notiBardDTOArrayList = BoadAllViewController.getInstance().boardAllView(0);
-                        System.out.println("-------------------------------------------- 게시판 --------------------------------------------");
+                        System.out.println("========================================== 게시판 ==========================================");
                         System.out.printf("%-5s \t %-25s \t %-10s \t %-10s \n","번호","제목\t","작성자","작성일");
                         for(int i=0; i<notiBardDTOArrayList.size(); i++){
                             System.out.printf("%-5s \t %-25s \t %-10s \t %-10s \n", "공지"+(i+1), notiBardDTOArrayList.get(i).getBoardtitle(), BoadAllViewController.getInstance().enoSearch(notiBardDTOArrayList.get(i).getEno()).getEname(), notiBardDTOArrayList.get(i).getBoarddate().split(" ")[0]);
@@ -48,7 +48,7 @@ public class BoardAllView {
                                 System.out.printf("%-5d \t %-25s \t %-10s \t %-10s \n", i + 1, boardDTOArrayList.get(i).getBoardtitle(), BoadAllViewController.getInstance().enoSearch(boardDTOArrayList.get(i).getEno()).getEname(), boardDTOArrayList.get(i).getBoarddate().split(" ")[0]);
                             }
                         }
-                        System.out.println("---------------------------------------------------------------------------------------------");
+                        System.out.println("=========================================================================================");
                         // 카테고리별 게시판 출력 종료
                         System.out.println("0.뒤로가기1.개별글보기 2.글쓰기 3.이전페이지 4.다음페이지");
                         System.out.print("입력> ");
