@@ -44,6 +44,17 @@ public class EmployeeDao extends SuperDao{
         }
         return false;
     }
+    public boolean checkEmail(String eeamil){
+        try {
+            String sql = "select eemail from employee where eemail =?";
+            ps = conn.prepareStatement(sql);
+            rs = ps.executeQuery();
+            if(rs.next()){return true;}
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+         return  false;
+    }
 
     public boolean logIn(EmployeeDTO employeeDTO){
         try{

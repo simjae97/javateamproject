@@ -38,6 +38,8 @@ public class EmployeeView {
             System.out.println("<안내> 회원가입에 실패했습니다.");
         }else if (result == 2){
             System.out.println("<안내> 중복된 아이디 입니다.");
+        }else if(result ==3 ){
+            System.out.println("<안내> 중복된 이메일 입니다.");
         }
     }
 
