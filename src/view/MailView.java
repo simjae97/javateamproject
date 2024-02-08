@@ -390,6 +390,7 @@ public class MailView {
                     }
                 }
 
+
             } else if (ch == 4) { // 휴지통( 추가하면 자동 삭제 기능.(시간 남으면))
                 // 내 메일로그의 인트만 2번으로 바뀌기 // 여기서 삭제하면 3번으로 바뀌기
                 System.out.println("메일 휴지통");
