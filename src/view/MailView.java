@@ -393,6 +393,7 @@ public class MailView {
                             }
                             i2++;
                         }
+
                     } else{
                         System.out.println();
                         System.out.println("잘못된 입력입니다.");
