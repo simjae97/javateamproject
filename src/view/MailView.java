@@ -62,10 +62,10 @@ public class MailView {
                     while (true){
                         ArrayList<PartDTO> partArr = MailController.getInstance().partView();// part 테이블 어레이리스트로 받음
                         for(int i = 0; i<partArr.size();i++){ //part 테이블 저장된 레코드들 빼내기 로직
-                            System.out.print(partArr.get(i).getPartno()+". "+partArr.get(i).getPartname()+" |");
+                            System.out.print(partArr.get(i).getPartno()+". "+partArr.get(i).getPartname()+" | ");
                         }
                         System.out.println();
-                        System.out.print("입력 > ");
+                        System.out.print("보낼 부서 입력 > ");
                         ch3 = scanner.nextInt();
                         scanner.nextLine();
                         if(MailController.getInstance().sendpartMail(ch3)==null) {// 입력받은 partno로 배열로 뽑아내기. 유효성 검사
@@ -158,11 +158,14 @@ public class MailView {
                             MailController.getInstance().changeEmailState(1 , Integer.parseInt(rmno)); // 본 메일 상태 바꾸기 (읽음)
                             System.out.println("===============================================================================");
                             System.out.println("0.뒤로 가기 | 1.휴지통으로 보내기");
+                            System.out.print("입력 > ");
                             int ch4 = scanner.nextInt();
                             if(ch4 ==0){break;}
                             else if(ch4 == 1){//휴지통 보내기
                                 MailController.getInstance().changeEmailState(2 , Integer.parseInt(rmno));
+                                System.out.println("휴지통 보내기 완료");
                             }
+                            break;
                         }
                         if(ch3 != Integer.parseInt(rmno) && i==a.size()-1){ // 마지막 인덱스까지 왔는데도 안같으면.
                             System.out.println("잘못된 입력입니다.");
@@ -229,7 +232,9 @@ public class MailView {
                                 if(ch5 ==0){break;}
                                 else if(ch5 == 1){//휴지통 보내기
                                     MailController.getInstance().changeEmailState(2 , Integer.parseInt(rmno));
+                                    System.out.println("휴지통 보내기 완료");
                                 }
+                                break;
                             }
                             if (ch3 != Integer.parseInt(rmno) && i == a.size()-1) { // 마지막 인덱스까지 왔는데도 안같으면.
                                 System.out.println("잘못된 입력입니다.");
@@ -281,7 +286,11 @@ public class MailView {
                                 System.out.println("보낸 사람 : " + MailController.getInstance().enoSearch(Integer.parseInt(rmsendeno)).getEname()); // eno가 나올게 아니라 ename이 나오게
                                 System.out.print("받는 사람 : ");
                                 for (int i2 = 0; i2 < MailController.getInstance().receiveEnoSearch(ch3).size(); i2++) { // maillog에서 빼온 애들 for문 돌려 출력
-                                    System.out.print(MailController.getInstance().receiveEnoSearch(ch3).get(i2));
+                                    if(i2 == MailController.getInstance().receiveEnoSearch(ch3).size()-1){
+                                        System.out.print(MailController.getInstance().receiveEnoSearch(ch3).get(i2));
+                                    }
+                                    else {
+                                    System.out.print(MailController.getInstance().receiveEnoSearch(ch3).get(i2)+", ");}
                                 }
                                 System.out.println();
                                 System.out.println();
@@ -296,6 +305,7 @@ public class MailView {
                                 if(ch5 ==0){break;}
                                 else if(ch5 == 1){//휴지통 보내기
                                     MailController.getInstance().changeEmailState(2 , Integer.parseInt(rmno));
+                                    System.out.println("휴지통 보내기 완료");
                                 }
                                 break;
                             }
@@ -390,29 +400,30 @@ public class MailView {
                     }
                 }
 
-            } else if (ch == 4) { // 휴지통( 추가하면 자동 삭제 기능.(시간 남으면))
-                // 내 메일로그의 인트만 2번으로 바뀌기 // 여기서 삭제하면 3번으로 바뀌기
-                System.out.println("메일 휴지통");
-                // 2번인 로그 불러오기
-                ArrayList<Map<String,String>> a = MailController.getInstance().receiveMail(EmployController.loginEno.getEno());// ArrayList로 Map을 받기.
-                Collections.reverse(a); // 어레이리스트 반대로 뒤집기
-                for(int i =0 ; i < a.size() ; i++){
-                    String sendeno = a.get(i).get("sendeno");
-                    EmployeeDTO employeeDTO = MailController.getInstance().enoSearch(Integer.parseInt(sendeno)); // DTO 받기
-                    String sendenoView = employeeDTO.getEname();
-                    String rmno = a.get(i).get("mailno");
-                    String rmtitle = a.get(i).get("mailtitle");
-                    String rmstate = a.get(i).get("mailstate");
-                    String rmstateView = "";
-                    if(rmstate.equals("0")){ continue;
-                    } else if (rmstate.equals("1")) { continue;
-                    } else if (rmstate.equals("2")) {
-                    } else if (rmstate.equals("3")) { continue;
+            } else if (ch == 4) { // 휴지통
+                while (true) {
+                    // 내 메일로그의 인트만 2번으로 바뀌기 // 여기서 삭제하면 3번으로 바뀌기
+                    System.out.println("메일 휴지통");
+                    // 2번인 로그 불러오기
+                    ArrayList<Map<String,String>> a = MailController.getInstance().receiveMail(EmployController.loginEno.getEno());// ArrayList로 Map을 받기.
+                    Collections.reverse(a); // 어레이리스트 반대로 뒤집기
+                    for(int i =0 ; i < a.size() ; i++){
+                        String sendeno = a.get(i).get("sendeno");
+                        EmployeeDTO employeeDTO = MailController.getInstance().enoSearch(Integer.parseInt(sendeno)); // DTO 받기
+                        String sendenoView = employeeDTO.getEname();
+                        String rmno = a.get(i).get("mailno");
+                        String rmtitle = a.get(i).get("mailtitle");
+                        String rmstate = a.get(i).get("mailstate");
+                        String rmstateView = "";
+                        if(rmstate.equals("0")){ continue;
+                        } else if (rmstate.equals("1")) { continue;
+                        } else if (rmstate.equals("2")) {
+                        } else if (rmstate.equals("3")) { continue;
+                        }
+
+                        System.out.printf("%-5s | 보낸 사람:%-5s | 제목 : %-50s | %s\n",rmno,sendenoView,rmtitle,rmstateView);
                     }
 
-                    System.out.printf("%-5s | 보낸 사람:%-5s | 제목 : %-50s | %s\n",rmno,sendenoView,rmtitle,rmstateView);
-                }
-                while (true) {
                     System.out.println("0. 뒤로가기 | 1. 메일 보기 | 2. 삭제 하기 |");
                     // 안 읽은 메일 로그의 인트 0 / 읽은 메일 로그의 인트 1
                     System.out.print("입력 > ");
@@ -456,6 +467,7 @@ public class MailView {
                                 }else{
                                     System.out.println("잘못된 입력입니다.");
                                 }
+                                break;
                             }
                             if (ch3 != Integer.parseInt(rmno) && i == a.size() - 1) { // 마지막 인덱스까지 왔는데도 안같으면.
                                 System.out.println("잘못된 입력입니다.");
@@ -472,7 +484,9 @@ public class MailView {
                             String rmno = a.get(i).get("mailno");
                             if (ch3 == Integer.parseInt(rmno) && rmstate.equals("2")){
                                 MailController.getInstance().changeEmailState(3 , Integer.parseInt(rmno)); // 영구 삭제 state로 바꾸기.
+                                break;
                             }
+
                             if (ch3 != Integer.parseInt(rmno) && i == a.size() - 1) { // 마지막 인덱스까지 왔는데도 안같으면.
                                 System.out.println("잘못된 입력입니다.");
                             }
