@@ -399,6 +399,7 @@ public class MailView {
                         System.out.println();
                     }
                 }
+
             } else if (ch == 4) { // 휴지통
                 while (true) {
                     // 내 메일로그의 인트만 2번으로 바뀌기 // 여기서 삭제하면 3번으로 바뀌기
