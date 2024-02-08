@@ -5,6 +5,7 @@ import controller.BoadAllViewController;
 import controller.Board1Controller;
 import model.dto.BoardDTO;
 
+
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -12,7 +13,7 @@ public class BoardAllView {
 
     // Application에서 스케너 받아오기
     Scanner scanner = new MainView().scanner;
-    private static final int PAGE_NATION = 15;
+    private static final int PAGE_NATION = 15;  //게시판 1페이당 공지 제외 최대 게시글 수
 
     public void boardAllView(){
         while (true){
@@ -26,7 +27,7 @@ public class BoardAllView {
                 } else if(ch > 3){ // [2] 입력받은 숫자 확인
                     System.out.println("숫자를 다시 입력해주세요.");
                 } else {    // [3] 입력받은 숫자를 매개 변수로 BoadAllViewController View 메소드 실행
-                    int nowpage = 1;
+                    int nowpage = 1;    // 현제 페이지
                     while (true){
                         // 1. 공지글 먼저 상위로 출력 - 공지는 항상 유지
                         notiBardDTOArrayList = BoadAllViewController.getInstance().boardAllView(0);
@@ -46,7 +47,7 @@ public class BoardAllView {
                                 System.out.printf("%-5d \t %-25s \t %-10s \t %-10s \n", i + 1, boardDTOArrayList.get(i).getBoardtitle(), BoadAllViewController.getInstance().enoSearch(boardDTOArrayList.get(i).getEno()).getEname(), boardDTOArrayList.get(i).getBoarddate().split(" ")[0]);
                             }
                         }
-                        // 게시판 공지 종료
+                        // 카테고리별 게시판 출력 종료
                         System.out.println("0.뒤로가기1.개별글보기 2.글쓰기 3.이전페이지 4.다음페이지");
                         int ch4 = scanner.nextInt();
                         if(ch4 == 0){
@@ -57,28 +58,29 @@ public class BoardAllView {
                             int boardno;
                             System.out.print("보고싶은 게시물을 선택하시오.> ");
                             int boardIndex = scanner.nextInt() - 1;
-                            if(notino == 0){
+                            if(notino == 0){    // 공지 게시판 보기
                                 boardno = notiBardDTOArrayList.get(boardIndex).getBoardno();
-                            } else if (notino == 1) {
+                            } else if (notino == 1) {   // 일반 게시판볼때
                                 boardno = boardDTOArrayList.get(boardIndex).getBoardno();
                             } else {
                                 System.out.println("없는 번호입니다.");
                                 break;
                             }
                             new Board1View().board1(boardno);
-                        } else if(ch4 == 2){
+                        } else if(ch4 == 2){    // 글쓰기
                             new BoardWriteView().BoardWrite();
-                        } else if(ch4 == 3){
-                            if(nowpage == 1 ){
+                        } else if(ch4 == 3){    // 이전 페이지
+                            if(nowpage == 1 ){  // 현재 페이지가 1이면 이전페이지 X
                                 System.out.println("이전페이지가 없습니다.");
                             } else {
-                                --nowpage;
+                                --nowpage;  // nowpage(현재 페이지 --)
                             }
-                        } else if(ch4 == 4){
+                        } else if(ch4 == 4){    // 다음 페이지
+                            // 게시물 총 수를 삼항연산자를 2번 사용해서 최대페이지 계산 후 현제페이지랑 비교
                             if(boardDTOArrayList.size()%15 == 0 ? boardDTOArrayList.size()/15 == nowpage : boardDTOArrayList.size()/15+1 == nowpage){
-                                System.out.println("다음페이지가 없습니다.");
+                                System.out.println("다음페이지가 없습니다."); // 현재 페이지랑 최대페이지 같으면
                             } else {
-                                ++nowpage;
+                                ++nowpage;  // nowpage(현재 페이지 ++)
                             }
                         } else {
                             System.out.println("숫자를 다시 입력해주세요.");
