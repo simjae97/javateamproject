@@ -21,13 +21,12 @@ public class EmployeeView {
         System.out.print("비밀번호를 입력하세요 : ");          String pw = scanner.nextLine();
         System.out.print("이름을 입력하세요 :");              String name = scanner.nextLine();
         System.out.print("전화번호를 입력하세요 : ");          String phone = scanner.nextLine();
-        System.out.print("본인 부서 번호를 입력하세요 : ");     int partno = scanner.nextInt(); scanner.nextLine();
         System.out.print("이메일을 입력하세요 : ");            String email = scanner.nextLine();
 
         //객체화
         EmployeeDTO employeeDTO = new EmployeeDTO();
         employeeDTO.setEid(id);             employeeDTO.setEpw(pw);        employeeDTO.setEname(name);
-        employeeDTO.setEphone(phone);       employeeDTO.setPartno(partno); employeeDTO.setEemail(email);
+        employeeDTO.setEphone(phone);       employeeDTO.setEemail(email);
 
         //컨트롤러에 전달/결과 받기
         int result = EmployController.getInstance().signUp(employeeDTO);
@@ -114,7 +113,8 @@ public class EmployeeView {
     public void changegradeno(){ //직책 변경
         System.out.print("대상자 : ");
         String changename = scanner.nextLine();
-        System.out.println("바뀔 직책 : ");
+        System.out.println("1.사원, 2.대리, 3.팀장, 4.부장, 5.임원");
+        System.out.println("바뀔 직급 : ");
         int changegrade = scanner.nextInt();
         scanner.nextLine();
 
@@ -125,9 +125,9 @@ public class EmployeeView {
         boolean result = EmployController.getInstance().changegradeno(employeeDTO);
 
         if(result){
-            System.out.println("직책이 변경되었습니다.");
+            System.out.println("직급이 변경되었습니다.");
         }else{
-            System.out.println("직책 변경에 실패했습니다.");
+            System.out.println("직급 변경에 실패했습니다.");
         }
     }
 

@@ -297,6 +297,7 @@ public class MailView {
                                 else if(ch5 == 1){//휴지통 보내기
                                     MailController.getInstance().changeEmailState(2 , Integer.parseInt(rmno));
                                 }
+                                break;
                             }
                             if (ch3 != Integer.parseInt(rmno) && i == a.size() - 1) { // 마지막 인덱스까지 왔는데도 안같으면.
                                 System.out.println("잘못된 입력입니다.");

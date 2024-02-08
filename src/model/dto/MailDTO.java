@@ -61,5 +61,6 @@ public class MailDTO implements Comparable<MailDTO>{
     public int compareTo(MailDTO other) {
         // 여기서는 mailno를 기준으로 정렬하도록 구현합니다.
         return Integer.compare(other.mailno, this.mailno);
+        //다른애들이 메일 넘버와 지금 현재 mailno를 비교해서 return 한다.
     }
 }

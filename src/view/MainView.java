@@ -57,24 +57,31 @@ public class MainView {
                         new MailView().run();
                     }
                     else if(ch2==6 && EmployController.loginEno.getGradeno()==5&& EmployController.loginEno.getPartno()==1){
-                        new EmployeeView().employeeInfo();
-                        System.out.println("1.직책변환 2.부서변환 3.해고");
-                        int manageemployee = scanner.nextInt();
-                        scanner.nextLine();
 
-                        if(manageemployee == 1){
-                            new EmployeeView().changegradeno();
-                        }else if(manageemployee==2){
-                            new EmployeeView().changepartno();
-                        }else if(manageemployee==3){
-                            new EmployeeView().fire();
+                        while (true) {
+                            new EmployeeView().employeeInfo();
+                            System.out.println("0.뒤로가기 1.직책변환 2.부서변환 3.해고");
+                            int manageemployee = scanner.nextInt();
+                            scanner.nextLine();
+
+                            if (manageemployee == 1) {
+                                new EmployeeView().changegradeno();
+                            } else if (manageemployee == 2) {
+                                new EmployeeView().changepartno();
+                            } else if (manageemployee == 3) {
+                                new EmployeeView().fire();
+                            } else if (manageemployee == 0) {
+                                break;
+                            }else{
+                                System.out.println("잘못된 입력번호 입니다.");
+                            }
                         }
 
                     }else if (ch2==6&&EmployController.loginEno.getGradeno()==5) { // 관리자 권한 부분
                         new EmployeeView().employeeInfo();
                     }else if(ch2==6){
                         System.out.println("회원 정보를 수정합니다.");
-                        System.out.println("1. 비밀번호변경, 2. 번호 변경, 3. 이메일 변경");
+                        System.out.println("1. 비밀번호변경, 2. 전화번호변경, 3. 이메일 변경");
                         int change = scanner.nextInt();
                         scanner.nextLine();
                         if(change==1) {

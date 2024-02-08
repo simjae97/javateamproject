@@ -161,6 +161,7 @@ public class MailDao extends SuperDao{
     public ArrayList<Map<String,String>> receiveMail(int loginEno){
         try{
             String sql = "select *from maillog join mail on maillog.mailno = mail.mailno where maillog.eno = ? order by mail.mailno;"; // 조인해서 mail.eno 검색해서 mail.mailno로 정렬하기
+            // maillog가 받은 eno 가 내가 되야한다.
             ps = conn.prepareStatement(sql);
             ps.setInt(1, loginEno);
             rs = ps.executeQuery();

@@ -14,14 +14,13 @@ public class EmployeeDao extends SuperDao{
 
     public int signUp(EmployeeDTO employeeDTO){
         try {
-            String sql = "insert into employee(eid,epw,ename,ephone,partno,eemail) values (?,?,?,?,?,?)";
+            String sql = "insert into employee(eid,epw,ename,ephone,eemail) values (?,?,?,?,?)";
             ps = conn.prepareStatement(sql);
             ps.setString(1,employeeDTO.getEid());
             ps.setString(2,employeeDTO.getEpw());
             ps.setString(3,employeeDTO.getEname());
             ps.setString(4,employeeDTO.getEphone());
-            ps.setInt(5,employeeDTO.getPartno());
-            ps.setString(6, employeeDTO.getEemail());
+            ps.setString(5, employeeDTO.getEemail());
 
             int count =ps.executeUpdate(); //count => 실행된 레코드 수
             if(count==1){ // 실행된 레코드 수가 1 이면 성공
