@@ -28,9 +28,7 @@ public class ReportController {
 //    }
 
 
-    public boolean reportWrite(ReportDTO dto, ArrayList<Integer> array){
-        return ReportDAO.getInstance().reportWrite(dto,array);
-    }
+    public boolean reportWrite(ReportDTO dto, ArrayList<Integer> array){return ReportDAO.getInstance().reportWrite(dto,array);}
     public EmployeeDTO enoSearch(int num){
         return ReportDAO.getInstance().enoSearch(num);
     }

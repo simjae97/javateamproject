@@ -3,6 +3,7 @@ package model.dto;
 public class PurchasereportDTO extends ReportDTO{
     String itemlist;
     int totalprice;
+
     public PurchasereportDTO(){}
 
     public PurchasereportDTO(String reporttitle, String reportcontent, String itemlist, int totalprice) {
