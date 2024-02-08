@@ -49,12 +49,14 @@ public class MailDao extends SuperDao{
                 i2 = i2+1; // 개수만큼 인트수에 더하기
             }
             int[] arr = new int[i2]; // 영향 받은 수만큼 배열 만들어서 저장할 배열만들기
+            if(arr.length == 0){ return null;}
             rs = ps.executeQuery(); //다시 넥스트 하기전의 rs를 대입해서.
             // 안하면 오류남 오류 내용 SQLException :// After end of result set
             for(int i =0 ; i < arr.length ; i++){
                 rs.next();
                 arr[i] = rs.getInt("eno"); // next 된 eno의 값을 arr에 순차적으로 저장.
             }// for 문 끝
+
             return arr;
         }catch (Exception e){
             System.out.println(e);
