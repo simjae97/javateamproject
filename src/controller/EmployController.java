@@ -20,7 +20,9 @@ public class EmployController {
         if(EmployeeDao.getInstance().checkId(employeeDTO.getEid())){
             return 2;
         }
-
+        if(EmployeeDao.getInstance().checkEmail(employeeDTO.getEemail())){
+            return 3;
+        }
         //회원가입 요청
         result = EmployeeDao.getInstance().signUp(employeeDTO);
         return result;

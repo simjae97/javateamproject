@@ -38,6 +38,8 @@ public class EmployeeView {
             System.out.println("<안내> 회원가입에 실패했습니다.");
         }else if (result == 2){
             System.out.println("<안내> 중복된 아이디 입니다.");
+        }else if(result ==3 ){
+            System.out.println("<안내> 중복된 이메일 입니다.");
         }
     }
 
@@ -105,7 +107,7 @@ public class EmployeeView {
             String epw = result.get(i).getEpw();
             String edate = result.get(i).getEdate();
 
-            System.out.printf("%-8d \t %-5s \t %-5s \t %-7s \t %-20s \t %-20s \t %-10s \t %-10s \t %-20s \n",employeeno,gradename,partname,ename,ephone,eemail,eid,epw,edate);
+            System.out.printf("%-8d \t %-5s \t %-5s \t %-7s \t %-20s \t %-20s \t %-10s \t %-10s \t %-20s \n",employeeno,(gradename.equals("전체")?"미지정":gradename),partname,ename,ephone,eemail,eid,epw,edate);
         }
         System.out.println("-----------------------------------------------------------------------------------------------------------------------------------------------------");
     }

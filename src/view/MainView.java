@@ -11,6 +11,7 @@ public class MainView {
     public void run(){
         while (true) {
             System.out.println("1.회원가입  2.로그인 ");
+            System.out.print("입력 > ");
             int ch = scanner.nextInt();
             scanner.nextLine();
             if (ch == 1) {
@@ -20,12 +21,14 @@ public class MainView {
                 boolean run = new EmployeeView().logIn();
 
                 while (run) {  // 로그인 되면
-                    System.out.println("1.보고서  2.게시판 3.로그아웃 4.회원탈퇴"+" 5.메일"+(EmployController.loginEno.getGradeno()==5?" 6.관리자권한 실행":"6.회원정보 수정" ));
+                    System.out.println("1.보고서  2.게시판 3.로그아웃 4.회원탈퇴"+" 5.메일"+(EmployController.loginEno.getGradeno()==5?" 6.관리자권한 실행":" 6.회원정보 수정" ));
+                    System.out.print("입력 > ");
                     int ch2 = scanner.nextInt();
                     scanner.nextLine();
                     if (ch2 == 1){
                         while (true) {
                             System.out.println("0.뒤로가기 1.받은 보고서 2.보낸 보고서 3.보고서 작성");
+                            System.out.print("입력 > ");
                             int ch3 = scanner.nextInt();
                             if (ch3 == 1) {
                                 new ReportView().allReport();
@@ -61,6 +64,7 @@ public class MainView {
                         while (true) {
                             new EmployeeView().employeeInfo();
                             System.out.println("0.뒤로가기 1.직책변환 2.부서변환 3.해고");
+                            System.out.print("입력 > ");
                             int manageemployee = scanner.nextInt();
                             scanner.nextLine();
 
@@ -82,6 +86,7 @@ public class MainView {
                     }else if(ch2==6){
                         System.out.println("회원 정보를 수정합니다.");
                         System.out.println("1. 비밀번호변경, 2. 전화번호변경, 3. 이메일 변경");
+                        System.out.print("입력 > ");
                         int change = scanner.nextInt();
                         scanner.nextLine();
                         if(change==1) {
