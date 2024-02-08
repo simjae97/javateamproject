@@ -33,9 +33,9 @@ public class PurchasereportDTO extends ReportDTO{
     @Override
     public String toString() {
         return super.toString() +
-                "\n 구매사유 : "+super.getReportcontent()+
+                "\n구매사유 : "+super.getReportcontent()+
                 "\n구매물품리스트 : " + itemlist +
-                "\n 총 가격 :" + totalprice
+                "\n총 가격 :" + totalprice
                ;
     }
 }

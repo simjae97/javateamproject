@@ -25,7 +25,7 @@ public class WorkreportDTO extends ReportDTO{
 
     @Override
     public String toString() {
-        return super.toString() + "\n 업무 내용 :"+super.getReportcontent()+"\n 업무 결과 :"+content2;
+        return super.toString() + "\n업무 내용 :"+super.getReportcontent()+"\n업무 결과 :"+content2;
     }
 
 }

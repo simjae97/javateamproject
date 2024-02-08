@@ -177,7 +177,7 @@ public class ReportDAO extends SuperDao {
                 }
 
                 for (int i : array) {
-                    sql = "insert into rEPOrtLOg(reportno, eno) vALuEs(?,?);";
+                    sql = "insert into reportlog(reportno, eno) values(?,?);";
                     ps = conn.prepareStatement(sql);
                     ps.setInt(1, pk);
                     ps.setInt(2, i);

@@ -30,8 +30,8 @@ public class VacationreportDTO extends ReportDTO{
     @Override
     public String toString() {
         return super.toString() +
-                "\n 휴가 사유 :"+super.getReportcontent()+
-                "\n 휴가시작일 :" + startdate +
-                ", \n 휴가종료일 :" + enddate;
+                "\n휴가 사유 :"+super.getReportcontent()+
+                "\n휴가시작일 :" + startdate +
+                "\n휴가종료일 :" + enddate;
     }
 }

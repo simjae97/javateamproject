@@ -34,7 +34,7 @@ public class ReportDTO implements Comparable<ReportDTO> {
 
     @Override
     public String toString() {
-        return "제목 : " + reporttitle+"\n 번호 :" + reportno+
+        return "======================================================\n\n\n"+"제목 : " + reporttitle+"\n번호 :" + reportno+
                 "\n보낸사람 :" + ReportController.getInstance().enoSearch(eno).getEname()+ "\n보낸 일자 : " + reportdate;
     }
 
