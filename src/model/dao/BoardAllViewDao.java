@@ -20,9 +20,9 @@ public class BoardAllViewDao extends SuperDao {
             ps.setInt(1,ch+1);
             int bcno2 = 0;
             if(ch+1 == 3  ){
-                bcno2 = loginstate.getGradeno();
-            } else if(ch+1 == 4){
                 bcno2 = loginstate.getPartno();
+            } else if(ch+1 == 4){
+                bcno2 = loginstate.getGradeno();
             } else {
                 bcno2 = 0;
             }

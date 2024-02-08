@@ -14,6 +14,7 @@ public class BoardWriteView {
             try {
                 // 현제 로그인된 아이디 관리자 비교
                 System.out.println((EmployController.loginEno.getEno() == 5 ? "0.공지 " : "") + "1.전체게시판 2.부서별게시판 3.직급별게시판");
+                System.out.print("입력> ");
                 int bcno = scanner.nextInt() + 1; scanner.nextLine();
                 if (EmployController.loginEno.getEno() < 5 && bcno == 1) { // 관리자가 아니면 공지 X
                     System.out.println("권한이 없습니다.");
