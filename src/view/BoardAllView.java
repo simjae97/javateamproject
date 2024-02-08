@@ -19,7 +19,7 @@ public class BoardAllView {
         while (true){
             try {
                 System.out.println("0.뒤로가기 1.전체게시판 2.부서게시판 3.직급게시판");
-                System.out.println("선택 > "); int ch = scanner.nextInt();
+                System.out.print("입력> "); int ch = scanner.nextInt();
                 ArrayList<BoardDTO> boardDTOArrayList = new ArrayList<>();  // [1]글 출력을 위한 배열 생성
                 ArrayList<BoardDTO> notiBardDTOArrayList = new ArrayList<>();  // [1]글 출력을 위한 배열 생성
                 if(ch == 0){
@@ -31,6 +31,7 @@ public class BoardAllView {
                     while (true){
                         // 1. 공지글 먼저 상위로 출력 - 공지는 항상 유지
                         notiBardDTOArrayList = BoadAllViewController.getInstance().boardAllView(0);
+                        System.out.println("-------------------------------------------- 게시판 --------------------------------------------");
                         System.out.printf("%-5s \t %-25s \t %-10s \t %-10s \n","번호","제목\t","작성자","작성일");
                         for(int i=0; i<notiBardDTOArrayList.size(); i++){
                             System.out.printf("%-5s \t %-25s \t %-10s \t %-10s \n", "공지"+(i+1), notiBardDTOArrayList.get(i).getBoardtitle(), BoadAllViewController.getInstance().enoSearch(notiBardDTOArrayList.get(i).getEno()).getEname(), notiBardDTOArrayList.get(i).getBoarddate().split(" ")[0]);
@@ -47,13 +48,16 @@ public class BoardAllView {
                                 System.out.printf("%-5d \t %-25s \t %-10s \t %-10s \n", i + 1, boardDTOArrayList.get(i).getBoardtitle(), BoadAllViewController.getInstance().enoSearch(boardDTOArrayList.get(i).getEno()).getEname(), boardDTOArrayList.get(i).getBoarddate().split(" ")[0]);
                             }
                         }
+                        System.out.println("---------------------------------------------------------------------------------------------");
                         // 카테고리별 게시판 출력 종료
                         System.out.println("0.뒤로가기1.개별글보기 2.글쓰기 3.이전페이지 4.다음페이지");
+                        System.out.print("입력> ");
                         int ch4 = scanner.nextInt();
                         if(ch4 == 0){
                             break;
                         } else if(ch4 == 1){
                             System.out.println("0.공지 1.일반게시물");
+                            System.out.print("입력> ");
                             int notino = scanner.nextInt();
                             int boardno;
                             System.out.print("보고싶은 게시물을 선택하시오.> ");
