@@ -316,10 +316,11 @@ public class MailView {
                     }
 
                 } else if (ch2==4) {// 받은 메일함에서 휴지통으로 보내기. state 2번으로 바꾸기.
-                    while (true) {
+
                         System.out.println("휴지통 보낼 메일 번호를 입력하세요.");
                         System.out.print("입력 > ");
                         int ch3 = scanner.nextInt();
+
                         int i = 0; // i번째를 구할
                         for (i = 0; i < a.size(); i++) { // 개별 메일 출력
                             String rmstate = a.get(i).get("mailstate");
@@ -332,7 +333,7 @@ public class MailView {
                                 System.out.println("잘못된 입력입니다. 다시 입력하세요.");
                             }
                         }
-                    }
+
                 }
             } else if (ch == 3) { // 보낸 메일함
                 while (true) {
