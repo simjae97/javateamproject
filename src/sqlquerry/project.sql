@@ -45,6 +45,8 @@ create table employee( -- 사원
     foreign key(partno) references part(partno) on update cascade on delete set null
 );
 
+
+
 insert into employee(gradeno,ename,ephone,eemail,eid,epw,partno) values(1,'일사원','010-0000-0000','a@co.kr','a','a',1);
 insert into employee(gradeno,ename,ephone,eemail,eid,epw,partno) values(2,'일대리','010-0000-0001','b@co.kr','b','b',1);
 insert into employee(gradeno,ename,ephone,eemail,eid,epw,partno) values(3,'일팀장','010-0000-0002','c@co.kr','c','c',1);
@@ -62,7 +64,7 @@ insert into employee(gradeno,ename,ephone,eemail,eid,epw,partno) values(2,'삼�
 insert into employee(gradeno,ename,ephone,eemail,eid,epw,partno) values(3,'삼팀장','010-0000-0012','m@co.kr','m','m',3);
 insert into employee(gradeno,ename,ephone,eemail,eid,epw,partno) values(4,'삼부장','010-0000-0013','n@co.kr','n','n',3);
 insert into employee(gradeno,ename,ephone,eemail,eid,epw,partno) values(5,'삼임원','010-0000-0014','o@co.kr','o','o',3);
-
+insert into employee(gradeno,ename,ephone,eemail,eid,epw,partno) values(5,'admin','010-0000-0015','admin@co.kr','admin','admin',1);
 /*
 직급 샘플 데이터       마스터 : 임원 // 부장 팀장 대리 사원
 */
@@ -406,6 +408,8 @@ select * from maillog where mailno = 1;
 --
 select *from maillog join mail on maillog.mailno = mail.mailno where maillog.eno = 1 order by mail.mailno;
 select *from maillog join mail on mail.eno = maillog.eno where mail.eno = 1;
+
+
 
 
 DELIMITER //

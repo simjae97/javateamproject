@@ -54,7 +54,8 @@ public class MainView {
                         EmployController.getInstance().logOut();
                     } else if(ch2 == 4){
                         new EmployeeView().exit();
-
+                        EmployController.getInstance().logOut();
+                        run = false;
 
                     } else if (ch2==5) {
                         new MailView().run();
