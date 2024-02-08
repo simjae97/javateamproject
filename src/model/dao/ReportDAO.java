@@ -222,6 +222,7 @@ public class ReportDAO extends SuperDao {
             ps.setInt(1, loginnum);
             rs2 = ps.executeQuery();
             TreeMap<ReportDTO, Boolean> reportDTOS = new TreeMap<>();
+
             HashMap<Integer, Integer> compare = new HashMap<>();
 
             while (rs2.next()) {
