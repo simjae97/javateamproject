@@ -24,7 +24,7 @@ create table part( -- 부서
 
     primary key(partno)
 );
-
+insert into part values(0,'미지정');
 insert into part values(1,'인사');
 insert into part values(2,'회계');
 insert into part values(3,'개발');
